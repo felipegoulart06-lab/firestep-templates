@@ -1,0 +1,1734 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="firestep TEMPLATES — Admin Master">
+  <title>firestep TEMPLATES — Admin Master</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="admin">
+
+  <header class="topbar">
+    <div class="brand">
+      <div>
+        <strong>firestep TEMPLATES</strong>
+        <small>Admin Master</small>
+      </div>
+    </div>
+
+    <a class="btn btn-outline" href="index.html">Voltar ao catálogo</a>
+  </header>
+
+  <div class="admin-menu">
+    <div class="container admin-menu-inner">
+      <button class="admin-tab-button active" data-tab="templates">Templates</button>
+      <button class="admin-tab-button" data-tab="empresas">Empresas</button>
+      <button class="admin-tab-button" data-tab="briefings">Briefings</button>
+      <button class="admin-tab-button" data-tab="pedidos">Pedidos <span id="pedidoTabCount" class="tab-count">0</span></button>
+      <button class="admin-tab-button" data-tab="estatistica">Estatística</button>
+    </div>
+  </div>
+
+  <main class="admin-main container">
+
+    <!-- =====================================================
+         TEMPLATES
+    ====================================================== -->
+    <section id="templates" class="admin-section active">
+
+      <div class="section-intro">
+        <div>
+          <span class="eyebrow">BIBLIOTECA DE PRODUTOS</span>
+          <h1>Gerenciar templates</h1>
+          <p>Cadastre todos os detalhes do template para uso em catálogo, propostas, automações, geração de páginas e integrações futuras.</p>
+        </div>
+
+        <div class="section-actions">
+          <button id="newTemplate" class="btn btn-primary" type="button">Cadastrar template</button>
+        </div>
+      </div>
+
+      <div class="admin-grid admin-grid-template">
+
+<article class="panel records-panel">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow">REGISTROS</span>
+              <h2>Templates cadastrados</h2>
+            </div>
+            <span id="templateCount" class="badge">0</span>
+
+          </div>
+
+          <input id="templateFilter" class="filter" type="search" placeholder="Filtrar por nome, categoria, SKU ou tecnologia...">
+          <div id="adminTemplateList" class="admin-list"></div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- =====================================================
+         BRIEFINGS
+    ====================================================== -->
+    <section id="briefings" class="admin-section">
+
+      <div class="section-intro">
+        <div>
+          <span class="eyebrow">GESTÃO DE PROJETOS</span>
+          <h1>Briefings de websites</h1>
+          <p>Formulário completo para transformar uma reunião com o cliente em dados estruturados para design, desenvolvimento, conteúdo, SEO e automações.</p>
+        </div>
+
+        <div class="section-actions">
+          <button id="newBriefing" class="btn btn-primary" type="button">Cadastrar briefing</button>
+        </div>
+      </div>
+
+      <div class="briefing-grid">
+
+        
+
+        <article class="panel records-panel">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow">REGISTROS</span>
+              <h2>Briefings cadastrados</h2>
+            </div>
+
+            <span id="briefingCount" class="badge">0</span>
+          </div>
+
+          <input id="briefingFilter" class="filter" type="search" placeholder="Pesquisar empresa, responsável, cidade ou template...">
+
+          <div class="briefing-list-header">
+            <span>Projetos cadastrados</span>
+            <small>Ver detalhes, editar ou gerar PDF</small>
+          </div>
+
+          <div id="briefingList" class="admin-list"></div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- =====================================================
+         EMPRESAS
+    ====================================================== -->
+    <section id="empresas" class="admin-section">
+      <div class="section-intro">
+        <div>
+          <span class="eyebrow">BASE DE CLIENTES</span>
+          <h1>Cadastrar empresas</h1>
+          <p>Cadastro completo da empresa para comercial, operação, briefing e o painel de estatísticas. O briefing só pode ser criado depois que a empresa existir aqui.</p>
+        </div>
+        <div class="section-actions">
+          <button id="newCompany" class="btn btn-primary" type="button">Cadastrar empresa</button>
+        </div>
+      </div>
+
+      <div class="admin-grid admin-grid-template">
+        
+
+        <article class="panel records-panel">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow">REGISTROS</span>
+              <h2>Empresas cadastradas</h2>
+            </div>
+            <span id="companyCount" class="badge">0</span>
+          </div>
+          <input id="companyFilter" class="filter" type="search" placeholder="Filtrar por nome, CNPJ, cidade ou segmento...">
+          <div id="adminCompanyList" class="admin-list"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         PEDIDOS
+    ====================================================== -->
+    <section id="pedidos" class="admin-section">
+      <div class="section-intro">
+        <div>
+          <span class="eyebrow">COMERCIAL</span>
+          <h1>Pedidos</h1>
+          <p>Leads do catálogo: cada vez que um cliente clica em Tenho interesse e envia o formulário, o pedido entra aqui com data, contato e template.</p>
+        </div>
+        <div class="section-actions">
+          <button id="refreshPedidos" class="btn btn-outline" type="button">Atualizar pedidos</button>
+        </div>
+      </div>
+
+      <div class="admin-grid admin-grid-template">
+        <article class="panel records-panel">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow">REGISTROS</span>
+              <h2>Interesses recebidos</h2>
+            </div>
+            <span id="pedidoCount" class="badge">0</span>
+          </div>
+          <input id="pedidoFilter" class="filter" type="search" placeholder="Filtrar por nome, WhatsApp, e-mail ou template...">
+          <div id="adminPedidoList" class="admin-list"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         ESTATÍSTICA
+    ====================================================== -->
+    <section id="estatistica" class="admin-section">
+      <div class="section-intro">
+        <div>
+          <span class="eyebrow">PAINEL DE MÉTRICAS</span>
+          <h1>Estatística</h1>
+          <p>Visão consolidada de templates, empresas, briefings e pedidos do catálogo. Os gráficos atualizam automaticamente a cada novo cadastro.</p>
+        </div>
+        <button id="refreshStats" class="btn btn-outline" type="button">Atualizar painel</button>
+      </div>
+      <div id="statsDashboard" class="stats-dashboard"></div>
+    </section>
+
+  </main>
+
+
+  <div class="form-host" id="templateFormHost" hidden>
+          <div class="form-host-backdrop" data-close-form="templates"></div>
+          <article class="panel form-host-panel">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow">NOVO CADASTRO</span>
+              <h2 id="templateFormTitle">Cadastrar template</h2>
+            </div>
+
+            <div class="panel-actions">
+              <button id="closeTemplateForm" class="btn btn-outline btn-small" type="button">Cancelar</button>
+              <button id="clearTemplateForm" class="btn btn-outline btn-small" type="button">Limpar</button>
+            </div>
+          </div>
+
+          <form id="templateForm" class="form">
+            <input id="templateId" type="hidden">
+
+            <div class="form-section">
+              <span class="form-section-number">01</span>
+              <div>
+                <strong>Identificação do template</strong>
+                <small>Dados principais usados no catálogo e nas automações.</small>
+              </div>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                Tipo de serviço *
+                <select id="templateServiceType" required>
+                  <option value="">Selecione</option>
+                  <option>Site institucional</option>
+                  <option>Landing page</option>
+                  <option>Sistema</option>
+                  <option>Link na bio</option>
+                </select>
+              </label>
+
+              <label>
+                Categoria do template *
+                <input id="templateCategory" list="templateCategories" required placeholder="Ex.: Academias">
+                <datalist id="templateCategories"></datalist>
+              </label>
+            </div>
+
+              <label>
+                Subcategoria
+                <input id="templateSubcategory" placeholder="Ex.: Academia premium">
+              </label>
+
+            <label>
+              Nome do template *
+              <input id="templateName" required placeholder="Ex.: Academia Prime">
+            </label>
+
+            <div class="two-cols">
+              <label>
+                Código interno / SKU
+                <input id="templateSku" placeholder="Ex.: TMP-ACA-001">
+              </label>
+
+              <label>
+                Status
+                <select id="templateStatus">
+                  <option value="Ativo">Ativo</option>
+                  <option value="Rascunho">Rascunho</option>
+                  <option value="Em revisão">Em revisão</option>
+                  <option value="Arquivado">Arquivado</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                Quantidade de páginas *
+                <input id="templatePages" type="number" min="1" value="5" required>
+              </label>
+
+              <label>
+                Versão
+                <input id="templateVersion" placeholder="Ex.: 1.0.0">
+              </label>
+            </div>
+
+            <div class="form-section">
+              <span class="form-section-number">02</span>
+              <div>
+                <strong>Links e apresentação</strong>
+                <small>Endereços públicos do template e materiais visuais.</small>
+              </div>
+            </div>
+
+            <label>
+              Link "Ver ao vivo" *
+              <input id="templateUrl" type="text" inputmode="url" autocomplete="url" required placeholder="https://seusite.com/template">
+            </label>
+
+            <label>
+              Imagem de capa / preview *
+              <input id="templateImage" type="text" inputmode="url" autocomplete="url" required placeholder="https://site.com/imagens/template.jpg">
+              <small>Essa é a foto principal do card e da página de detalhes.</small>
+            </label>
+
+            <div class="gallery-editor">
+              <strong>Mais imagens do template</strong>
+              <small>Envie várias fotos da Home, páginas internas e detalhes. Elas aparecem na página de detalhes.</small>
+              <input id="templateGallery" type="hidden" value="[]">
+              <div class="gallery-editor-actions">
+                <label class="btn btn-outline btn-small gallery-upload">
+                  Subir imagens
+                  <input id="templateGalleryFiles" type="file" accept="image/*" multiple hidden>
+                </label>
+                <button id="addGalleryUrl" class="btn btn-outline btn-small" type="button">Adicionar URL</button>
+              </div>
+              <div id="templateGalleryList" class="gallery-editor-list"></div>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                Link do vídeo demonstrativo
+                <input id="templateVideo" type="text" inputmode="url" autocomplete="url" placeholder="https://youtube.com/...">
+                <small>Se ficar vazio, o botão Ver vídeo não aparece nos detalhes.</small>
+              </label>
+
+              <label>
+                Link da documentação
+                <input id="templateDocumentation" type="text" inputmode="url" autocomplete="url" placeholder="https://docs.seusite.com/...">
+              </label>
+            </div>
+
+            <div class="form-section">
+              <span class="form-section-number">03</span>
+              <div>
+                <strong>Estrutura e conteúdo</strong>
+                <small>Informações que podem ser reutilizadas para criar projetos automaticamente.</small>
+              </div>
+            </div>
+
+            <label>
+              Como funciona *
+              <textarea id="templateDescription" rows="5" required placeholder="Descreva a estrutura do template, páginas, recursos e objetivo."></textarea>
+            </label>
+
+            <label>
+              Lista de páginas
+              <textarea id="templatePageList" rows="4" placeholder="Ex.: Home, Sobre, Serviços, Planos, Blog, Contato"></textarea>
+            </label>
+
+            <label>
+              Seções principais
+              <textarea id="templateSections" rows="4" placeholder="Ex.: Hero, benefícios, depoimentos, FAQ, CTA, formulário..."></textarea>
+            </label>
+
+            <label>
+              Recursos e funcionalidades
+              <textarea id="templateFeatures" rows="5" placeholder="Ex.: formulário, WhatsApp, blog, mapa, busca, área logada, checkout..."></textarea>
+            </label>
+
+            <label>
+              Campos editáveis pelo cliente
+              <textarea id="templateEditableFields" rows="4" placeholder="Ex.: logo, cores, telefone, textos, imagens, endereço, serviços..."></textarea>
+            </label>
+
+            <div class="form-section">
+              <span class="form-section-number">04</span>
+              <div>
+                <strong>Tecnologia e integração</strong>
+                <small>Dados técnicos importantes para automações e deploy.</small>
+              </div>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                Tecnologia principal
+                <select id="templateTechnology">
+                  <option value="">Selecione</option>
+                  <option>HTML / CSS / JavaScript</option>
+                  <option>WordPress</option>
+                  <option>Elementor</option>
+                  <option>PHP</option>
+                  <option>React</option>
+                  <option>Next.js</option>
+                  <option>Vue</option>
+                  <option>Laravel</option>
+                  <option>Outro</option>
+                </select>
+              </label>
+
+              <label>
+                Hospedagem recomendada
+                <input id="templateHosting" placeholder="Ex.: Vercel, Hostinger, VPS">
+              </label>
+            </div>
+
+            <label>
+              Dependências / bibliotecas
+              <textarea id="templateDependencies" rows="3" placeholder="Ex.: Font Awesome, Swiper, Tailwind, Bootstrap..."></textarea>
+            </label>
+
+            <label>
+              Integrações compatíveis
+              <textarea id="templateIntegrations" rows="4" placeholder="Ex.: Make, n8n, Supabase, WhatsApp, Mercado Pago, Google Analytics..."></textarea>
+            </label>
+
+            <div class="two-cols">
+              <label>
+                Banco de dados necessário?
+                <select id="templateDatabaseRequired">
+                  <option value="Não">Não</option>
+                  <option value="Sim">Sim</option>
+                  <option value="Opcional">Opcional</option>
+                </select>
+              </label>
+
+              <label>
+                Tipo de banco
+                <input id="templateDatabaseType" placeholder="Ex.: Supabase / PostgreSQL">
+              </label>
+            </div>
+
+            <div class="form-section">
+              <span class="form-section-number">05</span>
+              <div>
+                <strong>SEO, performance e responsividade</strong>
+                <small>Parâmetros úteis para classificar e automatizar a publicação.</small>
+              </div>
+            </div>
+
+            <div class="three-cols">
+              <label>
+                SEO
+                <select id="templateSeoReady">
+                  <option value="Preparado">Preparado</option>
+                  <option value="Parcial">Parcial</option>
+                  <option value="Não preparado">Não preparado</option>
+                </select>
+              </label>
+
+              <label>
+                Responsivo
+                <select id="templateResponsive">
+                  <option value="Sim">Sim</option>
+                  <option value="Não">Não</option>
+                </select>
+              </label>
+
+              <label>
+                Dark mode
+                <select id="templateDarkMode">
+                  <option value="Não">Não</option>
+                  <option value="Sim">Sim</option>
+                  <option value="Opcional">Opcional</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                Nível de performance
+                <select id="templatePerformance">
+                  <option value="Alta">Alta</option>
+                  <option value="Média">Média</option>
+                  <option value="Baixa">Baixa</option>
+                </select>
+              </label>
+
+              <label>
+                Nível de personalização
+                <select id="templateCustomizationLevel">
+                  <option value="Alta">Alta</option>
+                  <option value="Média">Média</option>
+                  <option value="Baixa">Baixa</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="form-section">
+              <span class="form-section-number">06</span>
+              <div>
+                <strong>Comercial e operação</strong>
+                <small>Dados internos para vendas, precificação e processos.</small>
+              </div>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                Preço base sugerido
+                <input id="templateBasePrice" placeholder="Ex.: R$ 2.500,00">
+              </label>
+
+              <label>
+                Prazo médio de implantação
+                <input id="templateDeliveryTime" placeholder="Ex.: 7 dias úteis">
+              </label>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                Complexidade
+                <select id="templateComplexity">
+                  <option value="Baixa">Baixa</option>
+                  <option value="Média">Média</option>
+                  <option value="Alta">Alta</option>
+                </select>
+              </label>
+
+              <label>
+                Prioridade comercial
+                <select id="templatePriority">
+                  <option value="Normal">Normal</option>
+                  <option value="Alta">Alta</option>
+                  <option value="Baixa">Baixa</option>
+                </select>
+              </label>
+            </div>
+
+            <label>
+              Tags
+              <input id="templateTags" placeholder="Ex.: premium, conversão, restaurante, responsivo">
+              <small>Separe as tags por vírgula.</small>
+            </label>
+
+            <label>
+              Observações internas
+              <textarea id="templateInternalNotes" rows="4" placeholder="Informações que não devem aparecer para o cliente."></textarea>
+            </label>
+
+            <button class="btn btn-primary btn-full btn-large" type="submit">
+              Salvar template
+            </button>
+          </form>
+        </article>
+        </div>
+
+  <div class="form-host" id="briefingFormHost" hidden>
+          <div class="form-host-backdrop" data-close-form="briefings"></div>
+          <article class="panel form-host-panel briefing-form-panel">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow">FORMULÁRIO</span>
+              <h2 id="briefingTitle">Cadastrar briefing</h2>
+            </div>
+
+            <div class="panel-actions">
+              <button id="closeBriefing" class="btn btn-outline btn-small" type="button">Cancelar</button>
+              <button id="clearBriefing" class="btn btn-outline btn-small" type="button">Limpar</button>
+            </div>
+          </div>
+
+          <div class="form-progress">
+            <div>
+              <span>Preenchimento do briefing</span>
+              <strong id="briefingProgressText">0%</strong>
+            </div>
+            <div class="progress-track">
+              <span id="briefingProgressBar"></span>
+            </div>
+          </div>
+
+          <form id="briefingForm" class="form briefing-form">
+            <input id="briefingId" type="hidden">
+
+            <div class="form-section">
+              <span class="form-section-number">01</span>
+              <div>
+                <strong>Cliente e empresa</strong>
+                <small>O briefing exige empresa, tipo de serviço e o template correspondente. Conforme o tipo, o formulário pede campos extras.</small>
+              </div>
+            </div>
+
+            <label>
+              Empresa *
+              <select id="companyId" required>
+                <option value="">Selecione uma empresa</option>
+              </select>
+              <small>Cadastre a empresa no menu Empresas antes de criar o briefing.</small>
+            </label>
+            <input id="companyName" type="hidden">
+
+            <div class="two-cols">
+              <label>
+                Nome do responsável *
+                <input id="responsibleName" required placeholder="Nome completo">
+              </label>
+
+              <label>
+                Cargo do responsável
+                <input id="responsibleRole" placeholder="Ex.: Sócio, Marketing, Diretor">
+              </label>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                WhatsApp *
+                <input id="whatsapp" required placeholder="(47) 99999-9999">
+              </label>
+
+              <label>
+                E-mail *
+                <input id="email" type="email" required placeholder="contato@empresa.com.br">
+              </label>
+            </div>
+
+            <div class="three-cols">
+              <label>
+                CNPJ / CPF
+                <input id="document" placeholder="00.000.000/0001-00">
+              </label>
+
+              <label>
+                Cidade
+                <input id="city" placeholder="Ex.: Balneário Camboriú">
+              </label>
+
+              <label>
+                Estado
+                <input id="state" placeholder="Ex.: SC">
+              </label>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                Site atual
+                <input id="currentWebsite" type="text" inputmode="url" autocomplete="url" placeholder="https://empresa.com.br">
+              </label>
+
+              <label>
+                Instagram
+                <input id="instagram" placeholder="@empresa">
+              </label>
+            </div>
+
+            <div class="form-section">
+              <span class="form-section-number">02</span>
+              <div>
+                <strong>Sobre o negócio</strong>
+                <small>Contexto comercial para posicionamento e criação do conteúdo.</small>
+              </div>
+            </div>
+
+            <label>
+              Descreva a empresa *
+              <textarea id="aboutCompany" rows="5" required placeholder="O que a empresa faz, história, tempo de mercado, estrutura e atuação."></textarea>
+            </label>
+
+            <label>
+              Principais produtos ou serviços *
+              <textarea id="services" rows="4" required placeholder="Liste os principais serviços ou produtos e explique brevemente cada um."></textarea>
+            </label>
+
+            <div class="two-cols">
+              <label>
+                Público-alvo principal
+                <input id="targetAudience" placeholder="Ex.: empresários, famílias, clínicas...">
+              </label>
+
+              <label>
+                Região atendida
+                <input id="serviceRegion" placeholder="Ex.: Santa Catarina e Paraná">
+              </label>
+            </div>
+
+            <label>
+              Principal problema que a empresa resolve
+              <textarea id="customerProblem" rows="3" placeholder="Qual dor ou necessidade leva o cliente final a procurar a empresa?"></textarea>
+            </label>
+
+            <label>
+              Diferenciais competitivos
+              <textarea id="differentials" rows="4" placeholder="Por que alguém deve escolher esta empresa e não um concorrente?"></textarea>
+            </label>
+
+            <label>
+              Principais concorrentes
+              <textarea id="competitors" rows="3" placeholder="Nomes, sites ou perfis de concorrentes."></textarea>
+            </label>
+
+            <div class="two-cols">
+              <label>
+                Ticket médio
+                <input id="averageTicket" placeholder="Ex.: R$ 800,00">
+              </label>
+
+              <label>
+                Principal canal de vendas
+                <input id="mainSalesChannel" placeholder="Ex.: WhatsApp">
+              </label>
+            </div>
+
+            <div class="form-section">
+              <span class="form-section-number">03</span>
+              <div>
+                <strong>Objetivos do projeto</strong>
+                <small>O que o novo website deve gerar para o negócio.</small>
+              </div>
+            </div>
+
+            <label>
+              Objetivo principal do website *
+              <textarea id="websiteGoal" rows="4" required placeholder="Ex.: gerar orçamentos pelo WhatsApp, transmitir credibilidade e apresentar serviços."></textarea>
+            </label>
+
+            <div class="two-cols">
+              <label>
+                Ação principal desejada
+                <select id="primaryConversion">
+                  <option value="">Selecione</option>
+                  <option>Enviar mensagem no WhatsApp</option>
+                  <option>Solicitar orçamento</option>
+                  <option>Preencher formulário</option>
+                  <option>Comprar produto</option>
+                  <option>Agendar atendimento</option>
+                  <option>Fazer ligação</option>
+                  <option>Visitar loja física</option>
+                  <option>Outro</option>
+                </select>
+              </label>
+
+              <label>
+                Meta do projeto
+                <input id="projectGoalMetric" placeholder="Ex.: 50 leads por mês">
+              </label>
+            </div>
+
+            <label>
+              Problemas do site atual
+              <textarea id="currentWebsiteProblems" rows="4" placeholder="Ex.: lento, visual antigo, não gera contatos, difícil de editar..."></textarea>
+            </label>
+
+            <div class="form-section">
+              <span class="form-section-number">04</span>
+              <div>
+                <strong>Identidade visual</strong>
+                <small>Direção visual, marca e referências.</small>
+              </div>
+            </div>
+
+            <div class="three-cols">
+              <label>
+                Possui logotipo?
+                <select id="hasLogo">
+                  <option>Sim</option>
+                  <option>Não</option>
+                  <option>Em desenvolvimento</option>
+                </select>
+              </label>
+
+              <label>
+                Manual de marca?
+                <select id="hasBrandGuide">
+                  <option>Não</option>
+                  <option>Sim</option>
+                </select>
+              </label>
+
+              <label>
+                Possui fontes definidas?
+                <select id="hasFonts">
+                  <option>Não</option>
+                  <option>Sim</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="three-cols">
+              <label>
+                Cor principal
+                <input id="primaryColor" placeholder="Ex.: #1456D9">
+              </label>
+
+              <label>
+                Cor secundária
+                <input id="secondaryColor" placeholder="Ex.: #0E213C">
+              </label>
+
+              <label>
+                Cor que deve ser evitada
+                <input id="avoidColor" placeholder="Ex.: vermelho">
+              </label>
+            </div>
+
+            <label>
+              Estilo visual desejado
+              <input id="visualStyle" placeholder="Ex.: premium, limpo, corporativo, tecnológico">
+            </label>
+
+            <label>
+              Sensação que o site deve transmitir
+              <textarea id="desiredFeeling" rows="3" placeholder="Ex.: confiança, exclusividade, velocidade, segurança, modernidade."></textarea>
+            </label>
+
+            <label>
+              Sites de referência
+              <textarea id="references" rows="4" placeholder="Cole links e explique o que o cliente gosta em cada referência."></textarea>
+            </label>
+
+            <label>
+              Sites ou estilos que NÃO gosta
+              <textarea id="dislikedReferences" rows="3" placeholder="Referências visuais que devem ser evitadas."></textarea>
+            </label>
+
+            <div class="form-section">
+              <span class="form-section-number">05</span>
+              <div>
+                <strong>Estrutura do website</strong>
+                <small>Páginas, conteúdo, funcionalidades e arquitetura.</small>
+              </div>
+            </div>
+
+            <label>
+              Tipo de serviço *
+              <select id="serviceType" required>
+                <option value="">Selecione o que o cliente deseja</option>
+                <option>Site institucional</option>
+                <option>Landing page</option>
+                <option>Sistema</option>
+                <option>Link na bio</option>
+              </select>
+              <small>Essa escolha libera campos extras e filtra os templates disponíveis.</small>
+            </label>
+
+            <label>
+              Template escolhido *
+              <select id="chosenTemplate" required>
+                <option value="">Selecione o tipo de serviço primeiro</option>
+              </select>
+              <small>Obrigatório. Só aparecem templates do tipo selecionado.</small>
+            </label>
+
+            <label>
+              Páginas desejadas *
+              <textarea id="pagesWanted" rows="4" required placeholder="Ex.: Home, Empresa, Serviços, Projetos, Blog, Contato."></textarea>
+            </label>
+
+            <label>
+              Seções indispensáveis na Home
+              <textarea id="homeSections" rows="4" placeholder="Ex.: hero, benefícios, serviços, depoimentos, clientes, FAQ, CTA."></textarea>
+            </label>
+
+            <label>
+              Funcionalidades desejadas
+              <textarea id="features" rows="5" placeholder="WhatsApp, formulário, mapa, blog, catálogo, login, checkout, área restrita, busca..."></textarea>
+            </label>
+
+            <div class="three-cols">
+              <label>
+                Possui textos?
+                <select id="hasTexts">
+                  <option>Não</option>
+                  <option>Parcialmente</option>
+                  <option>Sim</option>
+                </select>
+              </label>
+
+              <label>
+                Possui fotos?
+                <select id="hasPhotos">
+                  <option>Não</option>
+                  <option>Parcialmente</option>
+                  <option>Sim</option>
+                </select>
+              </label>
+
+              <label>
+                Possui vídeos?
+                <select id="hasVideos">
+                  <option>Não</option>
+                  <option>Parcialmente</option>
+                  <option>Sim</option>
+                </select>
+              </label>
+            </div>
+
+            <label>
+              Materiais que o cliente precisa enviar
+              <textarea id="pendingAssets" rows="3" placeholder="Ex.: logo em vetor, fotos da equipe, tabela de serviços, depoimentos."></textarea>
+            </label>
+
+            <div id="extrasInstitucional" class="service-extras" data-service="Site institucional" hidden>
+              <div class="form-section">
+                <span class="form-section-number">05B</span>
+                <div>
+                  <strong>Campos extras — Site institucional</strong>
+                  <small>Estrutura, conteúdo institucional e presença da marca.</small>
+                </div>
+              </div>
+              <label>
+                Foco da página institucional *
+                <textarea id="instAboutFocus" rows="3" placeholder="História, propósito, certificações, unidades, equipe..."></textarea>
+              </label>
+              <div class="two-cols">
+                <label>
+                  Quantidade de unidades / endereços *
+                  <input id="instUnits" placeholder="Ex.: 2 unidades em Itajaí e BC">
+                </label>
+                <label>
+                  Terá blog / conteúdo *
+                  <select id="instBlog">
+                    <option value="">Selecione</option>
+                    <option>Sim</option>
+                    <option>Não</option>
+                    <option>Futuramente</option>
+                  </select>
+                </label>
+              </div>
+              <div class="two-cols">
+                <label>
+                  Página da equipe
+                  <select id="instTeamPage">
+                    <option>Sim</option>
+                    <option>Não</option>
+                  </select>
+                </label>
+                <label>
+                  Idiomas do site
+                  <input id="instLanguages" placeholder="Ex.: Português e Inglês">
+                </label>
+              </div>
+              <label>
+                Certificações, selos e prêmios
+                <textarea id="instCertifications" rows="3" placeholder="CREA, ISO, prêmios, associações..."></textarea>
+              </label>
+              <label>
+                Informações obrigatórias no rodapé
+                <textarea id="instFooterContacts" rows="3" placeholder="CNPJ, endereço, horários, políticas, redes..."></textarea>
+              </label>
+              <label>
+                Quem envia/aprova o conteúdo institucional *
+                <input id="instContentOwner" placeholder="Nome e cargo">
+              </label>
+            </div>
+
+            <div id="extrasLanding" class="service-extras" data-service="Landing page" hidden>
+              <div class="form-section">
+                <span class="form-section-number">05B</span>
+                <div>
+                  <strong>Campos extras — Landing page</strong>
+                  <small>Oferta, conversão, tráfego e campanha.</small>
+                </div>
+              </div>
+              <label>
+                Oferta principal *
+                <textarea id="lpOffer" rows="3" placeholder="O que está sendo oferecido nesta página?"></textarea>
+              </label>
+              <label>
+                Promessa / resultado *
+                <textarea id="lpPromise" rows="3" placeholder="Qual transformação o visitante deve perceber?"></textarea>
+              </label>
+              <div class="two-cols">
+                <label>
+                  Texto do botão de conversão *
+                  <input id="lpCta" placeholder="Ex.: Quero agendar minha avaliação">
+                </label>
+                <label>
+                  Origem do tráfego *
+                  <input id="lpTrafficSource" placeholder="Ex.: Google Ads, Instagram, indicação">
+                </label>
+              </div>
+              <div class="two-cols">
+                <label>
+                  Nome da campanha
+                  <input id="lpCampaign" placeholder="Ex.: Captura Trabalhista Setembro">
+                </label>
+                <label>
+                  Página de obrigado
+                  <input id="lpThankYou" placeholder="Ex.: mensagem WhatsApp + página /obrigado">
+                </label>
+              </div>
+              <label>
+                Momento do público na jornada
+                <textarea id="lpAudienceMoment" rows="3" placeholder="Frio, morno ou quente? Qual dor está no anúncio?"></textarea>
+              </label>
+              <label>
+                Objeções que a página deve quebrar
+                <textarea id="lpObjections" rows="3" placeholder="Preço, prazo, confiança, especialidade..."></textarea>
+              </label>
+            </div>
+
+            <div id="extrasSistema" class="service-extras" data-service="Sistema" hidden>
+              <div class="form-section">
+                <span class="form-section-number">05B</span>
+                <div>
+                  <strong>Campos extras — Sistema</strong>
+                  <small>Módulos, usuários, dados, permissões e operação.</small>
+                </div>
+              </div>
+              <div class="two-cols">
+                <label>
+                  Tipo de sistema *
+                  <input id="sysKind" placeholder="Ex.: agendamento, ERP, área do aluno, delivery">
+                </label>
+                <label>
+                  Quantidade estimada de usuários *
+                  <input id="sysUsers" placeholder="Ex.: 8 atendentes + 400 clientes">
+                </label>
+              </div>
+              <label>
+                Módulos necessários *
+                <textarea id="sysModules" rows="4" placeholder="Cadastro, agenda, financeiro, relatórios, permissões..."></textarea>
+              </label>
+              <label>
+                Dados que o sistema precisa guardar *
+                <textarea id="sysData" rows="3" placeholder="Clientes, pedidos, horários, contratos, arquivos..."></textarea>
+              </label>
+              <div class="two-cols">
+                <label>
+                  Login / autenticação *
+                  <select id="sysLogin">
+                    <option value="">Selecione</option>
+                    <option>E-mail e senha</option>
+                    <option>WhatsApp</option>
+                    <option>Google</option>
+                    <option>Múltiplos métodos</option>
+                  </select>
+                </label>
+                <label>
+                  Níveis de permissão
+                  <input id="sysPermissions" placeholder="Ex.: admin, operador, cliente">
+                </label>
+              </div>
+              <label>
+                Perfis / papéis de usuário
+                <textarea id="sysRoles" rows="3" placeholder="Admin, recepção, profissional, financeiro, cliente..."></textarea>
+              </label>
+              <label>
+                Relatórios desejados
+                <textarea id="sysReports" rows="3" placeholder="Faturamento, ocupação, conversão, estoque..."></textarea>
+              </label>
+              <div class="two-cols">
+                <label>
+                  SLA / prazo crítico
+                  <input id="sysSla" placeholder="Ex.: agenda não pode cair no sábado">
+                </label>
+                <label>
+                  Haverá migração de dados?
+                  <select id="sysMigration">
+                    <option>Não</option>
+                    <option>Sim, planilha</option>
+                    <option>Sim, sistema atual</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div id="extrasBio" class="service-extras" data-service="Link na bio" hidden>
+              <div class="form-section">
+                <span class="form-section-number">05B</span>
+                <div>
+                  <strong>Campos extras — Link na bio</strong>
+                  <small>Links, destaque comercial e rastreamento.</small>
+                </div>
+              </div>
+              <label>
+                Links que precisam aparecer *
+                <textarea id="bioMainLinks" rows="4" placeholder="WhatsApp, catálogo, agendamento, endereço, Instagram..."></textarea>
+              </label>
+              <label>
+                Destaque / oferta do momento *
+                <textarea id="bioHighlight" rows="3" placeholder="O que deve aparecer primeiro na página?"></textarea>
+              </label>
+              <label>
+                Texto do botão de WhatsApp *
+                <input id="bioWhatsappText" placeholder="Ex.: Falar com a clínica agora">
+              </label>
+              <div class="two-cols">
+                <label>
+                  Pixels / rastreamento
+                  <input id="bioPixels" placeholder="Meta Pixel, GA4, UTMs">
+                </label>
+                <label>
+                  Limite de botões
+                  <input id="bioLinkLimit" placeholder="Ex.: 6 botões no máximo">
+                </label>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <span class="form-section-number">06</span>
+              <div>
+                <strong>SEO e conteúdo</strong>
+                <small>Informações para busca orgânica e planejamento editorial.</small>
+              </div>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                Cidade principal para SEO
+                <input id="seoCity" placeholder="Ex.: Balneário Camboriú">
+              </label>
+
+              <label>
+                Estado principal para SEO
+                <input id="seoState" placeholder="Ex.: Santa Catarina">
+              </label>
+            </div>
+
+            <label>
+              Palavras-chave desejadas
+              <textarea id="keywords" rows="4" placeholder="Ex.: transporte executivo em Balneário Camboriú, motorista particular..."></textarea>
+            </label>
+
+            <label>
+              Principais perguntas dos clientes
+              <textarea id="faqQuestions" rows="4" placeholder="Perguntas que podem virar FAQ e conteúdo SEO."></textarea>
+            </label>
+
+            <label>
+              Tom de comunicação
+              <select id="communicationTone">
+                <option value="">Selecione</option>
+                <option>Corporativo</option>
+                <option>Premium</option>
+                <option>Próximo e humano</option>
+                <option>Direto e comercial</option>
+                <option>Técnico</option>
+                <option>Minimalista</option>
+              </select>
+            </label>
+
+            <div class="form-section">
+              <span class="form-section-number">07</span>
+              <div>
+                <strong>Domínio, hospedagem e acessos</strong>
+                <small>Estrutura técnica para publicação e operação.</small>
+              </div>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                Domínio desejado
+                <input id="domain" placeholder="www.empresa.com.br">
+              </label>
+
+              <label>
+                Já possui domínio?
+                <select id="hasDomain">
+                  <option>Não</option>
+                  <option>Sim</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                Possui hospedagem?
+                <select id="hasHosting">
+                  <option>Não</option>
+                  <option>Sim</option>
+                </select>
+              </label>
+
+              <label>
+                Provedor atual
+                <input id="hostingProvider" placeholder="Ex.: Hostinger">
+              </label>
+            </div>
+
+            <label>
+              Observação sobre acessos
+              <textarea id="accessNotes" rows="3" placeholder="Não coloque senhas aqui. Registre apenas onde os acessos estão armazenados ou quem irá fornecê-los."></textarea>
+            </label>
+
+            <div class="form-section">
+              <span class="form-section-number">08</span>
+              <div>
+                <strong>Integrações e automações</strong>
+                <small>Conexões necessárias para o ecossistema do cliente.</small>
+              </div>
+            </div>
+
+            <label>
+              Redes sociais
+              <textarea id="socialNetworks" rows="3" placeholder="Instagram, Facebook, LinkedIn, TikTok, YouTube..."></textarea>
+            </label>
+
+            <label>
+              Integrações necessárias
+              <textarea id="integrations" rows="4" placeholder="Google Analytics, Search Console, Meta Pixel, WhatsApp, CRM, Make, n8n, Supabase..."></textarea>
+            </label>
+
+            <label>
+              Automações desejadas
+              <textarea id="automationsWanted" rows="4" placeholder="Ex.: enviar lead ao CRM, disparar WhatsApp, gerar tarefa, salvar formulário em banco."></textarea>
+            </label>
+
+            <div class="two-cols">
+              <label>
+                CRM utilizado
+                <input id="crm" placeholder="Ex.: HubSpot, RD Station, CRM próprio">
+              </label>
+
+              <label>
+                Plataforma de pagamentos
+                <input id="paymentPlatform" placeholder="Ex.: Mercado Pago">
+              </label>
+            </div>
+
+            <div class="form-section">
+              <span class="form-section-number">09</span>
+              <div>
+                <strong>Comercial e cronograma</strong>
+                <small>Informações para proposta, aprovação e entrega.</small>
+              </div>
+            </div>
+
+            <div class="three-cols">
+              <label>
+                Prazo desejado
+                <input id="deadline" placeholder="Ex.: 20 dias">
+              </label>
+
+              <label>
+                Orçamento previsto
+                <input id="budget" placeholder="Ex.: R$ 3.500,00">
+              </label>
+
+              <label>
+                Prioridade
+                <select id="projectPriority">
+                  <option>Normal</option>
+                  <option>Alta</option>
+                  <option>Urgente</option>
+                  <option>Baixa</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                Data prevista para início
+                <input id="startDate" type="date">
+              </label>
+
+              <label>
+                Data prevista para entrega
+                <input id="deliveryDate" type="date">
+              </label>
+            </div>
+
+            <label>
+              Quem aprova o projeto?
+              <input id="projectApprover" placeholder="Nome e cargo do responsável pela aprovação">
+            </label>
+
+            <div class="form-section">
+              <span class="form-section-number">10</span>
+              <div>
+                <strong>Observações finais</strong>
+                <small>Detalhes que não podem se perder durante o projeto.</small>
+              </div>
+            </div>
+
+            <label>
+              Observações do cliente
+              <textarea id="clientNotes" rows="5" placeholder="Pedidos especiais, restrições, preferências e informações relevantes."></textarea>
+            </label>
+
+            <label>
+              Observações internas
+              <textarea id="internalNotes" rows="5" placeholder="Notas da equipe, riscos, pendências, oportunidades e decisões internas."></textarea>
+            </label>
+
+            <div class="briefing-actions">
+              <button class="btn btn-primary btn-large" type="submit">Salvar briefing</button>
+              <button id="downloadCurrentBriefing" class="btn btn-outline btn-large" type="button">Gerar PDF</button>
+            </div>
+          </form>
+        </article>
+        </div>
+
+  <div class="form-host" id="companyFormHost" hidden>
+          <div class="form-host-backdrop" data-close-form="empresas"></div>
+          <article class="panel form-host-panel">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow">NOVO CADASTRO</span>
+              <h2 id="companyFormTitle">Cadastrar empresa</h2>
+            </div>
+            <div class="panel-actions">
+              <button id="closeCompanyForm" class="btn btn-outline btn-small" type="button">Cancelar</button>
+              <button id="clearCompanyForm" class="btn btn-outline btn-small" type="button">Limpar</button>
+            </div>
+          </div>
+
+          <form id="companyForm" class="form">
+            <input id="empresaId" type="hidden">
+
+            <div class="form-section">
+              <span class="form-section-number">01</span>
+              <div>
+                <strong>Identificação legal</strong>
+                <small>Dados cadastrais e classificação da empresa.</small>
+              </div>
+            </div>
+
+            <label>
+              Razão social *
+              <input id="empresaLegalName" required placeholder="Ex.: Mendes Rocha Advogados Associados Ltda">
+            </label>
+
+            <div class="two-cols">
+              <label>
+                Nome fantasia *
+                <input id="empresaTradeName" required placeholder="Ex.: Mendes & Rocha Advocacia">
+              </label>
+              <label>
+                CNPJ *
+                <input id="empresaDocument" required placeholder="00.000.000/0001-00">
+              </label>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                Inscrição estadual
+                <input id="empresaStateRegistration" placeholder="Ex.: 123.456.789">
+              </label>
+              <label>
+                Inscrição municipal
+                <input id="empresaMunicipalRegistration" placeholder="Ex.: 98765">
+              </label>
+            </div>
+
+            <div class="three-cols">
+              <label>
+                Tipo jurídico
+                <select id="empresaCompanyType">
+                  <option value="">Selecione</option>
+                  <option>MEI</option>
+                  <option>ME</option>
+                  <option>EPP</option>
+                  <option>LTDA</option>
+                  <option>SLU</option>
+                  <option>SA</option>
+                  <option>Associação</option>
+                  <option>Outro</option>
+                </select>
+              </label>
+              <label>
+                Porte
+                <select id="empresaSize">
+                  <option>Pequeno</option>
+                  <option>Médio</option>
+                  <option>Grande</option>
+                </select>
+              </label>
+              <label>
+                Ano de fundação
+                <input id="empresaFoundationYear" placeholder="Ex.: 2014">
+              </label>
+            </div>
+
+            <div class="three-cols">
+              <label>
+                Segmento *
+                <input id="empresaSegment" required list="companySegments" placeholder="Ex.: Advocacia">
+                <datalist id="companySegments"></datalist>
+              </label>
+              <label>
+                Nicho
+                <input id="empresaNiche" placeholder="Ex.: Trabalhista">
+              </label>
+              <label>
+                Status comercial *
+                <select id="empresaStatus">
+                  <option>Prospect</option>
+                  <option>Cliente</option>
+                  <option>Ativa</option>
+                  <option>Pausada</option>
+                  <option>Inativa</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="form-section">
+              <span class="form-section-number">02</span>
+              <div>
+                <strong>Contatos</strong>
+                <small>Pessoas e canais usados no atendimento e no briefing.</small>
+              </div>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                Responsável principal *
+                <input id="empresaResponsibleName" required placeholder="Nome completo">
+              </label>
+              <label>
+                Cargo
+                <input id="empresaResponsibleRole" placeholder="Ex.: Sócia fundadora">
+              </label>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                WhatsApp *
+                <input id="empresaWhatsapp" required placeholder="(47) 99999-9999">
+              </label>
+              <label>
+                Telefone
+                <input id="empresaPhone" placeholder="(47) 3333-0000">
+              </label>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                E-mail principal *
+                <input id="empresaEmail" type="email" required placeholder="contato@empresa.com.br">
+              </label>
+              <label>
+                E-mail financeiro
+                <input id="empresaFinanceEmail" type="email" placeholder="financeiro@empresa.com.br">
+              </label>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                Site
+                <input id="empresaWebsite" placeholder="https://empresa.com.br">
+              </label>
+              <label>
+                Instagram
+                <input id="empresaInstagram" placeholder="@empresa">
+              </label>
+            </div>
+
+            <div class="three-cols">
+              <label>
+                LinkedIn
+                <input id="empresaLinkedin" placeholder="linkedin.com/company/...">
+              </label>
+              <label>
+                Facebook
+                <input id="empresaFacebook" placeholder="facebook.com/...">
+              </label>
+              <label>
+                YouTube
+                <input id="empresaYoutube" placeholder="youtube.com/@...">
+              </label>
+            </div>
+
+            <div class="form-section">
+              <span class="form-section-number">03</span>
+              <div>
+                <strong>Endereço</strong>
+                <small>Localização usada em SEO, mapa e estatísticas por cidade.</small>
+              </div>
+            </div>
+
+            <div class="three-cols">
+              <label>
+                CEP
+                <input id="empresaZip" placeholder="88330-000">
+              </label>
+              <label>
+                Cidade *
+                <input id="empresaCity" required placeholder="Ex.: Balneário Camboriú">
+              </label>
+              <label>
+                Estado *
+                <input id="empresaState" required placeholder="Ex.: SC">
+              </label>
+            </div>
+
+            <label>
+              Logradouro
+              <input id="empresaStreet" placeholder="Rua, avenida...">
+            </label>
+
+            <div class="three-cols">
+              <label>
+                Número
+                <input id="empresaNumber" placeholder="100">
+              </label>
+              <label>
+                Complemento
+                <input id="empresaComplement" placeholder="Sala 02">
+              </label>
+              <label>
+                Bairro
+                <input id="empresaNeighborhood" placeholder="Centro">
+              </label>
+            </div>
+
+            <label>
+              País
+              <input id="empresaCountry" value="Brasil">
+            </label>
+
+            <div class="form-section">
+              <span class="form-section-number">04</span>
+              <div>
+                <strong>Negócio e operação</strong>
+                <small>Contexto comercial reutilizado no briefing e nas métricas.</small>
+              </div>
+            </div>
+
+            <label>
+              Sobre a empresa *
+              <textarea id="empresaAbout" rows="4" required placeholder="O que a empresa faz, história e atuação."></textarea>
+            </label>
+
+            <label>
+              Produtos ou serviços
+              <textarea id="empresaProducts" rows="3" placeholder="Liste os principais produtos e serviços."></textarea>
+            </label>
+
+            <div class="two-cols">
+              <label>
+                Público-alvo
+                <input id="empresaAudience" placeholder="Ex.: empresas de médio porte">
+              </label>
+              <label>
+                Região atendida
+                <input id="empresaRegion" placeholder="Ex.: Litoral Norte de SC">
+              </label>
+            </div>
+
+            <label>
+              Diferenciais
+              <textarea id="empresaDifferentials" rows="3" placeholder="Por que o cliente escolhe esta empresa."></textarea>
+            </label>
+
+            <label>
+              Concorrentes
+              <textarea id="empresaCompetitors" rows="3" placeholder="Principais concorrentes."></textarea>
+            </label>
+
+            <div class="three-cols">
+              <label>
+                Colaboradores
+                <input id="empresaEmployees" placeholder="Ex.: 12">
+              </label>
+              <label>
+                Faturamento mensal estimado
+                <input id="empresaMonthlyRevenue" placeholder="Ex.: R$ 80.000">
+              </label>
+              <label>
+                Ticket médio
+                <input id="empresaAverageTicket" placeholder="Ex.: R$ 4.800">
+              </label>
+            </div>
+
+            <label>
+              Canal principal de vendas
+              <input id="empresaSalesChannel" placeholder="Ex.: WhatsApp e indicação">
+            </label>
+
+            <div class="form-section">
+              <span class="form-section-number">05</span>
+              <div>
+                <strong>Marca e comunicação</strong>
+                <small>Identidade visual para projetos e estatísticas de branding.</small>
+              </div>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                Logo (URL)
+                <input id="empresaLogoUrl" placeholder="https://...">
+              </label>
+              <label>
+                Manual de marca?
+                <select id="empresaHasBrandGuide">
+                  <option>Não</option>
+                  <option>Sim</option>
+                  <option>Em desenvolvimento</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="three-cols">
+              <label>
+                Cor principal
+                <input id="empresaPrimaryColor" placeholder="#1456D9">
+              </label>
+              <label>
+                Cor secundária
+                <input id="empresaSecondaryColor" placeholder="#0E213C">
+              </label>
+              <label>
+                Tom de comunicação
+                <select id="empresaCommunicationTone">
+                  <option value="">Selecione</option>
+                  <option>Corporativo</option>
+                  <option>Premium</option>
+                  <option>Próximo e humano</option>
+                  <option>Direto e comercial</option>
+                  <option>Técnico</option>
+                  <option>Minimalista</option>
+                </select>
+              </label>
+            </div>
+
+            <label>
+              Estilo visual
+              <input id="empresaVisualStyle" placeholder="Ex.: premium, limpo, tecnológico">
+            </label>
+
+            <div class="form-section">
+              <span class="form-section-number">06</span>
+              <div>
+                <strong>Comercial e contrato</strong>
+                <small>Dados internos para pipeline, receita e prioridade.</small>
+              </div>
+            </div>
+
+            <div class="three-cols">
+              <label>
+                Gestor da conta
+                <input id="empresaAccountManager" placeholder="Nome do responsável interno">
+              </label>
+              <label>
+                Tipo de contrato
+                <select id="empresaContractType">
+                  <option>Projeto único</option>
+                  <option>Mensalidade</option>
+                  <option>Projeto + retainer</option>
+                  <option>Ainda não definido</option>
+                </select>
+              </label>
+              <label>
+                Prioridade
+                <select id="empresaPriority">
+                  <option>Normal</option>
+                  <option>Alta</option>
+                  <option>Urgente</option>
+                  <option>Baixa</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="three-cols">
+              <label>
+                Valor mensal / projeto
+                <input id="empresaMonthlyFee" placeholder="Ex.: R$ 6.900">
+              </label>
+              <label>
+                Forma de pagamento
+                <input id="empresaPaymentMethod" placeholder="Ex.: Pix, boleto, cartão">
+              </label>
+              <label>
+                Cliente desde
+                <input id="empresaStartDate" type="date">
+              </label>
+            </div>
+
+            <div class="form-section">
+              <span class="form-section-number">07</span>
+              <div>
+                <strong>Tecnologia e estrutura digital</strong>
+                <small>Informações para implantação, integrações e métricas técnicas.</small>
+              </div>
+            </div>
+
+            <div class="three-cols">
+              <label>
+                Possui site?
+                <select id="empresaHasWebsite">
+                  <option>Não</option>
+                  <option>Sim</option>
+                  <option>Desatualizado</option>
+                </select>
+              </label>
+              <label>
+                Possui domínio?
+                <select id="empresaHasDomain">
+                  <option>Não</option>
+                  <option>Sim</option>
+                </select>
+              </label>
+              <label>
+                Hospedagem
+                <input id="empresaHosting" placeholder="Ex.: Hostinger">
+              </label>
+            </div>
+
+            <div class="two-cols">
+              <label>
+                CRM
+                <input id="empresaCrm" placeholder="Ex.: RD Station, Kommo">
+              </label>
+              <label>
+                Ferramentas atuais
+                <input id="empresaCurrentTools" placeholder="WhatsApp, Make, Analytics...">
+              </label>
+            </div>
+
+            <label>
+              Automações desejadas
+              <textarea id="empresaAutomations" rows="3" placeholder="Fluxos que a empresa precisa no ecossistema digital."></textarea>
+            </label>
+
+            <div class="form-section">
+              <span class="form-section-number">08</span>
+              <div>
+                <strong>Observações</strong>
+                <small>Notas internas e tags para o painel de estatísticas.</small>
+              </div>
+            </div>
+
+            <label>
+              Tags
+              <input id="empresaTags" placeholder="Ex.: premium, trabalhista, litoral, contrato">
+              <small>Separe as tags por vírgula.</small>
+            </label>
+
+            <label>
+              Observações comerciais
+              <textarea id="empresaCommercialNotes" rows="3" placeholder="Oportunidades, objeções e próximos passos."></textarea>
+            </label>
+
+            <label>
+              Observações internas
+              <textarea id="empresaInternalNotes" rows="4" placeholder="Riscos, pendências e decisões internas."></textarea>
+            </label>
+
+            <button class="btn btn-primary btn-full btn-large" type="submit">Salvar empresa</button>
+          </form>
+        </article>
+        </div>
+
+  <div id="detailsModal" class="details-modal" hidden>
+    <div class="details-backdrop" data-close-details></div>
+    <aside class="details-panel" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
+      <header class="details-head">
+        <div>
+          <span class="eyebrow" id="detailsEyebrow">DETALHES</span>
+          <h2 id="detailsTitle">Detalhes</h2>
+        </div>
+        <button class="btn btn-outline btn-small" type="button" data-close-details aria-label="Fechar">Fechar</button>
+      </header>
+      <div id="detailsBody" class="details-body"></div>
+      <footer id="detailsFooter" class="details-footer" hidden></footer>
+    </aside>
+  </div>
+
+  <script src="seed-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

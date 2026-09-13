@@ -1,0 +1,13 @@
+{
+  "name": "firestep-templates",
+  "private": true,
+  "description": "Catálogo firestep TEMPLATES",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "node generate-template-pages.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

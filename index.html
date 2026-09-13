@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="firestep TEMPLATES — Catálogo de templates profissionais.">
+  <title>firestep TEMPLATES — Catálogo de templates profissionais</title>
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://dominio.com.br/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="firestep TEMPLATES">
+  <meta property="og:title" content="firestep TEMPLATES — Catálogo de templates profissionais">
+  <meta property="og:description" content="Catálogo de templates profissionais para clínicas, academias, advocacia, sistemas e mais.">
+  <meta property="og:url" content="https://dominio.com.br/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Catálogo firestep TEMPLATES",
+    "description": "Catálogo de templates profissionais para cada tipo de empresa.",
+    "url": "https://dominio.com.br/",
+    "isPartOf": { "@type": "WebSite", "name": "firestep TEMPLATES", "url": "https://dominio.com.br/" }
+  }
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="catalog">
+  <header class="topbar">
+    <div class="brand">
+      <div>
+        <strong>firestep TEMPLATES</strong>
+        <small>Catálogo de plataformas</small>
+      </div>
+    </div>
+
+    <a class="btn btn-outline" href="admin.html">Área Administrativa</a>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <div class="hero-copy">
+        <span class="eyebrow">CATÁLOGO DE TEMPLATES</span>
+        <h1>Encontre o template ideal para cada tipo de empresa.</h1>
+        <p>Primeiro escolha se quer um <strong>website</strong>, um <strong>sistema</strong> ou um <strong>link na bio</strong>. Depois filtre pela categoria da empresa.</p>
+
+        <fieldset class="catalog-kind">
+          <legend>O que você precisa? *</legend>
+          <div class="catalog-kind-options" role="radiogroup" aria-required="true" aria-label="Tipo de projeto">
+            <label class="kind-card kind-card--website">
+              <input type="radio" name="catalogKind" value="website" checked>
+              <strong>Website</strong>
+              <span>Site institucional ou landing page</span>
+            </label>
+            <label class="kind-card kind-card--sistema">
+              <input type="radio" name="catalogKind" value="sistema">
+              <strong>Sistema</strong>
+              <span>Agenda, área do cliente, gestão</span>
+            </label>
+            <label class="kind-card kind-card--bio">
+              <input type="radio" name="catalogKind" value="bio">
+              <strong>Link na bio</strong>
+              <span>Página de links para redes sociais</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="search">
+          <span class="search-symbol">⌕</span>
+          <input
+            id="catalogSearch"
+            type="search"
+            autocomplete="off"
+            placeholder="Buscar por categoria, nome ou especialidade..."
+          >
+          <button id="clearSearch" type="button" aria-label="Limpar pesquisa">×</button>
+        </div>
+
+        <div id="categorySuggestions" class="chips" hidden></div>
+        <small class="result-text"><span id="resultCount">0</span> resultados</small>
+      </div>
+
+    
+    </section>
+
+    <section class="container results">
+      <span class="eyebrow">RESULTADOS</span>
+      <h2 id="resultsTitle">Templates disponíveis</h2>
+
+      <div id="emptyState" class="empty" hidden>
+        <div class="empty-icon">⌕</div>
+        <strong>Selecione o tipo de projeto</strong>
+        <p>É obrigatório escolher website, sistema ou link na bio para ver os templates.</p>
+      </div>
+
+      <div id="templateGrid" class="template-grid" hidden></div>
+
+      <div id="noResults" class="empty" hidden>
+        <strong>Nenhum template encontrado</strong>
+        <p>Tente pesquisar outra categoria, nome ou tecnologia.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <h2>Templates por categoria</h2>
+      <p>Todos os templates do catálogo, organizados por categoria e especialidade.</p>
+        <!-- SEO-TEMPLATE-INDEX:START -->
+        <div class="seo-index"><div class="seo-group"><h3>Academias</h3><ul><li><a href="academias/aula-experimental/index.html">Landing Page Academia Prime — Aula experimental</a></li></ul></div><div class="seo-group"><h3>Advocacia</h3><ul><li><a href="advocacia/trabalhista/index.html">Landing Page Advogado Trabalhista — Trabalhista</a></li></ul></div><div class="seo-group"><h3>Agências de Marketing</h3><ul><li><a href="agencias-de-marketing/pagina-de-links/index.html">Link na Bio SocialPulse — Página de links</a></li></ul></div><div class="seo-group"><h3>Clínicas</h3><ul><li><a href="clinicas/clinica-multidisciplinar/index.html">Institucional Clínica Vitalle — Clínica multidisciplinar</a></li></ul></div><div class="seo-group"><h3>Construtoras</h3><ul><li><a href="construtoras/incorporadora-residencial/index.html">Institucional Construtora Horizonte — Incorporadora residencial</a></li></ul></div><div class="seo-group"><h3>Contabilidade</h3><ul><li><a href="contabilidade/escritorio-contabil-consultivo/index.html">Institucional Contábil Atlas — Escritório contábil consultivo</a></li></ul></div><div class="seo-group"><h3>Delivery</h3><ul><li><a href="delivery/pedidos-e-cozinha/index.html">Sistema Delivery RotaChef — Pedidos e cozinha</a></li></ul></div><div class="seo-group"><h3>Escolas</h3><ul><li><a href="escolas/area-do-aluno-e-responsavel/index.html">Sistema Área do Aluno EduFlow — Área do aluno e responsável</a></li></ul></div><div class="seo-group"><h3>Estética</h3><ul><li><a href="estetica/agenda-e-caixa/index.html">Sistema de Agendamento BeautyOS — Agenda e caixa</a></li></ul></div><div class="seo-group"><h3>Imobiliárias</h3><ul><li><a href="imobiliarias/captacao-de-comprador/index.html">Landing Page Imobiliária Prime View — Captação de comprador</a></li></ul></div></div>
+        <!-- SEO-TEMPLATE-INDEX:END -->
+    </div>
+  </footer>
+
+  <!-- SEO-NOSCRIPT:START -->
+  <noscript><h2>Templates</h2><ul><li><a href="clinicas/clinica-multidisciplinar/index.html">Institucional Clínica Vitalle</a></li><li><a href="construtoras/incorporadora-residencial/index.html">Institucional Construtora Horizonte</a></li><li><a href="contabilidade/escritorio-contabil-consultivo/index.html">Institucional Contábil Atlas</a></li><li><a href="advocacia/trabalhista/index.html">Landing Page Advogado Trabalhista</a></li><li><a href="academias/aula-experimental/index.html">Landing Page Academia Prime</a></li><li><a href="imobiliarias/captacao-de-comprador/index.html">Landing Page Imobiliária Prime View</a></li><li><a href="estetica/agenda-e-caixa/index.html">Sistema de Agendamento BeautyOS</a></li><li><a href="escolas/area-do-aluno-e-responsavel/index.html">Sistema Área do Aluno EduFlow</a></li><li><a href="delivery/pedidos-e-cozinha/index.html">Sistema Delivery RotaChef</a></li><li><a href="agencias-de-marketing/pagina-de-links/index.html">Link na Bio SocialPulse</a></li></ul></noscript>
+  <!-- SEO-NOSCRIPT:END -->
+
+  <div id="crmNotice" class="crm-notice" role="dialog" aria-modal="true" aria-labelledby="crmNoticeTitle">
+    <div class="crm-notice-backdrop" data-close-crm-notice></div>
+    <aside class="crm-notice-box">
+      <span class="eyebrow">INCLUSO NO PROJETO</span>
+      <h2 id="crmNoticeTitle">FirestepCRM</h2>
+      <p>Todos os templates de site que envolvem <strong>agendamento e reservas</strong> já saem com um CRM para gerenciar as solicitações.</p>
+      <p>O <strong>FirestepCRM</strong> concentra pedidos, confirmações e o acompanhamento comercial em um só painel — sem planilha paralela e sem perder lead no WhatsApp.</p>
+      <ul>
+        <li>Recebe as solicitações do site</li>
+        <li>Organiza agenda e reservas</li>
+        <li>Acompanha cada cliente até o fechamento</li>
+      </ul>
+      <button class="btn btn-primary btn-full" type="button" data-close-crm-notice>Entendi</button>
+    </aside>
+  </div>
+
+  <div id="interestModal" class="details-modal" hidden>
+    <div class="details-backdrop" data-close-interest></div>
+    <aside class="details-panel interest-panel" role="dialog" aria-modal="true" aria-labelledby="interestTitle">
+      <header class="details-head">
+        <div>
+          <span class="eyebrow">TENHO INTERESSE</span>
+          <h2 id="interestTitle">Fale com a equipe</h2>
+          <p class="interest-template">Template: <strong id="interestTemplateName">—</strong></p>
+        </div>
+        <button class="btn btn-outline btn-small" type="button" data-close-interest aria-label="Fechar">Fechar</button>
+      </header>
+      <form id="interestForm" class="form interest-form">
+        <input id="interestTemplateId" type="hidden">
+        <label>
+          Nome completo *
+          <input id="interestName" name="nomeCompleto" type="text" autocomplete="name" required placeholder="Seu nome completo">
+        </label>
+        <label>
+          WhatsApp *
+          <input id="interestWhatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(47) 99999-9999">
+        </label>
+        <label>
+          E-mail *
+          <input id="interestEmail" name="email" type="email" autocomplete="email" required placeholder="voce@email.com">
+        </label>
+        <button id="interestSubmit" class="btn btn-primary btn-full" type="submit">Enviar</button>
+      </form>
+    </aside>
+  </div>
+
+  <script src="seed-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
