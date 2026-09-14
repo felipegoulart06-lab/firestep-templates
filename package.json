@@ -3,9 +3,10 @@
   "private": true,
   "description": "Catálogo firestep TEMPLATES",
   "scripts": {
-    "dev": "node server.js",
-    "start": "node server.js",
-    "build": "node generate-template-pages.js"
+    "config": "node write-config.js",
+    "dev": "node write-config.js && node server.js",
+    "start": "node write-config.js && node server.js",
+    "build": "node write-config.js && node generate-template-pages.js"
   },
   "engines": {
     "node": ">=18"

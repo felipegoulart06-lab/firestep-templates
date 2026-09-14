@@ -1,6 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 const vm = require("vm");
+const { loadEnv } = require("./load-env");
+
+loadEnv(__dirname);
 
 const ROOT = __dirname;
 const SITE_ORIGIN = resolveSiteOrigin();
@@ -14,7 +17,7 @@ function resolveSiteOrigin() {
     return `https://${vercelHost.replace(/^https?:\/\//, "")}`;
   }
 
-  return "https://dominio.com.br";
+  return "https://templates.firestep.cloud";
 }
 
 function normalizeText(value = "") {
@@ -242,6 +245,10 @@ function buildPage(template) {
   <meta property="og:url" content="${escapeHtml(pageUrl)}">
   ${template.image ? `<meta property="og:image" content="${escapeHtml(template.image)}">` : ""}
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <meta name="theme-color" content="#1b365d">
   <link rel="stylesheet" href="../../style.css">
   <script type="application/ld+json">${JSON.stringify(jsonLd(template, pageUrl))}</script>
 </head>
@@ -290,6 +297,7 @@ function buildPage(template) {
     </article>
   </main>
   ${interestModal()}
+  <script src="../../config.js"></script>
   <script src="../../seed-data.js"></script>
   <script src="../../script.js"></script>
 </body>

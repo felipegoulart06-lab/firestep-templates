@@ -1,20 +1,17 @@
 const TEMPLATE_KEY = "fg_templates_v3";
 const BRIEFING_KEY = "fg_briefings_v3";
 const COMPANY_KEY = "fg_companies_v1";
-
-const TEMPLATE_WEBHOOK =
-  "https://hook.us2.make.com/dvnzcd75sr3w4j3jj2a7lnq4pnfxk2yy";
-
-const BRIEFING_WEBHOOK =
-  "https://hook.us2.make.com/pwga2o6357p0ridirakfmdp3kbuert85";
-
 const INTEREST_KEY = "fs_interests_v1";
-const INTEREST_WEBHOOK = "";
-const SUPPORT_WHATSAPP = "5547999999999";
 const PEDIDO_STATUSES = ["Novo", "Em contato", "Fechado", "Perdido"];
-const SUPABASE_URL = "https://ykatfosanbdwtrcmtciu.supabase.co";
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlrYXRmb3NhbmJkd3RyY210Y2l1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkxNjA3OTcsImV4cCI6MjEwNDczNjc5N30.RnE6J-JxiJDSaKb41QnnYV6Ge-5gtcdUTYXiXWF1DJA";
+const ADMIN_SESSION_KEY = "fs_admin_session_v1";
+
+const CFG = window.FIRESTEP_CONFIG || {};
+const TEMPLATE_WEBHOOK = CFG.templateWebhook || "";
+const BRIEFING_WEBHOOK = CFG.briefingWebhook || "";
+const INTEREST_WEBHOOK = CFG.interestWebhook || "";
+const SUPPORT_WHATSAPP = CFG.supportWhatsapp || "";
+const SUPABASE_URL = CFG.supabaseUrl || "";
+const SUPABASE_ANON_KEY = CFG.supabaseAnonKey || "";
 
 const $ = (selector, parent = document) => parent.querySelector(selector);
 const $$ = (selector, parent = document) => [...parent.querySelectorAll(selector)];
@@ -29,6 +26,201 @@ function readStorage(key) {
 
 function writeStorage(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
+}
+
+function readAdminSession() {
+  try {
+    return JSON.parse(localStorage.getItem(ADMIN_SESSION_KEY) || "null");
+  } catch {
+    return null;
+  }
+}
+
+function writeAdminSession(session) {
+  if (!session) {
+    localStorage.removeItem(ADMIN_SESSION_KEY);
+    return;
+  }
+  localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(session));
+}
+
+function getSupabaseAccessToken() {
+  const session = readAdminSession();
+  if (session?.access_token) return session.access_token;
+  return SUPABASE_ANON_KEY;
+}
+
+function storeAuthSession(payload) {
+  const expiresIn = Number(payload.expires_in || 3600) * 1000;
+  writeAdminSession({
+    access_token: payload.access_token,
+    refresh_token: payload.refresh_token,
+    expires_at: Date.now() + expiresIn,
+    user: payload.user || null
+  });
+}
+
+async function supabaseAuth(path, { method = "GET", body, token } = {}) {
+  const headers = {
+    apikey: SUPABASE_ANON_KEY,
+    "Content-Type": "application/json"
+  };
+  if (token) headers.Authorization = `Bearer ${token}`;
+
+  const response = await fetch(`${SUPABASE_URL}/auth/v1${path}`, {
+    method,
+    headers,
+    body: body ? JSON.stringify(body) : undefined
+  });
+
+  const text = await response.text();
+  let data = {};
+  try {
+    data = text ? JSON.parse(text) : {};
+  } catch {
+    data = { message: text };
+  }
+
+  if (!response.ok) {
+    throw new Error(data.error_description || data.msg || data.message || "Falha na autenticação");
+  }
+
+  return data;
+}
+
+async function refreshAdminSession() {
+  const session = readAdminSession();
+  if (!session?.refresh_token) return null;
+
+  const payload = await supabaseAuth("/token?grant_type=refresh_token", {
+    method: "POST",
+    body: { refresh_token: session.refresh_token }
+  });
+  storeAuthSession(payload);
+  return readAdminSession();
+}
+
+async function isCurrentUserAdmin(token) {
+  const response = await fetch(
+    `${SUPABASE_URL}/rest/v1/firestep_admins?select=user_id&user_id=eq.${encodeURIComponent(
+      (await supabaseAuth("/user", { token })).id
+    )}`,
+    {
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+
+  if (!response.ok) return false;
+  const rows = await response.json();
+  return Array.isArray(rows) && rows.length > 0;
+}
+
+async function restoreAdminSession() {
+  let session = readAdminSession();
+  if (!session?.access_token) return null;
+
+  if (session.expires_at && Date.now() > session.expires_at - 15000) {
+    try {
+      session = await refreshAdminSession();
+    } catch {
+      writeAdminSession(null);
+      return null;
+    }
+  }
+
+  try {
+    const allowed = await isCurrentUserAdmin(session.access_token);
+    if (!allowed) {
+      writeAdminSession(null);
+      return null;
+    }
+    return session;
+  } catch {
+    try {
+      session = await refreshAdminSession();
+      if (session && (await isCurrentUserAdmin(session.access_token))) return session;
+    } catch {
+      /* sessão inválida */
+    }
+    writeAdminSession(null);
+    return null;
+  }
+}
+
+async function signInAdmin(email, password) {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    throw new Error("Configuração do servidor ausente.");
+  }
+
+  const payload = await supabaseAuth("/token?grant_type=password", {
+    method: "POST",
+    body: { email, password }
+  });
+  storeAuthSession(payload);
+  const session = readAdminSession();
+  if (!(await isCurrentUserAdmin(session.access_token))) {
+    writeAdminSession(null);
+    throw new Error("Este usuário não tem permissão de administrador.");
+  }
+  return session;
+}
+
+function signOutAdmin() {
+  writeAdminSession(null);
+  location.reload();
+}
+
+async function initAdminAuth() {
+  const login = $("#adminLogin");
+  const form = $("#adminLoginForm");
+  const errorBox = $("#adminLoginError");
+  const submit = $("#adminLoginSubmit");
+  $("#adminLogout")?.addEventListener("click", signOutAdmin);
+
+  if (await restoreAdminSession()) {
+    document.body.classList.add("is-authed");
+    if (login) login.hidden = true;
+    return true;
+  }
+
+  if (!form) return false;
+
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+    if (errorBox) {
+      errorBox.hidden = true;
+      errorBox.textContent = "";
+    }
+    if (submit) {
+      submit.disabled = true;
+      submit.textContent = "Entrando...";
+    }
+
+    try {
+      await signInAdmin(
+        $("#adminLoginEmail")?.value.trim() || "",
+        $("#adminLoginPassword")?.value || ""
+      );
+      document.body.classList.add("is-authed");
+      if (login) login.hidden = true;
+      location.reload();
+    } catch (error) {
+      if (errorBox) {
+        errorBox.hidden = false;
+        errorBox.textContent = error.message || "Não foi possível entrar.";
+      }
+    } finally {
+      if (submit) {
+        submit.disabled = false;
+        submit.textContent = "Entrar";
+      }
+    }
+  });
+
+  return false;
 }
 
 function createId(prefix = "ID") {
@@ -70,10 +262,8 @@ function templateSeoHref(template = {}) {
 
 function getPublishApi() {
   if (typeof location === "undefined") return "";
-  if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
-    return "http://127.0.0.1:8787";
-  }
-  return "";
+  if (location.hostname !== "localhost" && location.hostname !== "127.0.0.1") return "";
+  return CFG.publishApi || "";
 }
 
 function getLocalPedidosApi() {
@@ -127,7 +317,7 @@ async function supabasePedidos(path, { method = "GET", body, query = "" } = {}) 
     method,
     headers: {
       apikey: SUPABASE_ANON_KEY,
-      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      Authorization: `Bearer ${getSupabaseAccessToken()}`,
       "Content-Type": "application/json",
       Prefer: "return=representation"
     },
@@ -556,6 +746,8 @@ function statusChipClass(value = "") {
 ========================================================= */
 
 async function sendToWebhook(url, payload) {
+  if (!url) return true;
+
   const body = JSON.stringify(payload);
 
   try {
@@ -1089,11 +1281,15 @@ function renderGalleryEditor(urls) {
   list.innerHTML = urls
     .map((url, index) => `
       <div class="gallery-item">
-        <img src="${escapeHtml(url)}" alt="Imagem ${index + 1} do template" onerror="this.classList.add('is-broken')">
+        <img src="${escapeHtml(url)}" alt="Imagem ${index + 1} do template">
         <button type="button" class="mini-btn danger" data-remove-gallery="${index}">Remover</button>
       </div>
     `)
     .join("");
+
+  list.querySelectorAll("img").forEach(img => {
+    img.addEventListener("error", () => img.classList.add("is-broken"));
+  });
 }
 
 function readFileAsDataUrl(file) {
@@ -3748,8 +3944,6 @@ async function submitInterestLead(event) {
   let webhookOk = true;
   if (INTEREST_WEBHOOK) {
     webhookOk = await sendToWebhook(INTEREST_WEBHOOK, payload);
-  } else {
-    console.info("Webhook de interesse ainda não configurado. Cole a URL em INTEREST_WEBHOOK.");
   }
 
   closeInterestForm();
@@ -3864,7 +4058,6 @@ function initCatalog() {
           <img
             src="${escapeHtml(template.image || "")}"
             alt="Preview do template ${escapeHtml(template.name || "")}"
-            onerror="this.parentElement.classList.add('is-fallback')"
           >
           <span>Sem preview</span>
           <b class="card-type">${escapeHtml(template.serviceType || "Template")}</b>
@@ -3904,6 +4097,11 @@ function initCatalog() {
     $("#noResults").hidden = !emptySearch || results.length > 0;
     $("#templateGrid").hidden = results.length === 0;
     $("#templateGrid").innerHTML = results.map(catalogCardHtml).join("");
+    $$("#templateGrid img").forEach(img => {
+      img.addEventListener("error", () => {
+        img.closest(".template-preview")?.classList.add("is-fallback");
+      });
+    });
   }
 
   function renderCategoryChips(templates) {
@@ -4321,8 +4519,6 @@ function renderStatistics() {
    BRIEFINGS DE DEMONSTRAÇÃO
 ========================================================= */
 
-const SEED_BRIEFINGS_SENT_KEY = "fg_briefings_seed_v1_sent";
-
 function seedCompleteTemplates() {
   const existing = readStorage(TEMPLATE_KEY);
   const seededIds = new Set(SEEDED_TEMPLATES.map(item => item.id));
@@ -4339,45 +4535,15 @@ function seedCompleteCompanies() {
   writeStorage(COMPANY_KEY, [...SEED_COMPANIES, ...others]);
 }
 
-async function seedCompleteBriefings() {
+function seedCompleteBriefings() {
   const existing = readStorage(BRIEFING_KEY);
   const seededIds = new Set(SEEDED_BRIEFINGS.map(item => item.id));
   const others = existing.filter(item => !seededIds.has(item.id));
-  const briefings = [...SEEDED_BRIEFINGS, ...others];
-
-  writeStorage(BRIEFING_KEY, briefings);
-
-  let sentIds = [];
-
-  try {
-    sentIds = JSON.parse(localStorage.getItem(SEED_BRIEFINGS_SENT_KEY) || "[]");
-  } catch {
-    sentIds = [];
-  }
-
-  for (const briefing of SEEDED_BRIEFINGS) {
-    if (sentIds.includes(briefing.id)) continue;
-
-    const webhookOk = await sendToWebhook(
-      BRIEFING_WEBHOOK,
-      buildMakePayload(
-        "briefing_cadastrado",
-        briefing,
-        BRIEFING_LABELS,
-        "briefing"
-      )
-    );
-
-    if (webhookOk) {
-      sentIds.push(briefing.id);
-    }
-  }
-
-  localStorage.setItem(SEED_BRIEFINGS_SENT_KEY, JSON.stringify(sentIds));
+  writeStorage(BRIEFING_KEY, [...SEEDED_BRIEFINGS, ...others]);
 }
 
 function initSupportChat() {
-  if ($(".support-chat")) return;
+  if (!SUPPORT_WHATSAPP || $(".support-chat")) return;
 
   const message = encodeURIComponent(
     "Olá! Desejo falar com um atendente da firestep TEMPLATES."
@@ -4405,10 +4571,13 @@ document.addEventListener(
   async () => {
     seedCompleteTemplates();
     seedCompleteCompanies();
-    await seedCompleteBriefings();
+    seedCompleteBriefings();
     publishAllTemplatePages(readStorage(TEMPLATE_KEY));
 
     if (document.body.dataset.page === "admin") {
+      const allowed = await initAdminAuth();
+      if (!allowed) return;
+
       initAdminTabs();
       initDetailsModal();
       initRecordForms();

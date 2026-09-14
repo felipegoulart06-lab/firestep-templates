@@ -5,9 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="firestep TEMPLATES — Admin Master">
   <title>firestep TEMPLATES — Admin Master</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="theme-color" content="#1b365d">
   <link rel="stylesheet" href="style.css">
 </head>
 <body data-page="admin">
+
+  <div id="adminLogin" class="admin-login">
+    <aside class="admin-login-box">
+      <span class="eyebrow">ACESSO RESTRITO</span>
+      <h1>Admin Master</h1>
+      <p>Entre com o e-mail e a senha do painel para gerenciar templates, empresas, briefings e pedidos.</p>
+      <form id="adminLoginForm" class="form">
+        <label>
+          E-mail
+          <input id="adminLoginEmail" type="email" autocomplete="username" required placeholder="admin@firestep.cloud">
+        </label>
+        <label>
+          Senha
+          <input id="adminLoginPassword" type="password" autocomplete="current-password" required placeholder="••••••••">
+        </label>
+        <p id="adminLoginError" class="admin-login-error" hidden></p>
+        <button id="adminLoginSubmit" class="btn btn-primary btn-full" type="submit">Entrar</button>
+      </form>
+    </aside>
+  </div>
 
   <header class="topbar">
     <div class="brand">
@@ -17,7 +41,10 @@
       </div>
     </div>
 
-    <a class="btn btn-outline" href="index.html">Voltar ao catálogo</a>
+    <div class="topbar-actions">
+      <a class="btn btn-outline" href="index.html">Voltar ao catálogo</a>
+      <button id="adminLogout" class="btn btn-outline" type="button">Sair</button>
+    </div>
   </header>
 
   <div class="admin-menu">
@@ -1728,6 +1755,7 @@
     </aside>
   </div>
 
+  <script src="config.js"></script>
   <script src="seed-data.js"></script>
   <script src="script.js"></script>
 </body>

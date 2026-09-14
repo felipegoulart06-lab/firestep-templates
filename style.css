@@ -74,6 +74,78 @@ button{cursor:pointer}
   z-index:20;
 }
 
+.topbar-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+body[data-page="admin"]:not(.is-authed) .admin-menu,
+body[data-page="admin"]:not(.is-authed) .admin-main,
+body[data-page="admin"]:not(.is-authed) .form-host,
+body[data-page="admin"]:not(.is-authed) .details-modal,
+body[data-page="admin"]:not(.is-authed) .topbar-actions{
+  display:none !important;
+}
+
+body[data-page="admin"].is-authed .admin-login{
+  display:none;
+}
+
+.admin-login{
+  position:fixed;
+  inset:0;
+  z-index:120;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  background:var(--paper);
+  background-image:
+    repeating-linear-gradient(
+      -18deg,
+      transparent 0 10px,
+      rgba(27,54,93,.04) 10px 11px
+    );
+}
+
+.admin-login[hidden]{display:none}
+
+.admin-login-box{
+  width:min(420px, calc(100vw - 32px));
+  background:#fffdf8;
+  border:1px solid var(--line);
+  border-top:4px solid var(--rust);
+  padding:28px 26px 24px;
+}
+
+.admin-login-box h1{
+  margin:0 0 10px;
+  font-size:28px;
+  color:var(--blue);
+  letter-spacing:-.4px;
+}
+
+.admin-login-box > p{
+  margin:0 0 18px;
+  color:#3d4a5c;
+  line-height:1.5;
+}
+
+.admin-login-error{
+  margin:0 0 10px;
+  color:var(--danger);
+  font-size:13px;
+  font-weight:600;
+}
+
+.admin-login-box .btn-primary{
+  background:var(--rust);
+}
+
+.admin-login-box .btn-primary:hover{
+  background:var(--rust-dark);
+}
+
 .brand{
   display:flex;
   align-items:center;
@@ -177,8 +249,6 @@ button{cursor:pointer}
   margin-bottom:12px;
   font-family:"IBM Plex Mono","Segoe UI",monospace;
 }
-
-.eyebrow.white{color:#efd3c0}
 
 .hero h1{
   font-size:52px;
@@ -354,48 +424,6 @@ button{cursor:pointer}
 .kind-card:has(input:checked) strong,
 .kind-card:has(input:checked) span{
   color:#fff;
-}
-
-.hero-card{
-  display:none;
-}
-
-.fake-browser{
-  margin-top:42px;
-  border:1px solid rgba(255,255,255,.28);
-  background:rgba(255,255,255,.1);
-  border-radius:18px;
-  padding:20px;
-}
-
-.fake-browser i{
-  display:block;
-  height:10px;
-  width:82%;
-  background:rgba(255,255,255,.54);
-  border-radius:8px;
-  margin-bottom:8px;
-}
-
-.fake-browser i:nth-child(2){width:57%}
-
-.fake-browser div{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:20px;
-}
-
-.fake-browser b{
-  height:54px;
-  background:rgba(255,255,255,.17);
-  border-radius:10px;
-}
-
-.hero-card p{
-  color:#fff;
-  font-size:13px;
-  margin-top:24px;
 }
 
 .results{
@@ -1726,7 +1754,6 @@ body.modal-open{overflow:hidden}
 @media(max-width:1050px){
   .topbar{padding:0 22px}
   .hero{grid-template-columns:1fr}
-  .hero-card{display:none}
   .catalog-kind-options{grid-template-columns:1fr}
   .admin-grid-template,
   .briefing-grid,
@@ -2028,12 +2055,6 @@ body.modal-open{overflow:hidden}
   font-size:18px;
   font-weight:700;
   color:var(--blue);
-}
-
-.product-price{
-  margin:0 0 8px;
-  font-size:22px;
-  font-weight:700;
 }
 
 .product-meta{

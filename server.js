@@ -2,11 +2,15 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
+const { loadEnv } = require("./load-env");
 const { publishTemplates, writeTemplatePage, loadSeededTemplates } = require("./generate-template-pages");
+
+loadEnv(__dirname);
 
 const ROOT = __dirname;
 const PORT = Number(process.env.PORT) || 8787;
 const PEDIDOS_FILE = path.join(ROOT, "data", "pedidos.json");
+let currentRequest = null;
 
 function requestPath(request) {
   try {
@@ -58,11 +62,25 @@ const MIME = {
   ".ico": "image/x-icon"
 };
 
+function corsHeaders() {
+  const origin = currentRequest?.headers?.origin || "";
+  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+    return {
+      "Access-Control-Allow-Origin": origin,
+      "Access-Control-Allow-Methods": "GET,POST,PATCH,OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+      Vary: "Origin"
+    };
+  }
+  return {};
+}
+
 function send(response, status, body, headers = {}) {
   response.writeHead(status, {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,POST,PATCH,OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    ...corsHeaders(),
     ...headers
   });
   response.end(body);
@@ -96,6 +114,23 @@ function safeJoin(urlPath) {
   return full;
 }
 
+function isBlocked(filePath) {
+  const relative = path.relative(ROOT, filePath).replace(/\\/g, "/");
+  if (relative.startsWith("..")) return true;
+  const parts = relative.split("/");
+  if (parts.some(part => part === ".git" || part === "node_modules")) return true;
+  const name = path.basename(filePath);
+  return [
+    ".env",
+    ".env.example",
+    ".env.local",
+    ".gitignore",
+    "server.js",
+    "load-env.js",
+    "write-config.js"
+  ].includes(name);
+}
+
 function serveStatic(request, response) {
   let filePath = safeJoin(request.url || "/");
   if (!filePath) {
@@ -111,7 +146,7 @@ function serveStatic(request, response) {
     filePath = path.join(filePath, "index.html");
   }
 
-  if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
+  if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile() || isBlocked(filePath)) {
     send(response, 404, "Página não encontrada", { "Content-Type": "text/plain; charset=utf-8" });
     return;
   }
@@ -122,6 +157,7 @@ function serveStatic(request, response) {
 }
 
 const server = http.createServer(async (request, response) => {
+  currentRequest = request;
   if (request.method === "OPTIONS") {
     send(response, 204, "");
     return;
