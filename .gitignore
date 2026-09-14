@@ -6,3 +6,4 @@ config.js
 data/pedidos.json
 .DS_Store
 Thumbs.db
+.env*
