@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="firestep TEMPLATES — Admin Master">
+  <meta name="robots" content="noindex,nofollow">
   <title>firestep TEMPLATES — Admin Master</title>
+  <script src="admin-boot.js"></script>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -18,14 +20,14 @@
       <span class="eyebrow">ACESSO RESTRITO</span>
       <h1>Admin Master</h1>
       <p>Entre com o e-mail e a senha do painel para gerenciar templates, empresas, briefings e pedidos.</p>
-      <form id="adminLoginForm" class="form">
+      <form id="adminLoginForm" class="form" method="post" action="#" autocomplete="on">
         <label>
           E-mail
-          <input id="adminLoginEmail" type="email" autocomplete="username" required placeholder="admin@firestep.cloud">
+          <input id="adminLoginEmail" type="email" autocomplete="username" required maxlength="180" placeholder="admin@firestep.cloud">
         </label>
         <label>
           Senha
-          <input id="adminLoginPassword" type="password" autocomplete="current-password" required placeholder="••••••••">
+          <input id="adminLoginPassword" type="password" autocomplete="current-password" required minlength="8" maxlength="128" placeholder="••••••••">
         </label>
         <p id="adminLoginError" class="admin-login-error" hidden></p>
         <button id="adminLoginSubmit" class="btn btn-primary btn-full" type="submit">Entrar</button>
@@ -88,7 +90,15 @@
 
           </div>
 
-          <input id="templateFilter" class="filter" type="search" placeholder="Filtrar por nome, categoria, SKU ou tecnologia...">
+          <div class="filter-bar">
+            <input id="templateFilter" class="filter" type="search" placeholder="Filtrar por nome, SKU ou tecnologia...">
+            <label class="filter-select">
+              Categoria da empresa
+              <select id="templateCategoryFilter" class="filter">
+                <option value="">Todas as categorias</option>
+              </select>
+            </label>
+          </div>
           <div id="adminTemplateList" class="admin-list"></div>
         </article>
 
@@ -165,7 +175,15 @@
             </div>
             <span id="companyCount" class="badge">0</span>
           </div>
-          <input id="companyFilter" class="filter" type="search" placeholder="Filtrar por nome, CNPJ, cidade ou segmento...">
+          <div class="filter-bar">
+            <input id="companyFilter" class="filter" type="search" placeholder="Filtrar por nome, CNPJ, cidade ou segmento...">
+            <label class="filter-select">
+              Categoria da empresa
+              <select id="companyCategoryFilter" class="filter">
+                <option value="">Todas as categorias</option>
+              </select>
+            </label>
+          </div>
           <div id="adminCompanyList" class="admin-list"></div>
         </article>
       </div>
@@ -319,8 +337,29 @@
             <label>
               Imagem de capa / preview *
               <input id="templateImage" type="text" inputmode="url" autocomplete="url" required placeholder="https://site.com/imagens/template.jpg">
-              <small>Essa é a foto principal do card e da página de detalhes.</small>
+              <small>Foto principal do card. Pode colar um link ou subir o arquivo.</small>
             </label>
+            <div class="media-field-actions">
+              <label class="btn btn-outline btn-small gallery-upload">
+                Subir capa
+                <input id="templateImageFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+              </label>
+            </div>
+            <div id="templateImagePreview" class="media-preview" hidden></div>
+
+            <div class="gallery-editor">
+              <strong>Print completo da landing</strong>
+              <small>Print da página inteira (bem alto). Na página de detalhes, o visitante passa o mouse ou encosta na tela para o print descer bem devagar.</small>
+              <input id="templatePagePrint" type="text" inputmode="url" autocomplete="url" placeholder="Cole o link do print ou suba o arquivo">
+              <div class="gallery-editor-actions">
+                <label class="btn btn-outline btn-small gallery-upload">
+                  Subir print
+                  <input id="templatePagePrintFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+                </label>
+                <button id="clearPagePrint" class="btn btn-outline btn-small" type="button">Remover print</button>
+              </div>
+              <div id="templatePagePrintPreview" class="media-preview" hidden></div>
+            </div>
 
             <div class="gallery-editor">
               <strong>Mais imagens do template</strong>
@@ -1754,6 +1793,28 @@
       <footer id="detailsFooter" class="details-footer" hidden></footer>
     </aside>
   </div>
+
+  <div id="confirmModal" class="details-modal" hidden>
+    <div class="details-backdrop" data-close-confirm></div>
+    <aside class="details-panel confirm-panel" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmText">
+      <header class="details-head">
+        <div>
+          <span class="eyebrow" id="confirmEyebrow">CONFIRMAÇÃO</span>
+          <h2 id="confirmTitle">Confirmar ação</h2>
+        </div>
+        <button class="btn btn-outline btn-small" type="button" data-close-confirm aria-label="Cancelar">Fechar</button>
+      </header>
+      <p id="confirmText" class="confirm-text"></p>
+      <footer class="confirm-actions">
+        <button id="confirmCancel" class="btn btn-outline" type="button" data-close-confirm>Cancelar</button>
+        <button id="confirmOk" class="btn btn-primary" type="button">Continuar</button>
+      </footer>
+    </aside>
+  </div>
+
+  <noscript>
+    <p class="admin-login-error">O painel administrativo precisa de JavaScript habilitado.</p>
+  </noscript>
 
   <script src="config.js"></script>
   <script src="seed-data.js"></script>

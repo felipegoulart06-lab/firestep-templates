@@ -182,8 +182,9 @@ function buildPage(template) {
   const video = hasVideoLink(template.video) ? template.video : "";
   const docs = template.documentation || "";
   const gallery = templateGalleryUrls(template);
-  const hero = gallery[0] || template.image || "";
-  const extraImages = gallery.slice(1);
+  const printUrl = String(template.pagePrint || "").trim();
+  const hero = printUrl ? "" : (gallery[0] || template.image || "");
+  const extraImages = gallery.filter(url => url && url !== printUrl && url !== hero);
 
   const blocks = [
     section("Identificação", [
@@ -274,6 +275,13 @@ function buildPage(template) {
 
     <article class="product-layout" itemscope itemtype="https://schema.org/Product">
       <div class="product-main">
+        ${printUrl ? `<section class="page-scroll-preview">
+          <div class="page-scroll-preview-chrome" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="page-scroll-preview-frame" tabindex="0">
+            <img src="${escapeHtml(pageAsset(printUrl))}" alt="Print completo da landing ${escapeHtml(template.name || "")}">
+          </div>
+          <p class="page-scroll-preview-hint">Passe o mouse ou encoste na tela para percorrer a página</p>
+        </section>` : ""}
         ${hero ? `<figure class="product-hero"><img src="${escapeHtml(pageAsset(hero))}" alt="Preview do template ${escapeHtml(template.name || "")}" itemprop="image" width="1200" height="750"></figure>` : ""}
         ${extraImages.length ? `<div class="product-gallery">${extraImages.map((url, index) => `<figure><img src="${escapeHtml(pageAsset(url))}" alt="Imagem ${index + 2} do template ${escapeHtml(template.name || "")}"></figure>`).join("")}</div>` : ""}
         <p class="eyebrow">${escapeHtml([template.serviceType, template.category].filter(Boolean).join(" · "))}</p>
@@ -394,11 +402,34 @@ function writeTemplatePage(template) {
   return templateSeoHref(template);
 }
 
+function removeStaleTemplatePages(keepTemplates) {
+  const keep = new Set((keepTemplates || []).map(template => templateSeoDir(template).replace(/\\/g, "/")));
+  const protectedDirs = new Set([".git", ".vercel", "node_modules", "supabase", "data", "uploads"]);
+
+  fs.readdirSync(ROOT, { withFileTypes: true }).forEach(entry => {
+    if (!entry.isDirectory() || protectedDirs.has(entry.name)) return;
+
+    const categoryDir = path.join(ROOT, entry.name);
+    fs.readdirSync(categoryDir, { withFileTypes: true }).forEach(child => {
+      if (!child.isDirectory()) return;
+      const rel = `${entry.name}/${child.name}`;
+      const indexFile = path.join(categoryDir, child.name, "index.html");
+      if (!fs.existsSync(indexFile) || keep.has(rel)) return;
+      fs.rmSync(path.join(categoryDir, child.name), { recursive: true, force: true });
+    });
+
+    if (!fs.readdirSync(categoryDir).length) {
+      fs.rmSync(categoryDir, { recursive: true, force: true });
+    }
+  });
+}
+
 function publishTemplates(templates) {
   const publicTemplates = (templates || []).filter(
     template => template.status !== "Arquivado" && template.status !== "Rascunho"
   );
 
+  removeStaleTemplatePages(publicTemplates);
   publicTemplates.forEach(writeTemplatePage);
   updateIndexFooter(publicTemplates);
   writeSitemap(publicTemplates);

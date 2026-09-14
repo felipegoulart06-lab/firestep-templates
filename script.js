@@ -1,9 +1,12 @@
-const TEMPLATE_KEY = "fg_templates_v3";
+const TEMPLATE_KEY = "fg_templates_v4";
 const BRIEFING_KEY = "fg_briefings_v3";
 const COMPANY_KEY = "fg_companies_v1";
 const INTEREST_KEY = "fs_interests_v1";
 const PEDIDO_STATUSES = ["Novo", "Em contato", "Fechado", "Perdido"];
 const ADMIN_SESSION_KEY = "fs_admin_session_v1";
+const ADMIN_LOGIN_GUARD_KEY = "fs_admin_login_guard_v1";
+const LOGIN_MAX_ATTEMPTS = 8;
+const LOGIN_LOCK_MS = 5 * 60 * 1000;
 
 const CFG = window.FIRESTEP_CONFIG || {};
 const TEMPLATE_WEBHOOK = CFG.templateWebhook || "";
@@ -150,10 +153,54 @@ async function restoreAdminSession() {
   }
 }
 
+function readLoginGuard() {
+  try {
+    return JSON.parse(localStorage.getItem(ADMIN_LOGIN_GUARD_KEY) || "null") || { attempts: 0, lockUntil: 0 };
+  } catch {
+    return { attempts: 0, lockUntil: 0 };
+  }
+}
+
+function writeLoginGuard(guard) {
+  localStorage.setItem(ADMIN_LOGIN_GUARD_KEY, JSON.stringify(guard));
+}
+
+function assertLoginAllowed() {
+  const guard = readLoginGuard();
+  if (guard.lockUntil && Date.now() < guard.lockUntil) {
+    const minutes = Math.max(1, Math.ceil((guard.lockUntil - Date.now()) / 60000));
+    throw new Error(`Muitas tentativas. Aguarde ${minutes} min e tente de novo.`);
+  }
+}
+
+function recordLoginFailure() {
+  const guard = readLoginGuard();
+  const attempts = Number(guard.attempts || 0) + 1;
+  const next = {
+    attempts,
+    lockUntil: attempts >= LOGIN_MAX_ATTEMPTS ? Date.now() + LOGIN_LOCK_MS : 0
+  };
+  writeLoginGuard(next);
+  if (next.lockUntil) {
+    throw new Error("Muitas tentativas. O acesso ficou bloqueado por 5 minutos.");
+  }
+}
+
+function clearLoginGuard() {
+  localStorage.removeItem(ADMIN_LOGIN_GUARD_KEY);
+}
+
+function markAdminSessionUi(hasSession) {
+  document.documentElement.classList.toggle("admin-has-session", Boolean(hasSession));
+  document.body.classList.toggle("is-authed", Boolean(hasSession));
+}
+
 async function signInAdmin(email, password) {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     throw new Error("Configuração do servidor ausente.");
   }
+
+  assertLoginAllowed();
 
   const payload = await supabaseAuth("/token?grant_type=password", {
     method: "POST",
@@ -163,14 +210,42 @@ async function signInAdmin(email, password) {
   const session = readAdminSession();
   if (!(await isCurrentUserAdmin(session.access_token))) {
     writeAdminSession(null);
+    markAdminSessionUi(false);
     throw new Error("Este usuário não tem permissão de administrador.");
   }
+  clearLoginGuard();
   return session;
 }
 
-function signOutAdmin() {
+async function signOutAdmin() {
+  const session = readAdminSession();
+  try {
+    if (session?.access_token) {
+      await supabaseAuth("/logout", { method: "POST", token: session.access_token });
+    }
+  } catch {
+    /* continua o logout local mesmo se a API falhar */
+  }
   writeAdminSession(null);
+  markAdminSessionUi(false);
   location.reload();
+}
+
+let adminAppStarted = false;
+
+function startAdminApp() {
+  if (adminAppStarted) return;
+  adminAppStarted = true;
+  initAdminTabs();
+  initDetailsModal();
+  initConfirmModal();
+  initRecordForms();
+  initTemplatesAdmin();
+  initCompanies();
+  initBriefings();
+  initPedidos();
+  renderStatistics();
+  $("#refreshStats")?.addEventListener("click", renderStatistics);
 }
 
 async function initAdminAuth() {
@@ -181,10 +256,13 @@ async function initAdminAuth() {
   $("#adminLogout")?.addEventListener("click", signOutAdmin);
 
   if (await restoreAdminSession()) {
-    document.body.classList.add("is-authed");
+    markAdminSessionUi(true);
     if (login) login.hidden = true;
     return true;
   }
+
+  markAdminSessionUi(false);
+  if (login) login.hidden = false;
 
   if (!form) return false;
 
@@ -201,13 +279,27 @@ async function initAdminAuth() {
 
     try {
       await signInAdmin(
-        $("#adminLoginEmail")?.value.trim() || "",
+        ($("#adminLoginEmail")?.value || "").trim().toLowerCase(),
         $("#adminLoginPassword")?.value || ""
       );
-      document.body.classList.add("is-authed");
+      markAdminSessionUi(true);
       if (login) login.hidden = true;
-      location.reload();
+      startAdminApp();
     } catch (error) {
+      writeAdminSession(null);
+      markAdminSessionUi(false);
+      const alreadyLocked = /Muitas tentativas/.test(error.message || "");
+      if (!alreadyLocked) {
+        try {
+          recordLoginFailure();
+        } catch (lockError) {
+          if (errorBox) {
+            errorBox.hidden = false;
+            errorBox.textContent = lockError.message;
+          }
+          return;
+        }
+      }
       if (errorBox) {
         errorBox.hidden = false;
         errorBox.textContent = error.message || "Não foi possível entrar.";
@@ -638,6 +730,61 @@ function showToast(message) {
   setTimeout(() => toast.remove(), 2300);
 }
 
+let confirmResolver = null;
+
+function closeConfirmModal(result) {
+  const modal = $("#confirmModal");
+  if (modal) modal.hidden = true;
+  const resolve = confirmResolver;
+  confirmResolver = null;
+  if (resolve) resolve(Boolean(result));
+}
+
+function initConfirmModal() {
+  const modal = $("#confirmModal");
+  if (!modal || modal.dataset.ready) return;
+  modal.dataset.ready = "1";
+  modal.addEventListener("click", event => {
+    if (event.target.closest("[data-close-confirm]")) closeConfirmModal(false);
+  });
+  $("#confirmOk")?.addEventListener("click", () => closeConfirmModal(true));
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && modal && !modal.hidden) closeConfirmModal(false);
+  });
+}
+
+function promptConfirm({
+  title = "Confirmar ação",
+  text = "",
+  confirmLabel = "Continuar",
+  danger = false
+} = {}) {
+  initConfirmModal();
+  const modal = $("#confirmModal");
+  if (!modal) return Promise.resolve(window.confirm(text));
+
+  if (confirmResolver) confirmResolver(false);
+  $("#confirmTitle").textContent = title;
+  $("#confirmText").textContent = text;
+  const ok = $("#confirmOk");
+  if (ok) {
+    ok.textContent = confirmLabel;
+    ok.classList.toggle("btn-danger", danger);
+    ok.classList.toggle("btn-primary", !danger);
+  }
+  modal.hidden = false;
+  ok?.focus();
+
+  return new Promise(resolve => {
+    confirmResolver = resolve;
+  });
+}
+
+async function confirmTwice(first, second) {
+  if (!(await promptConfirm(first))) return false;
+  return promptConfirm(second);
+}
+
 const FORM_HOSTS = {
   templates: "#templateFormHost",
   empresas: "#companyFormHost",
@@ -725,7 +872,7 @@ function normalizeUrl(value = "") {
   const trimmed = String(value).trim();
 
   if (!trimmed) return "";
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  if (/^(https?:\/\/|data:|\/)/i.test(trimmed)) return trimmed;
   if (trimmed.startsWith("//")) return `https:${trimmed}`;
 
   return `https://${trimmed}`;
@@ -1014,6 +1161,7 @@ const TEMPLATE_FIELDS = [
   "templateVersion",
   "templateUrl",
   "templateImage",
+  "templatePagePrint",
   "templateVideo",
   "templateDocumentation",
   "templateDescription",
@@ -1052,6 +1200,7 @@ const TEMPLATE_LABELS = {
   version: "Versão",
   url: "Link Ver ao vivo",
   image: "Link da imagem / preview",
+  pagePrint: "Print completo da landing",
   video: "Link do vídeo demonstrativo",
   documentation: "Link da documentação",
   description: "Como funciona",
@@ -1101,6 +1250,7 @@ function getTemplateDetailSections(template) {
       rows: [
         ["Ver ao vivo", template.url],
         ["Imagem / preview", template.image],
+        ["Print completo da landing", template.pagePrint],
         ["Imagens extras", Array.isArray(template.gallery) ? template.gallery.join("\n") : template.gallery],
         ["Vídeo", hasVideoLink(template.video) ? template.video : ""],
         ["Documentação", template.documentation]
@@ -1173,6 +1323,7 @@ function getTemplatePublicDetailSections(template) {
       rows: [
         ["Ver ao vivo", template.url],
         ["Imagem / preview", template.image],
+        ["Print completo da landing", template.pagePrint],
         ["Vídeo demonstrativo", hasVideoLink(template.video) ? template.video : ""],
         ["Documentação", template.documentation]
       ]
@@ -1223,6 +1374,7 @@ function getTemplatePublicDetailSections(template) {
 const TEMPLATE_URL_FIELDS = [
   "url",
   "image",
+  "pagePrint",
   "video",
   "documentation"
 ];
@@ -1292,6 +1444,34 @@ function renderGalleryEditor(urls) {
   });
 }
 
+function fileExtension(file) {
+  const type = String(file.type || "").toLowerCase();
+  if (type.includes("png")) return "png";
+  if (type.includes("webp")) return "webp";
+  if (type.includes("gif")) return "gif";
+  return "jpg";
+}
+
+async function uploadToSupabaseStorage(file) {
+  const session = readAdminSession();
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY || !session?.access_token) return "";
+
+  const path = `prints/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${fileExtension(file)}`;
+  const response = await fetch(`${SUPABASE_URL}/storage/v1/object/template-media/${path}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${session.access_token}`,
+      apikey: SUPABASE_ANON_KEY,
+      "Content-Type": file.type || "image/jpeg",
+      "x-upsert": "true"
+    },
+    body: file
+  });
+
+  if (!response.ok) return "";
+  return `${SUPABASE_URL}/storage/v1/object/public/template-media/${path}`;
+}
+
 function readFileAsDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -1302,6 +1482,9 @@ function readFileAsDataUrl(file) {
 }
 
 async function uploadTemplateImageFile(file) {
+  const fromStorage = await uploadToSupabaseStorage(file).catch(() => "");
+  if (fromStorage) return fromStorage;
+
   const dataUrl = await readFileAsDataUrl(file);
   const api = getPublishApi();
 
@@ -1322,15 +1505,71 @@ async function uploadTemplateImageFile(file) {
     }
   }
 
-  if (String(dataUrl).length > 1_400_000) {
-    throw new Error("Imagem grande demais para salvar sem o servidor local.");
+  if (String(dataUrl).length > 3_500_000) {
+    throw new Error("Imagem grande demais. Entre no painel logado para enviar ao armazenamento, ou use um link.");
   }
 
   return dataUrl;
 }
 
+function renderMediaPreview(targetId, url) {
+  const box = $("#" + targetId);
+  if (!box) return;
+  const src = String(url || "").trim();
+  if (!src) {
+    box.hidden = true;
+    box.innerHTML = "";
+    return;
+  }
+  box.hidden = false;
+  box.innerHTML = `<img src="${escapeHtml(src)}" alt="Pré-visualização">`;
+  box.querySelector("img")?.addEventListener("error", () => {
+    box.innerHTML = `<p class="gallery-empty">Não foi possível carregar esta imagem.</p>`;
+  });
+}
+
+function bindSingleImageField({ inputId, fileId, previewId, clearId }) {
+  const input = $("#" + inputId);
+  const fileInput = $("#" + fileId);
+  if (!input) return;
+
+  const syncPreview = () => renderMediaPreview(previewId, input.value.trim());
+  input.addEventListener("input", syncPreview);
+  syncPreview();
+
+  fileInput?.addEventListener("change", async event => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    try {
+      input.value = await uploadTemplateImageFile(file);
+      input.dispatchEvent(new Event("input"));
+    } catch (error) {
+      alert(error.message || "Não foi possível enviar a imagem.");
+    }
+  });
+
+  if (clearId) {
+    $("#" + clearId)?.addEventListener("click", () => {
+      input.value = "";
+      syncPreview();
+    });
+  }
+}
+
 function initTemplateGalleryEditor() {
   const filesInput = $("#templateGalleryFiles");
+  bindSingleImageField({
+    inputId: "templateImage",
+    fileId: "templateImageFile",
+    previewId: "templateImagePreview"
+  });
+  bindSingleImageField({
+    inputId: "templatePagePrint",
+    fileId: "templatePagePrintFile",
+    previewId: "templatePagePrintPreview",
+    clearId: "clearPagePrint"
+  });
   if (!filesInput) return;
 
   filesInput.addEventListener("change", async event => {
@@ -1405,6 +1644,8 @@ function resetTemplateForm() {
   $("#templateDatabaseRequired").value = "Não";
   $("#templateServiceType").value = "";
   writeGalleryInput([]);
+  renderMediaPreview("templateImagePreview", "");
+  renderMediaPreview("templatePagePrintPreview", "");
 
   $("#templateFormTitle").textContent = "Cadastrar template";
 }
@@ -1423,6 +1664,8 @@ function loadTemplateIntoForm(template) {
   });
 
   writeGalleryInput(Array.isArray(template.gallery) ? template.gallery : []);
+  renderMediaPreview("templateImagePreview", template.image || "");
+  renderMediaPreview("templatePagePrintPreview", template.pagePrint || "");
 
   $("#templateFormTitle").textContent = "Editar template";
   openRecordForm("templates");
@@ -1449,14 +1692,27 @@ function initTemplatesAdmin() {
     fillTemplateSelect($("#chosenTemplate")?.value || "");
 
     const allTemplates = readStorage(TEMPLATE_KEY);
+    const categoryFilter = $("#templateCategoryFilter");
+    const categories = [...new Set(allTemplates.map(item => item.category).filter(Boolean))]
+      .sort((a, b) => a.localeCompare(b, "pt-BR"));
+    const currentCategory = categoryFilter?.value || "";
+
+    if (categoryFilter) {
+      categoryFilter.innerHTML = `<option value="">Todas as categorias</option>${
+        categories.map(category => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")
+      }`;
+      categoryFilter.value = categories.includes(currentCategory) ? currentCategory : "";
+    }
 
     $("#templateCount").textContent = allTemplates.length;
 
     const query = normalizeText(
       $("#templateFilter").value.trim()
     );
+    const selectedCategory = categoryFilter?.value || "";
 
     const templates = allTemplates.filter(template => {
+      if (selectedCategory && template.category !== selectedCategory) return false;
       if (!query) return true;
 
       return [
@@ -1518,6 +1774,7 @@ function initTemplatesAdmin() {
                 <div class="table-actions">
                   <a class="mini-btn" href="${escapeHtml(templateSeoHref(template))}">Ver página</a>
                   <button class="mini-btn" type="button" data-edit-template="${template.id}">Editar</button>
+                  <button class="mini-btn danger" type="button" data-delete-template="${template.id}">Excluir</button>
                   ${
                     template.url
                       ? `<a class="mini-btn" href="${escapeHtml(template.url)}" target="_blank" rel="noopener">Ver ao vivo</a>`
@@ -1616,9 +1873,11 @@ function initTemplatesAdmin() {
     renderTemplates
   );
 
+  $("#templateCategoryFilter")?.addEventListener("change", renderTemplates);
+
   $("#adminTemplateList").addEventListener(
     "click",
-    event => {
+    async event => {
 
       const detailsButton = event.target.closest("[data-details-template]");
 
@@ -1656,7 +1915,41 @@ function initTemplatesAdmin() {
         if (template) {
           loadTemplateIntoForm(template);
         }
+
+        return;
       }
+
+      const deleteButton = event.target.closest("[data-delete-template]");
+      if (!deleteButton) return;
+
+      const template = readStorage(TEMPLATE_KEY).find(
+        item => item.id === deleteButton.dataset.deleteTemplate
+      );
+      if (!template) return;
+
+      const name = template.name || template.sku || "este template";
+      const confirmed = await confirmTwice(
+        {
+          title: "Excluir template",
+          text: `Excluir o template "${name}"? Ele some do catálogo e do painel.`,
+          confirmLabel: "Sim, continuar"
+        },
+        {
+          title: "Confirme outra vez",
+          text: `Esta é a última confirmação. Excluir definitivamente "${name}"? Não dá para desfazer.`,
+          confirmLabel: "Excluir agora",
+          danger: true
+        }
+      );
+      if (!confirmed) return;
+
+      const remaining = readStorage(TEMPLATE_KEY).filter(item => item.id !== template.id);
+      writeStorage(TEMPLATE_KEY, remaining);
+      await publishAllTemplatePages(remaining);
+      if ($("#templateId")?.value === template.id) resetTemplateForm();
+      renderTemplates();
+      renderStatistics();
+      showToast("Template excluído.");
     }
   );
 
@@ -1956,10 +2249,25 @@ function initCompanies() {
     fillCompanySelect($("#companyId")?.value || "");
 
     const allCompanies = readStorage(COMPANY_KEY);
+    const categoryFilter = $("#companyCategoryFilter");
+    const categories = [...new Set([
+      ...allCompanies.map(item => item.segment).filter(Boolean)
+    ])].sort((a, b) => a.localeCompare(b, "pt-BR"));
+    const currentCategory = categoryFilter?.value || "";
+
+    if (categoryFilter) {
+      categoryFilter.innerHTML = `<option value="">Todas as categorias</option>${
+        categories.map(category => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")
+      }`;
+      categoryFilter.value = categories.includes(currentCategory) ? currentCategory : "";
+    }
+
     $("#companyCount").textContent = allCompanies.length;
 
     const query = normalizeText($("#companyFilter").value.trim());
+    const selectedCategory = categoryFilter?.value || "";
     const companies = allCompanies.filter(company => {
+      if (selectedCategory && company.segment !== selectedCategory) return false;
       if (!query) return true;
       return [
         company.legalName,
@@ -2055,6 +2363,7 @@ function initCompanies() {
 
   $("#clearCompanyForm").addEventListener("click", resetCompanyForm);
   $("#companyFilter").addEventListener("input", renderCompanies);
+  $("#companyCategoryFilter")?.addEventListener("change", renderCompanies);
 
   $("#adminCompanyList").addEventListener("click", event => {
     const detailsButton = event.target.closest("[data-details-company]");
@@ -4108,6 +4417,15 @@ function initCatalog() {
     const categories = [...new Set(templates.map(item => item.category).filter(Boolean))]
       .sort((a, b) => a.localeCompare(b, "pt-BR"));
 
+    const select = $("#catalogCategoryFilter");
+    if (select) {
+      select.innerHTML = `<option value="">Todas as categorias</option>${
+        categories.map(category => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join("")
+      }`;
+      select.value = categories.includes(selectedCategory) ? selectedCategory : "";
+      if (select.value !== selectedCategory) selectedCategory = select.value;
+    }
+
     $("#categorySuggestions").innerHTML = categories
       .map(category => `
         <button
@@ -4213,6 +4531,7 @@ function initCatalog() {
 
         input.value = "";
         selectedCategory = "";
+        if ($("#catalogCategoryFilter")) $("#catalogCategoryFilter").value = "";
         input.focus();
         renderCatalog();
 
@@ -4236,16 +4555,23 @@ function initCatalog() {
         selectedCategory = selectedCategory === button.dataset.category
           ? ""
           : button.dataset.category;
+        if ($("#catalogCategoryFilter")) $("#catalogCategoryFilter").value = selectedCategory;
 
         renderCatalog();
 
       }
     );
 
+  $("#catalogCategoryFilter")?.addEventListener("change", event => {
+    selectedCategory = event.target.value || "";
+    renderCatalog();
+  });
+
   document.querySelectorAll('input[name="catalogKind"]').forEach(radio => {
     radio.addEventListener("change", () => {
       selectedCategory = "";
       input.value = "";
+      if ($("#catalogCategoryFilter")) $("#catalogCategoryFilter").value = "";
       renderCatalog();
     });
   });
@@ -4520,12 +4846,11 @@ function renderStatistics() {
 ========================================================= */
 
 function seedCompleteTemplates() {
-  const existing = readStorage(TEMPLATE_KEY);
-  const seededIds = new Set(SEEDED_TEMPLATES.map(item => item.id));
-  const others = existing
-    .filter(item => !seededIds.has(item.id))
-    .map(item => ({ ...item, basePrice: "" }));
-  writeStorage(TEMPLATE_KEY, [...SEEDED_TEMPLATES, ...others]);
+  try {
+    localStorage.removeItem("fg_templates_v3");
+  } catch {
+    /* ignore */
+  }
 }
 
 function seedCompleteCompanies() {
@@ -4566,27 +4891,50 @@ function initSupportChat() {
   document.body.appendChild(box);
 }
 
+function initPageScrollPreview() {
+  $$(".page-scroll-preview-frame").forEach(frame => {
+    const img = frame.querySelector("img");
+    if (!img) return;
+
+    const measure = () => {
+      const travel = Math.max(0, img.scrollHeight - frame.clientHeight);
+      img.style.setProperty("--scroll-travel", `-${travel}px`);
+      const seconds = Math.min(42, Math.max(14, travel / 55));
+      img.style.setProperty("--scroll-duration", `${seconds.toFixed(1)}s`);
+    };
+
+    const start = () => frame.classList.add("is-scrolling");
+    const stop = () => frame.classList.remove("is-scrolling");
+
+    if (img.complete) requestAnimationFrame(measure);
+    img.addEventListener("load", () => requestAnimationFrame(measure));
+    window.addEventListener("resize", measure);
+
+    frame.addEventListener("pointerenter", start);
+    frame.addEventListener("pointerleave", stop);
+    frame.addEventListener("focus", start);
+    frame.addEventListener("blur", stop);
+    frame.addEventListener("pointerdown", event => {
+      if (event.pointerType === "touch") start();
+    });
+    frame.addEventListener("pointerup", event => {
+      if (event.pointerType === "touch") stop();
+    });
+    frame.addEventListener("pointercancel", stop);
+  });
+}
+
 document.addEventListener(
   "DOMContentLoaded",
   async () => {
     seedCompleteTemplates();
     seedCompleteCompanies();
     seedCompleteBriefings();
-    publishAllTemplatePages(readStorage(TEMPLATE_KEY));
 
     if (document.body.dataset.page === "admin") {
       const allowed = await initAdminAuth();
       if (!allowed) return;
-
-      initAdminTabs();
-      initDetailsModal();
-      initRecordForms();
-      initTemplatesAdmin();
-      initCompanies();
-      initBriefings();
-      initPedidos();
-      renderStatistics();
-      $("#refreshStats")?.addEventListener("click", renderStatistics);
+      startAdminApp();
     } else if (document.body.dataset.page === "catalog") {
       initInterestLead();
       initCatalog();
@@ -4595,6 +4943,7 @@ document.addEventListener(
     } else if (document.body.dataset.page === "template") {
       initInterestLead();
       initSupportChat();
+      initPageScrollPreview();
     }
   }
 );

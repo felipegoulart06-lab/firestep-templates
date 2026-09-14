@@ -93,7 +93,7 @@ function readBody(request) {
 
     request.on("data", chunk => {
       size += chunk.length;
-      if (size > 8_000_000) {
+      if (size > 20_000_000) {
         reject(new Error("Payload grande demais"));
         request.destroy();
         return;
