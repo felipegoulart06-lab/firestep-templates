@@ -916,6 +916,26 @@ body[data-page="admin"].is-authed .admin-login{
 .panel-actions{
   display:flex;
   gap:8px;
+  align-items:center;
+}
+
+.form-close-x{
+  width:36px;
+  height:36px;
+  border:1px solid #cbd8e7;
+  background:#fff;
+  border-radius:4px;
+  color:var(--text);
+  font-size:26px;
+  line-height:1;
+  font-weight:400;
+  cursor:pointer;
+}
+
+.form-close-x:hover{
+  border-color:#9eb9dc;
+  color:#b42318;
+  background:#fff7f6;
 }
 
 .form{

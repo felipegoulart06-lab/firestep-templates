@@ -238,7 +238,7 @@
 
 
   <div class="form-host" id="templateFormHost" hidden>
-          <div class="form-host-backdrop" data-close-form="templates"></div>
+          <div class="form-host-backdrop"></div>
           <article class="panel form-host-panel">
           <div class="panel-head">
             <div>
@@ -247,8 +247,8 @@
             </div>
 
             <div class="panel-actions">
-              <button id="closeTemplateForm" class="btn btn-outline btn-small" type="button">Cancelar</button>
               <button id="clearTemplateForm" class="btn btn-outline btn-small" type="button">Limpar</button>
+              <button id="closeTemplateForm" class="form-close-x" type="button" aria-label="Fechar cadastro">×</button>
             </div>
           </div>
 
@@ -276,9 +276,10 @@
               </label>
 
               <label>
-                Categoria do template *
-                <input id="templateCategory" list="templateCategories" required placeholder="Ex.: Academias">
+                Categoria da empresa *
+                <input id="templateCategory" list="templateCategories" required autocomplete="off" placeholder="Digite ou escolha, ex.: Salões de Beleza">
                 <datalist id="templateCategories"></datalist>
+                <small>Ao salvar, a categoria fica disponível no seletor e só aparece no site se existir template cadastrado nela.</small>
               </label>
             </div>
 

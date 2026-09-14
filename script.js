@@ -1,4 +1,5 @@
 const TEMPLATE_KEY = "fg_templates_v4";
+const CATEGORY_KEY = "fg_categories_v1";
 const BRIEFING_KEY = "fg_briefings_v3";
 const COMPANY_KEY = "fg_companies_v1";
 const INTEREST_KEY = "fs_interests_v1";
@@ -246,6 +247,10 @@ function startAdminApp() {
   initPedidos();
   renderStatistics();
   $("#refreshStats")?.addEventListener("click", renderStatistics);
+  readStorage(TEMPLATE_KEY).forEach(item => {
+    persistTemplateRemote(item);
+    persistCategoryRemote(item.category);
+  });
 }
 
 async function initAdminAuth() {
@@ -345,11 +350,12 @@ function templateSeoPath(template = {}) {
 }
 
 function templateSeoHref(template = {}) {
-  const dir = templateSeoDir(template);
+  const id = encodeURIComponent(template.id || "");
+  if (!id) return "/detalhe.html";
   if (typeof location !== "undefined" && location.protocol === "file:") {
-    return `${dir}/index.html`;
+    return `detalhe.html?id=${id}`;
   }
-  return `/${dir}`;
+  return `/detalhe.html?id=${id}`;
 }
 
 function getPublishApi() {
@@ -422,6 +428,153 @@ async function supabasePedidos(path, { method = "GET", body, query = "" } = {}) 
 
   const text = await response.text();
   return text ? JSON.parse(text) : [];
+}
+
+function rowToTemplate(row = {}) {
+  const payload = row.payload && typeof row.payload === "object" ? row.payload : {};
+  return {
+    ...payload,
+    id: row.id || payload.id,
+    name: payload.name || row.name || "",
+    sku: payload.sku || row.sku || "",
+    status: payload.status || row.status || "Ativo",
+    serviceType: payload.serviceType || row.service_type || "",
+    category: payload.category || row.category || "",
+    subcategory: payload.subcategory || row.subcategory || "",
+    updatedAt: payload.updatedAt || row.updated_at || "",
+    createdAt: payload.createdAt || row.created_at || ""
+  };
+}
+
+function templateToRow(template = {}) {
+  return {
+    id: template.id,
+    name: template.name || "",
+    sku: template.sku || null,
+    status: template.status || "Ativo",
+    service_type: template.serviceType || null,
+    category: template.category || null,
+    subcategory: template.subcategory || null,
+    payload: template,
+    updated_at: template.updatedAt || new Date().toISOString()
+  };
+}
+
+async function supabaseTemplates(query = "", { method = "GET", body } = {}) {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    throw new Error("Supabase ausente");
+  }
+
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/firestep_templates${query}`, {
+    method,
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${getSupabaseAccessToken()}`,
+      "Content-Type": "application/json",
+      Prefer: method === "POST" ? "resolution=merge-duplicates,return=representation" : "return=representation"
+    },
+    body: body ? JSON.stringify(body) : undefined
+  });
+
+  if (!response.ok) {
+    throw new Error(`Supabase ${response.status}`);
+  }
+
+  const text = await response.text();
+  return text ? JSON.parse(text) : [];
+}
+
+async function hydrateTemplatesFromCloud() {
+  try {
+    const rows = await supabaseTemplates("?select=*");
+    const list = Array.isArray(rows) ? rows.map(rowToTemplate).filter(item => item.id) : [];
+    const map = new Map();
+    [...readStorage(TEMPLATE_KEY), ...list].forEach(item => {
+      const previous = map.get(item.id);
+      if (!previous || String(item.updatedAt || "") >= String(previous.updatedAt || "")) {
+        map.set(item.id, { ...previous, ...item });
+      }
+    });
+    writeStorage(TEMPLATE_KEY, [...map.values()]);
+  } catch {
+    /* catálogo local segue valendo */
+  }
+}
+
+async function persistTemplateRemote(template) {
+  if (!template?.id) return;
+  try {
+    await supabaseTemplates("", { method: "POST", body: templateToRow(template) });
+  } catch {
+    try {
+      await supabaseTemplates(`?id=eq.${encodeURIComponent(template.id)}`, {
+        method: "PATCH",
+        body: templateToRow(template)
+      });
+    } catch {
+      /* admin ainda tem o cadastro local */
+    }
+  }
+}
+
+async function deleteTemplateRemote(id) {
+  if (!id) return;
+  try {
+    await supabaseTemplates(`?id=eq.${encodeURIComponent(id)}`, { method: "DELETE" });
+  } catch {
+    /* ignore */
+  }
+}
+
+async function fetchTemplateById(id) {
+  const local = readStorage(TEMPLATE_KEY).find(item => item.id === id);
+  if (local) return local;
+  try {
+    const rows = await supabaseTemplates(`?id=eq.${encodeURIComponent(id)}&select=*`);
+    return Array.isArray(rows) && rows[0] ? rowToTemplate(rows[0]) : null;
+  } catch {
+    return null;
+  }
+}
+
+async function persistCategoryRemote(name) {
+  const category = normalizeCategory(name);
+  if (!category) return;
+  rememberCategoryLocal(category);
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/firestep_categories`, {
+      method: "POST",
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${getSupabaseAccessToken()}`,
+        "Content-Type": "application/json",
+        Prefer: "resolution=merge-duplicates,return=minimal"
+      },
+      body: JSON.stringify({ name: category })
+    });
+  } catch {
+    /* a categoria continua salva localmente */
+  }
+}
+
+async function hydrateCategoriesFromCloud() {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/firestep_categories?select=name&order=name.asc`, {
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${getSupabaseAccessToken()}`
+      }
+    });
+    if (!response.ok) return;
+    const rows = await response.json();
+    const names = (Array.isArray(rows) ? rows : [])
+      .map(row => normalizeCategory(row.name))
+      .filter(Boolean);
+    writeStorage(CATEGORY_KEY, [...new Set([...readStorage(CATEGORY_KEY).map(normalizeCategory), ...names])]);
+  } catch {
+    /* usa as categorias locais */
+  }
 }
 
 function pedidoToRow(pedido) {
@@ -856,8 +1009,7 @@ function initRecordForms() {
     if ($("#detailsModal") && !$("#detailsModal").hidden) return;
 
     if ($("#templateFormHost") && !$("#templateFormHost").hidden) {
-      resetTemplateForm();
-      closeRecordForm("templates");
+      return;
     } else if ($("#companyFormHost") && !$("#companyFormHost").hidden) {
       resetCompanyForm();
       closeRecordForm("empresas");
@@ -1040,41 +1192,30 @@ function buildMakePayload(evento, record, labels, nestedKey) {
    CATEGORIAS
 ========================================================= */
 
-const DEFAULT_CATEGORIES = [
-  "Academias",
-  "Advocacia",
-  "Agências de Marketing",
-  "Arquitetura",
-  "Autoescolas",
-  "Barbearias",
-  "Clínicas",
-  "Clínicas Odontológicas",
-  "Contabilidade",
-  "Construtoras",
-  "Consultorias",
-  "Delivery",
-  "E-commerce",
-  "Escolas",
-  "Estética",
-  "Eventos",
-  "Imobiliárias",
-  "Lojas de Roupas",
-  "Oficinas",
-  "Pet Shops",
-  "Restaurantes",
-  "Salões de Beleza",
-  "Transportadoras",
-  "Transporte Executivo",
-  "Turismo"
-];
+function normalizeCategory(value = "") {
+  return String(value || "").trim().replace(/\s+/g, " ");
+}
 
-function getAllCategories() {
-  const saved = readStorage(TEMPLATE_KEY)
-    .map(item => item.category)
+function getSavedCategories() {
+  const remembered = readStorage(CATEGORY_KEY)
+    .map(normalizeCategory)
+    .filter(Boolean);
+  const fromTemplates = readStorage(TEMPLATE_KEY)
+    .map(item => normalizeCategory(item.category))
     .filter(Boolean);
 
-  return [...new Set([...DEFAULT_CATEGORIES, ...saved])]
+  return [...new Set([...remembered, ...fromTemplates])]
     .sort((a, b) => a.localeCompare(b, "pt-BR"));
+}
+
+function rememberCategoryLocal(name) {
+  const category = normalizeCategory(name);
+  if (!category) return;
+  writeStorage(CATEGORY_KEY, [...new Set([...readStorage(CATEGORY_KEY).map(normalizeCategory), category])]);
+}
+
+function getAllCategories() {
+  return getSavedCategories();
 }
 
 function fillCategoryDatalist() {
@@ -1082,7 +1223,7 @@ function fillCategoryDatalist() {
 
   if (!datalist) return;
 
-  datalist.innerHTML = getAllCategories()
+  datalist.innerHTML = getSavedCategories()
     .map(category => `<option value="${escapeHtml(category)}"></option>`)
     .join("");
 }
@@ -1619,6 +1760,7 @@ function collectTemplateData() {
   });
 
   if (!hasVideoLink(data.video)) data.video = "";
+  data.category = normalizeCategory(data.category);
   data.gallery = readGalleryInput();
 
   return data;
@@ -1646,6 +1788,7 @@ function resetTemplateForm() {
   writeGalleryInput([]);
   renderMediaPreview("templateImagePreview", "");
   renderMediaPreview("templatePagePrintPreview", "");
+  fillCategoryDatalist();
 
   $("#templateFormTitle").textContent = "Cadastrar template";
 }
@@ -1835,8 +1978,10 @@ function initTemplatesAdmin() {
       }
 
       writeStorage(TEMPLATE_KEY, templates);
-
-      const pageOk = await publishAllTemplatePages(templates);
+      await persistTemplateRemote(template);
+      await persistCategoryRemote(template.category);
+      fillCategoryDatalist();
+      publishAllTemplatePages(templates).catch(() => false);
 
       resetTemplateForm();
       closeRecordForm("templates");
@@ -1845,13 +1990,7 @@ function initTemplatesAdmin() {
 
       const webhookOk = await sendToWebhook(TEMPLATE_WEBHOOK, webhookPayload);
 
-      showToast(
-        pageOk
-          ? (editingId
-              ? "Template atualizado e página de detalhes publicada."
-              : "Template cadastrado e página de detalhes criada.")
-          : "Template salvo. No ar, a listagem do catálogo já usa esse cadastro."
-      );
+      showToast(editingId ? "Template atualizado." : "Template cadastrado.");
     } catch (error) {
       console.error("Erro ao salvar template:", error);
       alert("Não foi possível salvar o template. Tente novamente.");
@@ -1872,6 +2011,9 @@ function initTemplatesAdmin() {
     "input",
     renderTemplates
   );
+
+  $("#templateCategory")?.addEventListener("focus", fillCategoryDatalist);
+  $("#templateCategory")?.addEventListener("input", fillCategoryDatalist);
 
   $("#templateCategoryFilter")?.addEventListener("change", renderTemplates);
 
@@ -1945,7 +2087,8 @@ function initTemplatesAdmin() {
 
       const remaining = readStorage(TEMPLATE_KEY).filter(item => item.id !== template.id);
       writeStorage(TEMPLATE_KEY, remaining);
-      await publishAllTemplatePages(remaining);
+      await deleteTemplateRemote(template.id);
+      publishAllTemplatePages(remaining).catch(() => false);
       if ($("#templateId")?.value === template.id) resetTemplateForm();
       renderTemplates();
       renderStatistics();
@@ -2238,7 +2381,7 @@ function initCompanies() {
     const datalist = $("#companySegments");
     if (!datalist) return;
     const segments = [...new Set([
-      ...DEFAULT_CATEGORIES,
+      ...getSavedCategories(),
       ...readStorage(COMPANY_KEY).map(item => item.segment).filter(Boolean)
     ])].sort((a, b) => a.localeCompare(b, "pt-BR"));
     datalist.innerHTML = segments.map(item => `<option value="${escapeHtml(item)}"></option>`).join("");
@@ -4439,6 +4582,8 @@ function initCatalog() {
       .join("");
 
     $("#categorySuggestions").hidden = categories.length === 0;
+    const categoryFilterLabel = $(".catalog-category-filter");
+    if (categoryFilterLabel) categoryFilterLabel.hidden = categories.length === 0;
   }
 
   function renderCatalog() {
@@ -4460,6 +4605,8 @@ function initCatalog() {
     if (!selectedKind) {
       $("#categorySuggestions").hidden = true;
       $("#categorySuggestions").innerHTML = "";
+      const categoryFilterLabel = $(".catalog-category-filter");
+      if (categoryFilterLabel) categoryFilterLabel.hidden = true;
       paintCatalogGrid([], {
         title: "Escolha o tipo de projeto",
         emptySearch: false,
@@ -4924,12 +5071,101 @@ function initPageScrollPreview() {
   });
 }
 
+function publicTemplateArticleHtml(template) {
+  const live = String(template.url || "").trim();
+  const video = hasVideoLink(template.video) ? template.video : "";
+  const docs = String(template.documentation || "").trim();
+  const gallery = templateGalleryUrls(template);
+  const printUrl = String(template.pagePrint || "").trim();
+  const hero = printUrl ? "" : (gallery[0] || template.image || "");
+  const extraImages = gallery.filter(url => url && url !== printUrl && url !== hero);
+  const skipRows = new Set(["Imagem / preview", "Print completo da landing"]);
+
+  const blocks = getTemplatePublicDetailSections(template).map(section => {
+    const rows = (section.rows || [])
+      .filter(([label, value]) => String(value || "").trim() && !skipRows.has(label))
+      .map(([label, value]) => {
+        const text = String(value).trim();
+        const body = /^(https?:\/\/|\/)/i.test(text)
+          ? `<a href="${escapeHtml(text)}" target="_blank" rel="noopener">${escapeHtml(text)}</a>`
+          : escapeHtml(text).replace(/\n/g, "<br>");
+        return `<div class="product-row"><dt>${escapeHtml(label)}</dt><dd>${body}</dd></div>`;
+      })
+      .join("");
+    if (!rows) return "";
+    return `<section class="product-block"><h2>${escapeHtml(section.title)}</h2><dl>${rows}</dl></section>`;
+  }).join("");
+
+  return `
+    <nav class="breadcrumb" aria-label="Trilha de navegação">
+      <ol>
+        <li><a href="index.html">Catálogo</a></li>
+        <li>${escapeHtml(template.category || "Categoria")}</li>
+        <li aria-current="page">${escapeHtml(template.subcategory || template.name || "Template")}</li>
+      </ol>
+    </nav>
+    <article class="product-layout" itemscope itemtype="https://schema.org/Product">
+      <div class="product-main">
+        ${printUrl ? `<section class="page-scroll-preview">
+          <div class="page-scroll-preview-chrome" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="page-scroll-preview-frame" tabindex="0">
+            <img src="${escapeHtml(printUrl)}" alt="Print completo da landing ${escapeHtml(template.name || "")}">
+          </div>
+          <p class="page-scroll-preview-hint">Passe o mouse ou encoste na tela para percorrer a página</p>
+        </section>` : ""}
+        ${hero ? `<figure class="product-hero"><img src="${escapeHtml(hero)}" alt="Preview do template ${escapeHtml(template.name || "")}" itemprop="image"></figure>` : ""}
+        ${extraImages.length ? `<div class="product-gallery">${extraImages.map((url, index) => `<figure><img src="${escapeHtml(url)}" alt="Imagem ${index + 2} do template ${escapeHtml(template.name || "")}"></figure>`).join("")}</div>` : ""}
+        <p class="eyebrow">${escapeHtml([template.serviceType, template.category].filter(Boolean).join(" · "))}</p>
+        <h1 itemprop="name">${escapeHtml(template.name || "Template")}</h1>
+        <p class="product-lead" itemprop="description">${escapeHtml(template.description || "")}</p>
+        ${blocks}
+      </div>
+      <aside class="product-aside">
+        <p class="product-kicker">Especialidade</p>
+        <p class="product-specialty">${escapeHtml(template.subcategory || template.category || "Template")}</p>
+        ${template.deliveryTime ? `<p class="product-meta">Prazo: ${escapeHtml(template.deliveryTime)}</p>` : ""}
+        ${template.pages ? `<p class="product-meta">${escapeHtml(String(template.pages))} páginas · ${escapeHtml(template.technology || "")}</p>` : ""}
+        <div class="template-actions">
+          <button class="btn btn-primary btn-full" type="button" data-interest-template="${escapeHtml(template.id || "")}">Tenho interesse</button>
+          ${live ? `<a class="btn btn-outline btn-full" href="${escapeHtml(live)}" target="_blank" rel="noopener">Ver ao vivo</a>` : ""}
+          ${video ? `<a class="btn btn-outline btn-full" href="${escapeHtml(video)}" target="_blank" rel="noopener">Ver vídeo</a>` : ""}
+          ${docs ? `<a class="btn btn-outline btn-full" href="${escapeHtml(docs)}" target="_blank" rel="noopener">Documentação</a>` : ""}
+        </div>
+      </aside>
+    </article>
+  `;
+}
+
+async function initTemplateDetailPage() {
+  const root = $("#templateDetailRoot");
+  if (!root) return false;
+
+  const id = new URLSearchParams(location.search).get("id");
+  if (!id) {
+    root.innerHTML = `<div class="empty"><strong>Template não informado</strong><p>Volte ao catálogo e escolha um modelo.</p></div>`;
+    return false;
+  }
+
+  const template = await fetchTemplateById(id);
+  if (!template) {
+    root.innerHTML = `<div class="empty"><strong>Template não encontrado</strong><p>Esse cadastro pode ter sido excluído.</p></div>`;
+    return false;
+  }
+
+  document.title = `${template.name || "Template"} | firestep TEMPLATES`;
+  root.innerHTML = publicTemplateArticleHtml(template);
+  return true;
+}
+
 document.addEventListener(
   "DOMContentLoaded",
   async () => {
     seedCompleteTemplates();
     seedCompleteCompanies();
     seedCompleteBriefings();
+    await hydrateTemplatesFromCloud();
+    await hydrateCategoriesFromCloud();
+    fillCategoryDatalist();
 
     if (document.body.dataset.page === "admin") {
       const allowed = await initAdminAuth();
@@ -4941,6 +5177,7 @@ document.addEventListener(
       initSupportChat();
       initCrmNotice();
     } else if (document.body.dataset.page === "template") {
+      await initTemplateDetailPage();
       initInterestLead();
       initSupportChat();
       initPageScrollPreview();
