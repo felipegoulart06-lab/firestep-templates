@@ -5071,6 +5071,97 @@ function initPageScrollPreview() {
   });
 }
 
+function getLightboxRoot() {
+  let modal = $("#imageLightbox");
+  if (modal) return modal;
+
+  modal = document.createElement("div");
+  modal.id = "imageLightbox";
+  modal.className = "image-lightbox";
+  modal.hidden = true;
+  modal.innerHTML = `
+    <div class="image-lightbox-backdrop" data-close-lightbox></div>
+    <button class="image-lightbox-close form-close-x" type="button" data-close-lightbox aria-label="Fechar">×</button>
+    <button class="image-lightbox-nav is-prev" type="button" data-lightbox-prev aria-label="Imagem anterior">‹</button>
+    <img class="image-lightbox-photo" alt="Imagem ampliada">
+    <button class="image-lightbox-nav is-next" type="button" data-lightbox-next aria-label="Próxima imagem">›</button>
+  `;
+  document.body.appendChild(modal);
+  return modal;
+}
+
+function lightboxSources() {
+  return $$("[data-lightbox]").map(item => item.dataset.lightbox).filter(Boolean);
+}
+
+function showLightboxImage(src) {
+  const modal = getLightboxRoot();
+  const photo = modal.querySelector(".image-lightbox-photo");
+  const sources = lightboxSources();
+  const index = sources.indexOf(src);
+  photo.src = src;
+  modal.dataset.index = String(index);
+  modal.hidden = false;
+  document.body.classList.add("modal-open");
+  const many = sources.length > 1;
+  modal.querySelector("[data-lightbox-prev]").hidden = !many;
+  modal.querySelector("[data-lightbox-next]").hidden = !many;
+}
+
+function closeLightbox() {
+  const modal = $("#imageLightbox");
+  if (!modal || modal.hidden) return;
+  modal.hidden = true;
+  const photo = modal.querySelector(".image-lightbox-photo");
+  if (photo) photo.src = "";
+  if (!$(".form-host:not([hidden])") && !$("#detailsModal:not([hidden])") && !$("#interestModal:not([hidden])")) {
+    document.body.classList.remove("modal-open");
+  }
+}
+
+function stepLightbox(delta) {
+  const sources = lightboxSources();
+  if (sources.length < 2) return;
+  const modal = $("#imageLightbox");
+  const current = Number(modal?.dataset.index || 0);
+  const next = (current + delta + sources.length) % sources.length;
+  showLightboxImage(sources[next]);
+}
+
+function initImageLightbox() {
+  if (document.body.dataset.lightboxReady) return;
+  document.body.dataset.lightboxReady = "1";
+  getLightboxRoot();
+
+  document.addEventListener("click", event => {
+    const closer = event.target.closest("[data-close-lightbox]");
+    if (closer) {
+      closeLightbox();
+      return;
+    }
+    if (event.target.closest("[data-lightbox-prev]")) {
+      stepLightbox(-1);
+      return;
+    }
+    if (event.target.closest("[data-lightbox-next]")) {
+      stepLightbox(1);
+      return;
+    }
+    const trigger = event.target.closest("[data-lightbox]");
+    if (trigger?.dataset.lightbox) {
+      showLightboxImage(trigger.dataset.lightbox);
+    }
+  });
+
+  document.addEventListener("keydown", event => {
+    const modal = $("#imageLightbox");
+    if (!modal || modal.hidden) return;
+    if (event.key === "Escape") closeLightbox();
+    if (event.key === "ArrowLeft") stepLightbox(-1);
+    if (event.key === "ArrowRight") stepLightbox(1);
+  });
+}
+
 function publicTemplateArticleHtml(template) {
   const live = String(template.url || "").trim();
   const video = hasVideoLink(template.video) ? template.video : "";
@@ -5113,8 +5204,8 @@ function publicTemplateArticleHtml(template) {
           </div>
           <p class="page-scroll-preview-hint">Passe o mouse ou encoste na tela para percorrer a página</p>
         </section>` : ""}
-        ${hero ? `<figure class="product-hero"><img src="${escapeHtml(hero)}" alt="Preview do template ${escapeHtml(template.name || "")}" itemprop="image"></figure>` : ""}
-        ${extraImages.length ? `<div class="product-gallery">${extraImages.map((url, index) => `<figure><img src="${escapeHtml(url)}" alt="Imagem ${index + 2} do template ${escapeHtml(template.name || "")}"></figure>`).join("")}</div>` : ""}
+        ${hero ? `<figure class="product-hero"><button type="button" class="gallery-zoom" data-lightbox="${escapeHtml(hero)}" aria-label="Ampliar preview"><img src="${escapeHtml(hero)}" alt="Preview do template ${escapeHtml(template.name || "")}" itemprop="image"></button></figure>` : ""}
+        ${extraImages.length ? `<div class="product-gallery">${extraImages.map((url, index) => `<figure><button type="button" class="gallery-zoom" data-lightbox="${escapeHtml(url)}" aria-label="Ampliar imagem ${index + 2}"><img src="${escapeHtml(url)}" alt="Imagem ${index + 2} do template ${escapeHtml(template.name || "")}"></button></figure>`).join("")}</div>` : ""}
         <p class="eyebrow">${escapeHtml([template.serviceType, template.category].filter(Boolean).join(" · "))}</p>
         <h1 itemprop="name">${escapeHtml(template.name || "Template")}</h1>
         <p class="product-lead" itemprop="description">${escapeHtml(template.description || "")}</p>
@@ -5181,6 +5272,7 @@ document.addEventListener(
       initInterestLead();
       initSupportChat();
       initPageScrollPreview();
+      initImageLightbox();
     }
   }
 );
