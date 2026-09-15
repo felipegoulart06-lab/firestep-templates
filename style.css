@@ -443,7 +443,7 @@ body[data-page="admin"].is-authed .admin-login{
 
 .catalog-kind-options{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(4,1fr);
   gap:10px;
 }
 
@@ -461,6 +461,7 @@ body[data-page="admin"].is-authed .admin-login{
 
 .kind-card--website{border-top-color:var(--blue)}
 .kind-card--sistema{border-top-color:var(--teal)}
+.kind-card--catalogo{border-top-color:var(--gold)}
 .kind-card--bio{border-top-color:var(--rust)}
 
 .kind-card input{
@@ -492,6 +493,10 @@ body[data-page="admin"].is-authed .admin-login{
 .kind-card--sistema:has(input:checked){
   background:var(--teal);
   border-color:var(--teal);
+}
+.kind-card--catalogo:has(input:checked){
+  background:var(--gold);
+  border-color:var(--gold);
 }
 .kind-card--bio:has(input:checked){
   background:var(--rust);
@@ -557,6 +562,7 @@ body[data-page="admin"].is-authed .admin-login{
 }
 
 .template-card.is-sistema{border-left-color:var(--teal)}
+.template-card.is-catalogo{border-left-color:var(--gold)}
 .template-card.is-bio{border-left-color:var(--rust)}
 
 .template-preview{
@@ -611,6 +617,7 @@ body[data-page="admin"].is-authed .admin-login{
 }
 
 .template-card.is-sistema .card-type{background:var(--teal)}
+.template-card.is-catalogo .card-type{background:var(--gold)}
 .template-card.is-bio .card-type{background:var(--rust)}
 
 .template-body{padding:16px 16px 18px}
@@ -1851,7 +1858,7 @@ body.modal-open{overflow:hidden}
 @media(max-width:1050px){
   .topbar{padding:0 22px}
   .hero{grid-template-columns:1fr}
-  .catalog-kind-options{grid-template-columns:1fr}
+  .catalog-kind-options{grid-template-columns:repeat(2,1fr)}
   .admin-grid-template,
   .briefing-grid,
   .kpi-grid,

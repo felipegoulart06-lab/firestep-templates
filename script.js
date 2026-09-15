@@ -3264,6 +3264,7 @@ function buildBriefingPdfHtml(briefing) {
     institucional: "Especificações — Site institucional",
     landing: "Especificações — Landing page / captação",
     sistema: "Especificações — Sistema / produto",
+    catalogo: "Especificações — Catálogo",
     bio: "Especificações — Link na bio"
   }[serviceKind];
 
@@ -4441,6 +4442,7 @@ function initInterestLead() {
 function catalogKindSlug(template) {
   const type = normalizeText(template.serviceType || "");
   if (type.includes("sistema")) return "sistema";
+  if (type.includes("catalogo")) return "catalogo";
   if (type.includes("bio") || type.includes("link")) return "bio";
   return "website";
 }
@@ -4451,6 +4453,7 @@ function catalogKindMatches(template, kind) {
     return type.includes("institucional") || type.includes("landing") || type.includes("website") || type === "site";
   }
   if (kind === "sistema") return type.includes("sistema");
+  if (kind === "catalogo") return type.includes("catalogo");
   if (kind === "bio") return type.includes("bio") || type.includes("link");
   return false;
 }
@@ -4654,7 +4657,9 @@ function initCatalog() {
       ? "Websites"
       : selectedKind === "sistema"
         ? "Sistemas"
-        : "Links na bio";
+        : selectedKind === "catalogo"
+          ? "Catálogos"
+          : "Links na bio";
 
     paintCatalogGrid(results, {
       title: selectedCategory ? `${kindLabel} · ${selectedCategory}` : kindLabel,
