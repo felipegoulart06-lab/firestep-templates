@@ -5096,16 +5096,29 @@ function getLightboxRoot() {
 }
 
 function lightboxSources() {
-  return $$("[data-lightbox]").map(item => item.dataset.lightbox).filter(Boolean);
+  const urls = [];
+  $$(".product-page .gallery-zoom img, .page-scroll-preview-frame img").forEach(item => {
+    const url = item.getAttribute("data-lightbox") || item.currentSrc || item.src;
+    if (url && !urls.includes(url)) urls.push(url);
+  });
+  return urls;
+}
+
+function lightboxSrcFrom(target) {
+  const trigger = target?.closest?.("[data-lightbox], .gallery-zoom, .product-gallery figure, .product-hero, .page-scroll-preview-frame");
+  if (!trigger) return "";
+  const img = trigger.tagName === "IMG" ? trigger : trigger.querySelector("img");
+  return trigger.getAttribute("data-lightbox") || trigger.dataset?.lightbox || img?.currentSrc || img?.src || "";
 }
 
 function showLightboxImage(src) {
+  if (!src) return;
   const modal = getLightboxRoot();
   const photo = modal.querySelector(".image-lightbox-photo");
   const sources = lightboxSources();
   const index = sources.indexOf(src);
   photo.src = src;
-  modal.dataset.index = String(index);
+  modal.dataset.index = String(index < 0 ? 0 : index);
   modal.hidden = false;
   document.body.classList.add("modal-open");
   const many = sources.length > 1;
@@ -5152,10 +5165,11 @@ function initImageLightbox() {
       stepLightbox(1);
       return;
     }
-    const trigger = event.target.closest("[data-lightbox]");
-    if (trigger?.dataset.lightbox) {
-      showLightboxImage(trigger.dataset.lightbox);
-    }
+    if (event.target.closest("#imageLightbox")) return;
+    const src = lightboxSrcFrom(event.target);
+    if (!src) return;
+    event.preventDefault();
+    showLightboxImage(src);
   });
 
   document.addEventListener("keydown", event => {
@@ -5209,8 +5223,8 @@ function publicTemplateArticleHtml(template) {
           </div>
           <p class="page-scroll-preview-hint">Passe o mouse ou encoste na tela para percorrer a página</p>
         </section>` : ""}
-        ${hero ? `<figure class="product-hero"><button type="button" class="gallery-zoom" data-lightbox="${escapeHtml(hero)}" aria-label="Ampliar preview"><img src="${escapeHtml(hero)}" alt="Preview do template ${escapeHtml(template.name || "")}" itemprop="image"></button></figure>` : ""}
-        ${extraImages.length ? `<div class="product-gallery">${extraImages.map((url, index) => `<figure><button type="button" class="gallery-zoom" data-lightbox="${escapeHtml(url)}" aria-label="Ampliar imagem ${index + 2}"><img src="${escapeHtml(url)}" alt="Imagem ${index + 2} do template ${escapeHtml(template.name || "")}"></button></figure>`).join("")}</div>` : ""}
+        ${hero ? `<figure class="product-hero"><button type="button" class="gallery-zoom" data-lightbox="${escapeHtml(hero)}" aria-label="Ampliar preview"><img src="${escapeHtml(hero)}" alt="Preview do template ${escapeHtml(template.name || "")}" itemprop="image" data-lightbox="${escapeHtml(hero)}"></button></figure>` : ""}
+        ${extraImages.length ? `<div class="product-gallery">${extraImages.map((url, index) => `<figure data-lightbox="${escapeHtml(url)}"><button type="button" class="gallery-zoom" data-lightbox="${escapeHtml(url)}" aria-label="Ampliar imagem ${index + 2}"><img src="${escapeHtml(url)}" alt="Imagem ${index + 2} do template ${escapeHtml(template.name || "")}" data-lightbox="${escapeHtml(url)}"></button></figure>`).join("")}</div>` : ""}
         <p class="eyebrow">${escapeHtml([template.serviceType, template.category].filter(Boolean).join(" · "))}</p>
         <h1 itemprop="name">${escapeHtml(template.name || "Template")}</h1>
         <p class="product-lead" itemprop="description">${escapeHtml(template.description || "")}</p>
@@ -5250,6 +5264,7 @@ async function initTemplateDetailPage() {
 
   document.title = `${template.name || "Template"} | firestep TEMPLATES`;
   root.innerHTML = publicTemplateArticleHtml(template);
+  initImageLightbox();
   return true;
 }
 
@@ -5273,11 +5288,11 @@ document.addEventListener(
       initSupportChat();
       initCrmNotice();
     } else if (document.body.dataset.page === "template") {
+      initImageLightbox();
       await initTemplateDetailPage();
       initInterestLead();
       initSupportChat();
       initPageScrollPreview();
-      initImageLightbox();
     }
   }
 );
