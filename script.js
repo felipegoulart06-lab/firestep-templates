@@ -50,7 +50,9 @@ function writeAdminSession(session) {
 
 function getSupabaseAccessToken() {
   const session = readAdminSession();
-  if (session?.access_token) return session.access_token;
+  if (session?.access_token && (!session.expires_at || session.expires_at > Date.now())) {
+    return session.access_token;
+  }
   return SUPABASE_ANON_KEY;
 }
 
@@ -460,7 +462,7 @@ function templateToRow(template = {}) {
   };
 }
 
-async function supabaseTemplates(query = "", { method = "GET", body } = {}) {
+async function supabaseTemplates(query = "", { method = "GET", body, token } = {}) {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     throw new Error("Supabase ausente");
   }
@@ -469,7 +471,7 @@ async function supabaseTemplates(query = "", { method = "GET", body } = {}) {
     method,
     headers: {
       apikey: SUPABASE_ANON_KEY,
-      Authorization: `Bearer ${getSupabaseAccessToken()}`,
+      Authorization: `Bearer ${token || getSupabaseAccessToken()}`,
       "Content-Type": "application/json",
       Prefer: method === "POST" ? "resolution=merge-duplicates,return=representation" : "return=representation"
     },
@@ -485,20 +487,39 @@ async function supabaseTemplates(query = "", { method = "GET", body } = {}) {
 }
 
 async function hydrateTemplatesFromCloud() {
+  const query = "?select=*&order=updated_at.desc";
+  let rows = [];
+
   try {
-    const rows = await supabaseTemplates("?select=*");
-    const list = Array.isArray(rows) ? rows.map(rowToTemplate).filter(item => item.id) : [];
-    const map = new Map();
-    [...readStorage(TEMPLATE_KEY), ...list].forEach(item => {
-      const previous = map.get(item.id);
-      if (!previous || String(item.updatedAt || "") >= String(previous.updatedAt || "")) {
-        map.set(item.id, { ...previous, ...item });
-      }
-    });
+    rows = await supabaseTemplates(query);
+  } catch {
+    try {
+      rows = await supabaseTemplates(query, { token: SUPABASE_ANON_KEY });
+    } catch {
+      return false;
+    }
+  }
+
+  const cloud = Array.isArray(rows) ? rows.map(rowToTemplate).filter(item => item.id) : [];
+  if (!cloud.length) return false;
+
+  const map = new Map();
+  [...readStorage(TEMPLATE_KEY), ...cloud].forEach(item => {
+    const previous = map.get(item.id);
+    if (!previous || String(item.updatedAt || "") >= String(previous.updatedAt || "")) {
+      map.set(item.id, { ...previous, ...item });
+    }
+  });
+  cloud.forEach(item => {
+    if (!map.has(item.id)) map.set(item.id, item);
+  });
+
+  try {
     writeStorage(TEMPLATE_KEY, [...map.values()]);
   } catch {
-    /* catálogo local segue valendo */
+    writeStorage(TEMPLATE_KEY, cloud);
   }
+  return true;
 }
 
 async function persistTemplateRemote(template) {
@@ -5358,25 +5379,31 @@ document.addEventListener(
     seedCompleteTemplates();
     seedCompleteCompanies();
     seedCompleteBriefings();
-    await hydrateTemplatesFromCloud();
-    await hydrateCategoriesFromCloud();
-    fillCategoryDatalist();
 
     if (document.body.dataset.page === "admin") {
       const allowed = await initAdminAuth();
       if (!allowed) return;
+      await hydrateTemplatesFromCloud();
+      await hydrateCategoriesFromCloud();
+      fillCategoryDatalist();
       startAdminApp();
-    } else if (document.body.dataset.page === "catalog") {
-      initInterestLead();
-      initCatalog();
-      initSupportChat();
-      initCrmNotice();
-    } else if (document.body.dataset.page === "template") {
-      initImageLightbox();
-      await initTemplateDetailPage();
-      initInterestLead();
-      initSupportChat();
-      initPageScrollPreview();
+    } else {
+      await hydrateTemplatesFromCloud();
+      await hydrateCategoriesFromCloud();
+      fillCategoryDatalist();
+
+      if (document.body.dataset.page === "catalog") {
+        initInterestLead();
+        initCatalog();
+        initSupportChat();
+        initCrmNotice();
+      } else if (document.body.dataset.page === "template") {
+        initImageLightbox();
+        await initTemplateDetailPage();
+        initInterestLead();
+        initSupportChat();
+        initPageScrollPreview();
+      }
     }
   }
 );
