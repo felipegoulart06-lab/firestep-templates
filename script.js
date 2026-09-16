@@ -5032,23 +5032,59 @@ function seedCompleteBriefings() {
 function initSupportChat() {
   if (!SUPPORT_WHATSAPP || $(".support-chat")) return;
 
+  const storageKey = "fg_support_chat_collapsed";
   const message = encodeURIComponent(
     "Olá! Desejo falar com um atendente da firestep TEMPLATES."
   );
   const href = `https://wa.me/${SUPPORT_WHATSAPP}?text=${message}`;
 
-  const box = document.createElement("a");
+  const box = document.createElement("div");
   box.className = "support-chat";
-  box.href = href;
-  box.target = "_blank";
-  box.rel = "noopener";
-  box.setAttribute("aria-label", "Falar com um atendente no WhatsApp");
   box.innerHTML = `
-    <span class="support-chat-bubble">
-      Deseja falar com um atendente?
-      <strong>CLIQUE AQUI</strong>
-    </span>
+    <div class="support-chat-panel">
+      <button class="support-chat-close" type="button" data-support-collapse aria-label="Minimizar conversa">×</button>
+      <a class="support-chat-bubble" href="${href}" target="_blank" rel="noopener">
+        Deseja falar com um atendente?
+        <strong>CLIQUE AQUI</strong>
+      </a>
+    </div>
+    <button class="support-chat-fab" type="button" data-support-expand aria-label="Abrir conversa com atendente">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.7-1.2A9 9 0 1 0 12 3zm.1 3.3c.3 0 .5.2.6.5l.4 1.6c.1.3 0 .6-.2.8l-.6.6c.8 1.4 2 2.6 3.4 3.4l.6-.6c.2-.2.5-.3.8-.2l1.6.4c.3.1.5.3.5.6v1.5c0 .3-.2.6-.5.7-4.6 1.4-9.6-3.6-8.2-8.2.1-.3.4-.5.7-.5z"/>
+      </svg>
+    </button>
   `;
+
+  function setCollapsed(collapsed) {
+    box.classList.toggle("is-collapsed", collapsed);
+    box.querySelector("[data-support-collapse]")?.setAttribute("aria-expanded", collapsed ? "false" : "true");
+    try {
+      localStorage.setItem(storageKey, collapsed ? "1" : "0");
+    } catch {
+      /* ignore */
+    }
+  }
+
+  box.addEventListener("click", event => {
+    if (event.target.closest("[data-support-collapse]")) {
+      event.preventDefault();
+      event.stopPropagation();
+      setCollapsed(true);
+      return;
+    }
+    if (event.target.closest("[data-support-expand]")) {
+      event.preventDefault();
+      setCollapsed(false);
+    }
+  });
+
+  let collapsed = false;
+  try {
+    collapsed = localStorage.getItem(storageKey) === "1";
+  } catch {
+    collapsed = false;
+  }
+  setCollapsed(collapsed);
 
   document.body.appendChild(box);
 }
