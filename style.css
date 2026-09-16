@@ -2136,7 +2136,7 @@ body.modal-open .support-chat{
 .page-scroll-preview-chrome span:nth-child(3){background:#28c840}
 
 .page-scroll-preview-frame{
-  height:min(78vh, 720px);
+  height:min(42vh, 420px);
   overflow:hidden;
   background:#fff;
   cursor:ns-resize;
@@ -2154,6 +2154,12 @@ body.modal-open .support-chat{
 
 .page-scroll-preview-frame.is-scrolling img{
   transform:translateY(var(--scroll-travel, 0));
+}
+
+@media(max-width:640px){
+  .page-scroll-preview-frame{
+    height:min(32vh, 240px);
+  }
 }
 
 .page-scroll-preview-hint{
