@@ -285,8 +285,8 @@ function buildPage(template) {
           </div>
           <p class="page-scroll-preview-hint">Passe o mouse ou encoste na tela para percorrer a página</p>
         </section>` : ""}
-        ${hero ? `<figure class="product-hero"><img class="gallery-zoom" src="${escapeHtml(pageAsset(hero))}" alt="Preview do template ${escapeHtml(template.name || "")}" itemprop="image" width="1200" height="750" role="button" tabindex="0" aria-label="Ampliar preview" onclick="window.__fsLightbox && window.__fsLightbox(event)"></figure>` : ""}
-        ${extraImages.length ? `<div class="product-gallery">${extraImages.map((url, index) => `<figure><img class="gallery-zoom" src="${escapeHtml(pageAsset(url))}" alt="Imagem ${index + 2} do template ${escapeHtml(template.name || "")}" role="button" tabindex="0" aria-label="Ampliar imagem ${index + 2}" onclick="window.__fsLightbox && window.__fsLightbox(event)"></figure>`).join("")}</div>` : ""}
+        ${hero ? `<figure class="product-hero"><img class="gallery-zoom" src="${escapeHtml(pageAsset(hero))}" alt="Preview do template ${escapeHtml(template.name || "")}" itemprop="image" width="1200" height="750" role="button" tabindex="0" aria-label="Ampliar preview"></figure>` : ""}
+        ${extraImages.length ? `<div class="product-gallery">${extraImages.map((url, index) => `<figure><img class="gallery-zoom" src="${escapeHtml(pageAsset(url))}" alt="Imagem ${index + 2} do template ${escapeHtml(template.name || "")}" role="button" tabindex="0" aria-label="Ampliar imagem ${index + 2}"></figure>`).join("")}</div>` : ""}
         <p class="eyebrow">${escapeHtml([template.serviceType, template.category].filter(Boolean).join(" · "))}</p>
         <h1 itemprop="name">${escapeHtml(template.name || "Template")}</h1>
         <p class="product-lead" itemprop="description">${escapeHtml(template.description || "")}</p>
