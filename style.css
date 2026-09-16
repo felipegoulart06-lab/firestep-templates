@@ -1379,16 +1379,21 @@ body[data-page="admin"].is-authed .admin-login{
 .crm-notice{
   position:fixed;
   inset:0;
-  z-index:90;
-  display:grid;
-  place-items:center;
-  padding:20px;
+  z-index:200;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px;
+  padding-top:max(12px, env(safe-area-inset-top, 0px));
+  padding-bottom:max(12px, env(safe-area-inset-bottom, 0px));
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
 }
 
 .crm-notice[hidden]{display:none}
 
 .crm-notice-backdrop{
-  position:absolute;
+  position:fixed;
   inset:0;
   background:rgba(18,38,63,.58);
 }
@@ -1396,16 +1401,30 @@ body[data-page="admin"].is-authed .admin-login{
 .crm-notice-box{
   position:relative;
   z-index:1;
-  width:min(420px, calc(100vw - 32px));
-  height:min(420px, calc(100vw - 32px), calc(100dvh - 40px));
+  width:min(420px, 100%);
+  max-width:100%;
+  height:auto;
+  max-height:calc(100vh - 24px);
+  max-height:calc(100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  min-height:0;
+  margin:auto;
   background:#fffdf8;
   border:1px solid var(--line);
   border-top:4px solid var(--rust);
   color:var(--text);
-  padding:28px 26px 24px;
+  padding:20px 18px 16px;
   display:flex;
   flex-direction:column;
+  gap:12px;
+  overflow:hidden;
+  box-sizing:border-box;
+}
+
+.crm-notice-copy{
+  min-height:0;
   overflow:auto;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
 }
 
 .crm-notice-box .eyebrow{
@@ -1431,7 +1450,7 @@ body[data-page="admin"].is-authed .admin-login{
 }
 
 .crm-notice-box ul{
-  margin:4px 0 18px;
+  margin:4px 0 8px;
   padding:0;
   list-style:none;
   display:grid;
@@ -1447,7 +1466,8 @@ body[data-page="admin"].is-authed .admin-login{
 }
 
 .crm-notice-box .btn-primary{
-  margin-top:auto;
+  margin-top:0;
+  flex-shrink:0;
   background:var(--rust);
 }
 
@@ -1456,6 +1476,28 @@ body[data-page="admin"].is-authed .admin-login{
 }
 
 body.modal-open{overflow:hidden}
+
+body.modal-open .support-chat{
+  visibility:hidden;
+  pointer-events:none;
+}
+
+@media(max-width:640px){
+  .crm-notice{
+    padding:8px;
+    padding-top:max(8px, env(safe-area-inset-top, 0px));
+    padding-bottom:max(8px, env(safe-area-inset-bottom, 0px));
+  }
+
+  .crm-notice-box{
+    padding:16px 14px 12px;
+  }
+
+  .crm-notice-box h2{
+    font-size:22px;
+    margin-bottom:10px;
+  }
+}
 
 .details-modal{
   position:fixed;
