@@ -5291,17 +5291,8 @@ function initImageLightbox() {
   });
 }
 
-function publicTemplateArticleHtml(template) {
-  const live = String(template.url || "").trim();
-  const video = hasVideoLink(template.video) ? template.video : "";
-  const docs = String(template.documentation || "").trim();
-  const gallery = templateGalleryUrls(template);
-  const printUrl = String(template.pagePrint || "").trim();
-  const hero = printUrl ? "" : (gallery[0] || template.image || "");
-  const extraImages = gallery.filter(url => url && url !== printUrl && url !== hero);
-  const skipRows = new Set(["Imagem / preview", "Print completo da landing"]);
-
-  const blocks = getTemplatePublicDetailSections(template).map(section => {
+function renderPublicDetailBlocks(sections, skipRows = new Set()) {
+  return (sections || []).map(section => {
     const rows = (section.rows || [])
       .filter(([label, value]) => String(value || "").trim() && !skipRows.has(label))
       .map(([label, value]) => {
@@ -5315,6 +5306,21 @@ function publicTemplateArticleHtml(template) {
     if (!rows) return "";
     return `<section class="product-block"><h2>${escapeHtml(section.title)}</h2><dl>${rows}</dl></section>`;
   }).join("");
+}
+
+function publicTemplateArticleHtml(template) {
+  const live = String(template.url || "").trim();
+  const video = hasVideoLink(template.video) ? template.video : "";
+  const docs = String(template.documentation || "").trim();
+  const gallery = templateGalleryUrls(template);
+  const printUrl = String(template.pagePrint || "").trim();
+  const hero = printUrl ? "" : (gallery[0] || template.image || "");
+  const extraImages = gallery.filter(url => url && url !== printUrl && url !== hero);
+  const skipRows = new Set(["Imagem / preview", "Print completo da landing"]);
+  const sections = getTemplatePublicDetailSections(template);
+  const mainTitles = new Set(["Estrutura e conteúdo"]);
+  const mainBlocks = renderPublicDetailBlocks(sections.filter(item => mainTitles.has(item.title)), skipRows);
+  const sideBlocks = renderPublicDetailBlocks(sections.filter(item => !mainTitles.has(item.title)), skipRows);
 
   return `
     <nav class="breadcrumb" aria-label="Trilha de navegação">
@@ -5338,20 +5344,23 @@ function publicTemplateArticleHtml(template) {
         <p class="eyebrow">${escapeHtml([template.serviceType, template.category].filter(Boolean).join(" · "))}</p>
         <h1 itemprop="name">${escapeHtml(template.name || "Template")}</h1>
         <p class="product-lead" itemprop="description">${escapeHtml(template.description || "")}</p>
-        ${blocks}
+        ${mainBlocks}
       </div>
-      <aside class="product-aside">
-        <p class="product-kicker">Especialidade</p>
-        <p class="product-specialty">${escapeHtml(template.subcategory || template.category || "Template")}</p>
-        ${template.deliveryTime ? `<p class="product-meta">Prazo: ${escapeHtml(template.deliveryTime)}</p>` : ""}
-        ${template.pages ? `<p class="product-meta">${escapeHtml(String(template.pages))} páginas · ${escapeHtml(template.technology || "")}</p>` : ""}
-        <div class="template-actions">
-          <button class="btn btn-primary btn-full" type="button" data-interest-template="${escapeHtml(template.id || "")}">Tenho interesse</button>
-          ${live ? `<a class="btn btn-outline btn-full" href="${escapeHtml(live)}" target="_blank" rel="noopener">Ver ao vivo</a>` : ""}
-          ${video ? `<a class="btn btn-outline btn-full" href="${escapeHtml(video)}" target="_blank" rel="noopener">Ver vídeo</a>` : ""}
-          ${docs ? `<a class="btn btn-outline btn-full" href="${escapeHtml(docs)}" target="_blank" rel="noopener">Documentação</a>` : ""}
-        </div>
-      </aside>
+      <div class="product-side">
+        <aside class="product-aside">
+          <p class="product-kicker">Especialidade</p>
+          <p class="product-specialty">${escapeHtml(template.subcategory || template.category || "Template")}</p>
+          ${template.deliveryTime ? `<p class="product-meta">Prazo: ${escapeHtml(template.deliveryTime)}</p>` : ""}
+          ${template.pages ? `<p class="product-meta">${escapeHtml(String(template.pages))} páginas · ${escapeHtml(template.technology || "")}</p>` : ""}
+          <div class="template-actions">
+            <button class="btn btn-primary btn-full" type="button" data-interest-template="${escapeHtml(template.id || "")}">Tenho interesse</button>
+            ${live ? `<a class="btn btn-outline btn-full" href="${escapeHtml(live)}" target="_blank" rel="noopener">Ver ao vivo</a>` : ""}
+            ${video ? `<a class="btn btn-outline btn-full" href="${escapeHtml(video)}" target="_blank" rel="noopener">Ver vídeo</a>` : ""}
+            ${docs ? `<a class="btn btn-outline btn-full" href="${escapeHtml(docs)}" target="_blank" rel="noopener">Documentação</a>` : ""}
+          </div>
+        </aside>
+        ${sideBlocks}
+      </div>
     </article>
   `;
 }

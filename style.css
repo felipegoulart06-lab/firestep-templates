@@ -2087,7 +2087,7 @@ body.modal-open .support-chat{
 
 .product-layout{
   display:grid;
-  grid-template-columns:minmax(0,1.2fr) minmax(260px,.8fr);
+  grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);
   gap:28px;
   align-items:start;
 }
@@ -2435,8 +2435,21 @@ body.modal-open .support-chat{
   border:1px solid var(--line);
   border-top:4px solid var(--rust);
   padding:20px;
-  position:sticky;
-  top:20px;
+}
+
+.product-side{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  min-width:0;
+}
+
+.product-side .product-block{
+  margin-bottom:0;
+}
+
+.product-side .product-row{
+  grid-template-columns:1fr;
 }
 
 .product-kicker{
@@ -2469,7 +2482,6 @@ body.modal-open .support-chat{
   .seo-index,
   .gallery-editor-list,
   .product-gallery{grid-template-columns:1fr}
-  .product-aside{position:static}
   .product-row{grid-template-columns:1fr}
 }
 

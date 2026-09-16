@@ -186,7 +186,17 @@ function buildPage(template) {
   const hero = printUrl ? "" : (gallery[0] || template.image || "");
   const extraImages = gallery.filter(url => url && url !== printUrl && url !== hero);
 
-  const blocks = [
+  const mainBlocks = [
+    section("Estrutura e conteúdo", [
+      row("Como funciona", template.description),
+      row("Lista de páginas", template.pageList),
+      row("Seções principais", template.sections),
+      row("Recursos e funcionalidades", template.features),
+      row("Campos editáveis pelo cliente", template.editableFields)
+    ])
+  ].join("");
+
+  const sideBlocks = [
     section("Identificação", [
       row("Tipo de serviço", template.serviceType),
       row("Categoria da empresa", template.category),
@@ -194,13 +204,6 @@ function buildPage(template) {
       row("Código / SKU", template.sku),
       row("Quantidade de páginas", template.pages),
       row("Versão", template.version)
-    ]),
-    section("Estrutura e conteúdo", [
-      row("Como funciona", template.description),
-      row("Lista de páginas", template.pageList),
-      row("Seções principais", template.sections),
-      row("Recursos e funcionalidades", template.features),
-      row("Campos editáveis pelo cliente", template.editableFields)
     ]),
     section("Tecnologia e integração", [
       row("Tecnologia principal", template.technology),
@@ -227,6 +230,7 @@ function buildPage(template) {
       row("Vídeo demonstrativo", video, { link: true }),
       row("Documentação", docs, { link: true })
     ])
+  ].join("");
   ].join("");
 
   return `<!doctype html>
@@ -287,21 +291,24 @@ function buildPage(template) {
         <p class="eyebrow">${escapeHtml([template.serviceType, template.category].filter(Boolean).join(" · "))}</p>
         <h1 itemprop="name">${escapeHtml(template.name || "Template")}</h1>
         <p class="product-lead" itemprop="description">${escapeHtml(template.description || "")}</p>
-        ${blocks}
+        ${mainBlocks}
       </div>
 
-      <aside class="product-aside">
-        <p class="product-kicker">Especialidade</p>
-        <p class="product-specialty">${escapeHtml(template.subcategory || template.category || "Template")}</p>
-        ${template.deliveryTime ? `<p class="product-meta">Prazo: ${escapeHtml(template.deliveryTime)}</p>` : ""}
-        ${template.pages ? `<p class="product-meta">${escapeHtml(String(template.pages))} páginas · ${escapeHtml(template.technology || "")}</p>` : ""}
-        <div class="template-actions">
-          <button class="btn btn-primary btn-full" type="button" data-interest-template="${escapeHtml(template.id || "")}">Tenho interesse</button>
-          ${live ? `<a class="btn btn-outline btn-full" href="${escapeHtml(live)}" target="_blank" rel="noopener">Ver ao vivo</a>` : ""}
-          ${video ? `<a class="btn btn-outline btn-full" href="${escapeHtml(video)}" target="_blank" rel="noopener">Ver vídeo</a>` : ""}
-          ${docs ? `<a class="btn btn-outline btn-full" href="${escapeHtml(docs)}" target="_blank" rel="noopener">Documentação</a>` : ""}
-        </div>
-      </aside>
+      <div class="product-side">
+        <aside class="product-aside">
+          <p class="product-kicker">Especialidade</p>
+          <p class="product-specialty">${escapeHtml(template.subcategory || template.category || "Template")}</p>
+          ${template.deliveryTime ? `<p class="product-meta">Prazo: ${escapeHtml(template.deliveryTime)}</p>` : ""}
+          ${template.pages ? `<p class="product-meta">${escapeHtml(String(template.pages))} páginas · ${escapeHtml(template.technology || "")}</p>` : ""}
+          <div class="template-actions">
+            <button class="btn btn-primary btn-full" type="button" data-interest-template="${escapeHtml(template.id || "")}">Tenho interesse</button>
+            ${live ? `<a class="btn btn-outline btn-full" href="${escapeHtml(live)}" target="_blank" rel="noopener">Ver ao vivo</a>` : ""}
+            ${video ? `<a class="btn btn-outline btn-full" href="${escapeHtml(video)}" target="_blank" rel="noopener">Ver vídeo</a>` : ""}
+            ${docs ? `<a class="btn btn-outline btn-full" href="${escapeHtml(docs)}" target="_blank" rel="noopener">Documentação</a>` : ""}
+          </div>
+        </aside>
+        ${sideBlocks}
+      </div>
     </article>
   </main>
   ${interestModal()}
