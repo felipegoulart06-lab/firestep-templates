@@ -1533,13 +1533,23 @@ function hasVideoLink(value) {
 function templateGalleryUrls(template = {}) {
   const urls = [];
   const cover = String(template.image || "").trim();
-  const extra = Array.isArray(template.gallery)
-    ? template.gallery
-    : String(template.gallery || "")
-        .split(/\n|,/)
-        .map(item => item.trim());
+  let extra = template.gallery;
+  if (typeof extra === "string") {
+    const trimmed = extra.trim();
+    if (trimmed.startsWith("[")) {
+      try {
+        extra = JSON.parse(trimmed);
+      } catch {
+        extra = trimmed.split(/\n|,/);
+      }
+    } else {
+      extra = trimmed.split(/\n|,/);
+    }
+  }
+  if (!Array.isArray(extra)) extra = [];
 
-  extra.forEach(url => {
+  extra.forEach(item => {
+    const url = String(item || "").trim();
     if (url && !urls.includes(url)) urls.push(url);
   });
 
@@ -5083,7 +5093,7 @@ function getLightboxRoot() {
   modal = document.createElement("div");
   modal.id = "imageLightbox";
   modal.className = "image-lightbox";
-  modal.hidden = true;
+  modal.setAttribute("aria-hidden", "true");
   modal.innerHTML = `
     <div class="image-lightbox-backdrop" data-close-lightbox></div>
     <button class="image-lightbox-close form-close-x" type="button" data-close-lightbox aria-label="Fechar">×</button>
@@ -5097,19 +5107,19 @@ function getLightboxRoot() {
 
 function lightboxSources() {
   const urls = [];
-  $$(".product-page .gallery-zoom img, .page-scroll-preview-frame img").forEach(item => {
-    const url = item.getAttribute("data-lightbox") || item.currentSrc || item.src;
+  $$(".product-page .gallery-zoom").forEach(item => {
+    const url = item.currentSrc || item.src;
     if (url && !urls.includes(url)) urls.push(url);
   });
   return urls;
 }
 
 function lightboxSrcFrom(target) {
-  const trigger = target?.closest?.("[data-lightbox], .gallery-zoom, .product-gallery figure, .product-hero, .page-scroll-preview-frame");
-  if (!trigger) return "";
-  const img = trigger.tagName === "IMG" ? trigger : trigger.querySelector("img");
-  return trigger.getAttribute("data-lightbox") || trigger.dataset?.lightbox || img?.currentSrc || img?.src || "";
+  const img = target?.closest?.("img.gallery-zoom, .product-gallery img, .product-hero img");
+  return img?.currentSrc || img?.src || "";
 }
+
+let lightboxOpenedAt = 0;
 
 function showLightboxImage(src) {
   if (!src) return;
@@ -5119,20 +5129,24 @@ function showLightboxImage(src) {
   const index = sources.indexOf(src);
   photo.src = src;
   modal.dataset.index = String(index < 0 ? 0 : index);
-  modal.hidden = false;
+  modal.classList.add("is-open");
+  modal.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
+  lightboxOpenedAt = Date.now();
   const many = sources.length > 1;
   modal.querySelector("[data-lightbox-prev]").hidden = !many;
   modal.querySelector("[data-lightbox-next]").hidden = !many;
 }
 
 function closeLightbox() {
+  if (Date.now() - lightboxOpenedAt < 400) return;
   const modal = $("#imageLightbox");
-  if (!modal || modal.hidden) return;
-  modal.hidden = true;
+  if (!modal || !modal.classList.contains("is-open")) return;
+  modal.classList.remove("is-open");
+  modal.setAttribute("aria-hidden", "true");
   const photo = modal.querySelector(".image-lightbox-photo");
   if (photo) photo.src = "";
-  if (!$(".form-host:not([hidden])") && !$("#detailsModal:not([hidden])") && !$("#interestModal:not([hidden])")) {
+  if (!$(".form-host:not([hidden])") && !$("#detailsModal:not([hidden])") && !$("#interestModal:not([hidden])") && !$("#crmNotice:not([hidden])")) {
     document.body.classList.remove("modal-open");
   }
 }
@@ -5146,35 +5160,68 @@ function stepLightbox(delta) {
   showLightboxImage(sources[next]);
 }
 
+function openGalleryLightbox(event) {
+  const img = event.currentTarget?.closest?.("img") || event.target?.closest?.("img");
+  const src = img?.currentSrc || img?.src;
+  if (!src) return;
+  event.preventDefault();
+  event.stopPropagation();
+  showLightboxImage(src);
+}
+
+window.__fsLightbox = openGalleryLightbox;
+
+function bindTemplateGalleryClicks(root = document) {
+  root.querySelectorAll(".product-gallery img, .product-hero img, img.gallery-zoom").forEach(img => {
+    img.classList.add("gallery-zoom");
+    img.setAttribute("role", "button");
+    img.setAttribute("tabindex", "0");
+    img.setAttribute("aria-label", img.getAttribute("aria-label") || "Ampliar imagem");
+    img.setAttribute("onclick", "window.__fsLightbox && window.__fsLightbox(event)");
+    if (img.dataset.zoomBound === "1") return;
+    img.dataset.zoomBound = "1";
+    img.addEventListener("click", openGalleryLightbox);
+    img.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") openGalleryLightbox(event);
+    });
+  });
+}
+
 function initImageLightbox() {
+  getLightboxRoot();
+  bindTemplateGalleryClicks(document);
+
   if (document.body.dataset.lightboxReady) return;
   document.body.dataset.lightboxReady = "1";
-  getLightboxRoot();
 
   document.addEventListener("click", event => {
-    const closer = event.target.closest("[data-close-lightbox]");
-    if (closer) {
-      closeLightbox();
+    const modal = $("#imageLightbox");
+    if (modal?.classList.contains("is-open")) {
+      const closer = event.target.closest("[data-close-lightbox]");
+      if (closer || event.target === modal) {
+        closeLightbox();
+        return;
+      }
+      if (event.target.closest("[data-lightbox-prev]")) {
+        stepLightbox(-1);
+        return;
+      }
+      if (event.target.closest("[data-lightbox-next]")) {
+        stepLightbox(1);
+        return;
+      }
       return;
     }
-    if (event.target.closest("[data-lightbox-prev]")) {
-      stepLightbox(-1);
-      return;
-    }
-    if (event.target.closest("[data-lightbox-next]")) {
-      stepLightbox(1);
-      return;
-    }
-    if (event.target.closest("#imageLightbox")) return;
+
     const src = lightboxSrcFrom(event.target);
     if (!src) return;
     event.preventDefault();
     showLightboxImage(src);
-  });
+  }, true);
 
   document.addEventListener("keydown", event => {
     const modal = $("#imageLightbox");
-    if (!modal || modal.hidden) return;
+    if (!modal?.classList.contains("is-open")) return;
     if (event.key === "Escape") closeLightbox();
     if (event.key === "ArrowLeft") stepLightbox(-1);
     if (event.key === "ArrowRight") stepLightbox(1);
@@ -5223,8 +5270,8 @@ function publicTemplateArticleHtml(template) {
           </div>
           <p class="page-scroll-preview-hint">Passe o mouse ou encoste na tela para percorrer a página</p>
         </section>` : ""}
-        ${hero ? `<figure class="product-hero"><button type="button" class="gallery-zoom" data-lightbox="${escapeHtml(hero)}" aria-label="Ampliar preview"><img src="${escapeHtml(hero)}" alt="Preview do template ${escapeHtml(template.name || "")}" itemprop="image" data-lightbox="${escapeHtml(hero)}"></button></figure>` : ""}
-        ${extraImages.length ? `<div class="product-gallery">${extraImages.map((url, index) => `<figure data-lightbox="${escapeHtml(url)}"><button type="button" class="gallery-zoom" data-lightbox="${escapeHtml(url)}" aria-label="Ampliar imagem ${index + 2}"><img src="${escapeHtml(url)}" alt="Imagem ${index + 2} do template ${escapeHtml(template.name || "")}" data-lightbox="${escapeHtml(url)}"></button></figure>`).join("")}</div>` : ""}
+        ${hero ? `<figure class="product-hero"><img class="gallery-zoom" src="${escapeHtml(hero)}" alt="Preview do template ${escapeHtml(template.name || "")}" itemprop="image" role="button" tabindex="0" aria-label="Ampliar preview" onclick="window.__fsLightbox && window.__fsLightbox(event)"></figure>` : ""}
+        ${extraImages.length ? `<div class="product-gallery">${extraImages.map((url, index) => `<figure><img class="gallery-zoom" src="${escapeHtml(url)}" alt="Imagem ${index + 2} do template ${escapeHtml(template.name || "")}" role="button" tabindex="0" aria-label="Ampliar imagem ${index + 2}" onclick="window.__fsLightbox && window.__fsLightbox(event)"></figure>`).join("")}</div>` : ""}
         <p class="eyebrow">${escapeHtml([template.serviceType, template.category].filter(Boolean).join(" · "))}</p>
         <h1 itemprop="name">${escapeHtml(template.name || "Template")}</h1>
         <p class="product-lead" itemprop="description">${escapeHtml(template.description || "")}</p>
@@ -5265,6 +5312,7 @@ async function initTemplateDetailPage() {
   document.title = `${template.name || "Template"} | firestep TEMPLATES`;
   root.innerHTML = publicTemplateArticleHtml(template);
   initImageLightbox();
+  bindTemplateGalleryClicks(root);
   return true;
 }
 
