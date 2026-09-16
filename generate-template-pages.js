@@ -231,7 +231,6 @@ function buildPage(template) {
       row("Documentação", docs, { link: true })
     ])
   ].join("");
-  ].join("");
 
   return `<!doctype html>
 <html lang="pt-BR">
