@@ -1628,14 +1628,20 @@ async function uploadToSupabaseStorage(file) {
   const session = readAdminSession();
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY || !session?.access_token) return "";
 
-  const path = `prints/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${fileExtension(file)}`;
+  const allowed = ["image/png", "image/jpeg", "image/jpg", "image/webp", "image/gif"];
+  const type = String(file.type || "").toLowerCase();
+  if (!allowed.includes(type) || Number(file.size || 0) > 15_728_640) {
+    throw new Error("Envie uma imagem PNG, JPG, WEBP ou GIF de até 15 MB.");
+  }
+
+  const path = `prints/${crypto.randomUUID()}.${fileExtension(file)}`;
   const response = await fetch(`${SUPABASE_URL}/storage/v1/object/template-media/${path}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${session.access_token}`,
       apikey: SUPABASE_ANON_KEY,
-      "Content-Type": file.type || "image/jpeg",
-      "x-upsert": "true"
+      "Content-Type": type,
+      "x-upsert": "false"
     },
     body: file
   });

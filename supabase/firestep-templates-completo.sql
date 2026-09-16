@@ -17,6 +17,7 @@ create extension if not exists pgcrypto;
 create or replace function public.firestep_set_updated_at()
 returns trigger
 language plpgsql
+set search_path = pg_catalog, public
 as $$
 begin
   new.updated_at = now();
@@ -51,7 +52,8 @@ as $$
 $$;
 
 revoke all on function public.is_firestep_admin() from public;
-grant execute on function public.is_firestep_admin() to authenticated, anon;
+revoke all on function public.is_firestep_admin() from anon;
+grant execute on function public.is_firestep_admin() to authenticated;
 
 -- -----------------------------------------------------------------------------
 -- Templates do catálogo
@@ -172,7 +174,7 @@ create policy firestep_admins_select on public.firestep_admins
 -- Templates: catálogo público lê ativos; admin gerencia tudo
 drop policy if exists firestep_templates_public_select on public.firestep_templates;
 create policy firestep_templates_public_select on public.firestep_templates
-  for select to anon, authenticated
+  for select to anon
   using (status is distinct from 'Arquivado' and status is distinct from 'Rascunho');
 
 drop policy if exists firestep_templates_admin_all on public.firestep_templates;
@@ -198,7 +200,13 @@ create policy firestep_briefings_admin_all on public.firestep_briefings
 drop policy if exists firestep_pedidos_insert on public.firestep_pedidos;
 create policy firestep_pedidos_insert on public.firestep_pedidos
   for insert to anon, authenticated
-  with check (true);
+  with check (
+    status = 'Novo'
+    and length(btrim(full_name)) between 2 and 120
+    and length(btrim(whatsapp)) between 8 and 32
+    and length(btrim(email)) between 6 and 160
+    and position('@' in email) > 1
+  );
 
 drop policy if exists firestep_pedidos_select on public.firestep_pedidos;
 create policy firestep_pedidos_select on public.firestep_pedidos
@@ -212,8 +220,14 @@ create policy firestep_pedidos_update on public.firestep_pedidos
   with check (public.is_firestep_admin());
 
 -- -----------------------------------------------------------------------------
--- Grants
+-- Grants (mínimos). Nunca conceder TRUNCATE/ALL a anon — TRUNCATE ignora RLS.
 -- -----------------------------------------------------------------------------
+revoke all on table public.firestep_admins from public, anon, authenticated;
+revoke all on table public.firestep_templates from public, anon, authenticated;
+revoke all on table public.firestep_companies from public, anon, authenticated;
+revoke all on table public.firestep_briefings from public, anon, authenticated;
+revoke all on table public.firestep_pedidos from public, anon, authenticated;
+
 grant select on public.firestep_admins to authenticated;
 grant select on public.firestep_templates to anon, authenticated;
 grant insert, update, delete on public.firestep_templates to authenticated;
