@@ -253,7 +253,7 @@ function buildPage(template) {
   <link rel="icon" href="../../favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
   <meta name="theme-color" content="#1b365d">
-  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../style.css?v=20260916e">
   <script type="application/ld+json">${JSON.stringify(jsonLd(template, pageUrl))}</script>
 </head>
 <body data-page="template">
@@ -311,9 +311,9 @@ function buildPage(template) {
     </article>
   </main>
   ${interestModal()}
-  <script src="../../config.js"></script>
-  <script src="../../seed-data.js"></script>
-  <script src="../../script.js"></script>
+  <script src="../../config.js?v=20260916e"></script>
+  <script src="../../seed-data.js?v=20260916e"></script>
+  <script src="../../script.js?v=20260916e"></script>
 </body>
 </html>
 `;
