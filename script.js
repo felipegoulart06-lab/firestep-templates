@@ -13,6 +13,8 @@ const CFG = window.FIRESTEP_CONFIG || {};
 const TEMPLATE_WEBHOOK = CFG.templateWebhook || "";
 const BRIEFING_WEBHOOK = CFG.briefingWebhook || "";
 const INTEREST_WEBHOOK = CFG.interestWebhook || "";
+const FIRESTEP_CRM_WEBHOOK_URL = CFG.crmWebhookUrl || "";
+const FIRESTEP_CRM_WEBHOOK_SECRET = CFG.crmWebhookSecret || "";
 const SUPPORT_WHATSAPP = CFG.supportWhatsapp || "";
 const SUPABASE_URL = CFG.supabaseUrl || "";
 const SUPABASE_ANON_KEY = CFG.supabaseAnonKey || "";
@@ -1064,6 +1066,47 @@ function statusChipClass(value = "") {
 /* =========================================================
    ENVIO PARA WEBHOOKS DO MAKE
 ========================================================= */
+
+function digitsOnly(value) {
+  return String(value || "").replace(/\D/g, "");
+}
+
+function readUtmParams() {
+  const query = new URLSearchParams(location.search || "");
+  const utm = {};
+  ["utm_source", "utm_medium", "utm_campaign"].forEach(key => {
+    const value = String(query.get(key) || "").trim();
+    if (value) utm[key] = value;
+  });
+  return utm;
+}
+
+async function sendToFirestepCrm(payload) {
+  if (!FIRESTEP_CRM_WEBHOOK_URL) return true;
+
+  const headers = {
+    "Content-Type": "application/json",
+    Accept: "application/json"
+  };
+  if (FIRESTEP_CRM_WEBHOOK_SECRET) {
+    headers.Authorization = `Bearer ${FIRESTEP_CRM_WEBHOOK_SECRET}`;
+    headers["X-Webhook-Secret"] = FIRESTEP_CRM_WEBHOOK_SECRET;
+  }
+
+  const response = await fetch(FIRESTEP_CRM_WEBHOOK_URL, {
+    method: "POST",
+    mode: "cors",
+    credentials: "omit",
+    referrerPolicy: "origin",
+    headers,
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    throw new Error(`FirestepCRM respondeu ${response.status}`);
+  }
+  return true;
+}
 
 async function sendToWebhook(url, payload) {
   if (!url) return true;
@@ -4381,13 +4424,19 @@ async function submitInterestLead(event) {
   const fullName = $("#interestName")?.value.trim() || "";
   const whatsapp = $("#interestWhatsapp")?.value.trim() || "";
   const email = $("#interestEmail")?.value.trim() || "";
+  const phone = digitsOnly(whatsapp);
 
-  if (!fullName || !whatsapp || !email) {
-    alert("Preencha nome completo, WhatsApp e e-mail.");
+  if (!fullName) {
+    alert("Informe o nome completo.");
     return;
   }
 
-  if (!isValidEmail(email)) {
+  if (!phone && !email) {
+    alert("Informe WhatsApp ou e-mail.");
+    return;
+  }
+
+  if (email && !isValidEmail(email)) {
     alert("Informe um e-mail válido.");
     return;
   }
@@ -4431,17 +4480,45 @@ async function submitInterestLead(event) {
     template: template || null
   };
 
+  let crmOk = true;
+  try {
+    const crmPayload = {
+      name: fullName,
+      source: "website",
+      service: template?.subcategory || template?.name || template?.serviceType || "Template",
+      message: `Interesse no template ${template?.name || lead.templateName || "catálogo firestep TEMPLATES"}${template?.sku ? ` (${template.sku})` : ""}.`,
+      ...readUtmParams()
+    };
+    if (phone) crmPayload.phone = phone;
+    if (email) crmPayload.email = email;
+    crmOk = await sendToFirestepCrm(crmPayload);
+  } catch (error) {
+    console.error("Erro ao enviar para o FirestepCRM:", error);
+    crmOk = false;
+  }
+
   let webhookOk = true;
   if (INTEREST_WEBHOOK) {
     webhookOk = await sendToWebhook(INTEREST_WEBHOOK, payload);
   }
 
-  closeInterestForm();
   showToast(
-    webhookOk
+    crmOk && webhookOk
       ? "Interesse enviado. Em breve a equipe entra em contato."
-      : "Recebemos seus dados. Se o envio automático falhar, a equipe ainda terá o registro."
+      : crmOk
+        ? "Recebemos seus dados. Se o envio automático falhar, a equipe ainda terá o registro."
+        : "Não foi possível enviar ao FirestepCRM. Tente de novo em instantes."
   );
+
+  if (!crmOk && FIRESTEP_CRM_WEBHOOK_URL) {
+    if (submit) {
+      submit.disabled = false;
+      submit.textContent = "Enviar";
+    }
+    return;
+  }
+
+  closeInterestForm();
 
   if (submit) {
     submit.disabled = false;

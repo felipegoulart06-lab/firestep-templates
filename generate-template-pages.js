@@ -165,8 +165,8 @@ function interestModal() {
       <form id="interestForm" class="form interest-form">
         <input id="interestTemplateId" type="hidden">
         <label>Nome completo *<input id="interestName" name="nomeCompleto" type="text" autocomplete="name" required placeholder="Seu nome completo"></label>
-        <label>WhatsApp *<input id="interestWhatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(47) 99999-9999"></label>
-        <label>E-mail *<input id="interestEmail" name="email" type="email" autocomplete="email" required placeholder="voce@email.com"></label>
+        <label>WhatsApp<input id="interestWhatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(47) 99999-9999"></label>
+        <label>E-mail<input id="interestEmail" name="email" type="email" autocomplete="email" placeholder="voce@email.com"></label>
         <button id="interestSubmit" class="btn btn-primary btn-full" type="submit">Enviar</button>
       </form>
     </aside>
@@ -253,7 +253,7 @@ function buildPage(template) {
   <link rel="icon" href="../../favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
   <meta name="theme-color" content="#1b365d">
-  <link rel="stylesheet" href="../../style.css?v=20260916e">
+  <link rel="stylesheet" href="../../style.css?v=20260916g">
   <script type="application/ld+json">${JSON.stringify(jsonLd(template, pageUrl))}</script>
 </head>
 <body data-page="template">
@@ -311,9 +311,9 @@ function buildPage(template) {
     </article>
   </main>
   ${interestModal()}
-  <script src="../../config.js?v=20260916e"></script>
-  <script src="../../seed-data.js?v=20260916e"></script>
-  <script src="../../script.js?v=20260916e"></script>
+  <script src="../../config.js?v=20260916g"></script>
+  <script src="../../seed-data.js?v=20260916g"></script>
+  <script src="../../script.js?v=20260916g"></script>
 </body>
 </html>
 `;

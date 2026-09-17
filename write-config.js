@@ -11,6 +11,8 @@ const config = {
   templateWebhook: process.env.TEMPLATE_WEBHOOK || "",
   briefingWebhook: process.env.BRIEFING_WEBHOOK || "",
   interestWebhook: process.env.INTEREST_WEBHOOK || "",
+  crmWebhookUrl: process.env.FIRESTEP_CRM_WEBHOOK_URL || "",
+  crmWebhookSecret: process.env.FIRESTEP_CRM_WEBHOOK_SECRET || "",
   supportWhatsapp: process.env.SUPPORT_WHATSAPP || "",
   publishApi: onVercel ? "" : process.env.PUBLISH_API || "http://127.0.0.1:8787"
 };
