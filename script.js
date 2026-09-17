@@ -337,6 +337,25 @@ function normalizeText(value = "") {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
+function collapseRepeatedCopy(value = "") {
+  let text = String(value || "").replace(/\s+/g, " ").trim();
+  if (!text) return "";
+
+  const doubled = text.match(/^(.{40,}?)\s+\1$/i);
+  if (doubled) text = doubled[1].trim();
+
+  const pieces = text.split(/(?<=[.!?…])\s+/);
+  const seen = new Set();
+  const kept = [];
+  for (const piece of pieces) {
+    const key = piece.replace(/\s+/g, " ").trim().toLowerCase();
+    if (key.length >= 24 && seen.has(key)) continue;
+    if (key.length >= 24) seen.add(key);
+    kept.push(piece.trim());
+  }
+  return kept.join(" ").replace(/\s+/g, " ").trim();
+}
+
 function slugify(value = "") {
   return normalizeText(value)
     .replace(/[^a-z0-9]+/g, "-")
@@ -4636,7 +4655,7 @@ function initCatalog() {
           <h3>
             <a class="template-title-link" href="${escapeHtml(detailsPath)}">${escapeHtml(template.name || "Template")}</a>
           </h3>
-          <p>${escapeHtml(template.description || "Template profissional pronto para personalização.")}</p>
+          <p>${escapeHtml(collapseRepeatedCopy(template.description) || "Template profissional pronto para personalização.")}</p>
           ${specs.length ? `
             <ul class="template-specs">
               ${specs.map(item => `<li>${escapeHtml(item)}</li>`).join("")}
@@ -5398,7 +5417,7 @@ function publicTemplateArticleHtml(template) {
   const printUrl = String(template.pagePrint || "").trim();
   const hero = printUrl ? "" : (gallery[0] || template.image || "");
   const extraImages = gallery.filter(url => url && url !== printUrl && url !== hero);
-  const skipRows = new Set(["Imagem / preview", "Print completo da landing"]);
+  const skipRows = new Set(["Imagem / preview", "Print completo da landing", "Como funciona"]);
   const sections = getTemplatePublicDetailSections(template);
   const mainTitles = new Set(["Estrutura e conteúdo"]);
   const mainBlocks = renderPublicDetailBlocks(sections.filter(item => mainTitles.has(item.title)), skipRows);
@@ -5425,7 +5444,7 @@ function publicTemplateArticleHtml(template) {
         ${extraImages.length ? `<div class="product-gallery">${extraImages.map((url, index) => `<figure><img class="gallery-zoom" src="${escapeHtml(url)}" alt="Imagem ${index + 2} do template ${escapeHtml(template.name || "")}" role="button" tabindex="0" aria-label="Ampliar imagem ${index + 2}"></figure>`).join("")}</div>` : ""}
         <p class="eyebrow">${escapeHtml([template.serviceType, template.category].filter(Boolean).join(" · "))}</p>
         <h1 itemprop="name">${escapeHtml(template.name || "Template")}</h1>
-        <p class="product-lead" itemprop="description">${escapeHtml(template.description || "")}</p>
+        <p class="product-lead" itemprop="description">${escapeHtml(collapseRepeatedCopy(template.description))}</p>
         ${mainBlocks}
       </div>
       <div class="product-side">

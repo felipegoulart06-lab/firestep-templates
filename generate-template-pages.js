@@ -43,6 +43,25 @@ function escapeHtml(value = "") {
   }[character]));
 }
 
+function collapseRepeatedCopy(value = "") {
+  let text = String(value || "").replace(/\s+/g, " ").trim();
+  if (!text) return "";
+
+  const doubled = text.match(/^(.{40,}?)\s+\1$/i);
+  if (doubled) text = doubled[1].trim();
+
+  const pieces = text.split(/(?<=[.!?…])\s+/);
+  const seen = new Set();
+  const kept = [];
+  for (const piece of pieces) {
+    const key = piece.replace(/\s+/g, " ").trim().toLowerCase();
+    if (key.length >= 24 && seen.has(key)) continue;
+    if (key.length >= 24) seen.add(key);
+    kept.push(piece.trim());
+  }
+  return kept.join(" ").replace(/\s+/g, " ").trim();
+}
+
 function templateSeoDir(template = {}) {
   const category = slugify(template.category || "categoria");
   const specialty = slugify(template.subcategory || template.name || "especialidade");
@@ -188,7 +207,6 @@ function buildPage(template) {
 
   const mainBlocks = [
     section("Estrutura e conteúdo", [
-      row("Como funciona", template.description),
       row("Lista de páginas", template.pageList),
       row("Seções principais", template.sections),
       row("Recursos e funcionalidades", template.features),
@@ -253,7 +271,7 @@ function buildPage(template) {
   <link rel="icon" href="../../favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
   <meta name="theme-color" content="#1b365d">
-  <link rel="stylesheet" href="../../style.css?v=20260916g">
+  <link rel="stylesheet" href="../../style.css?v=20260916h">
   <script type="application/ld+json">${JSON.stringify(jsonLd(template, pageUrl))}</script>
 </head>
 <body data-page="template">
@@ -289,7 +307,7 @@ function buildPage(template) {
         ${extraImages.length ? `<div class="product-gallery">${extraImages.map((url, index) => `<figure><img class="gallery-zoom" src="${escapeHtml(pageAsset(url))}" alt="Imagem ${index + 2} do template ${escapeHtml(template.name || "")}" role="button" tabindex="0" aria-label="Ampliar imagem ${index + 2}"></figure>`).join("")}</div>` : ""}
         <p class="eyebrow">${escapeHtml([template.serviceType, template.category].filter(Boolean).join(" · "))}</p>
         <h1 itemprop="name">${escapeHtml(template.name || "Template")}</h1>
-        <p class="product-lead" itemprop="description">${escapeHtml(template.description || "")}</p>
+        <p class="product-lead" itemprop="description">${escapeHtml(collapseRepeatedCopy(template.description))}</p>
         ${mainBlocks}
       </div>
 
@@ -311,9 +329,9 @@ function buildPage(template) {
     </article>
   </main>
   ${interestModal()}
-  <script src="../../config.js?v=20260916g"></script>
-  <script src="../../seed-data.js?v=20260916g"></script>
-  <script src="../../script.js?v=20260916g"></script>
+  <script src="../../config.js?v=20260916h"></script>
+  <script src="../../seed-data.js?v=20260916h"></script>
+  <script src="../../script.js?v=20260916h"></script>
 </body>
 </html>
 `;
