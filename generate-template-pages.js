@@ -115,13 +115,26 @@ function row(label, value, { link = false } = {}) {
   const body = link && /^https?:\/\//i.test(text)
     ? `<a href="${escapeHtml(text)}" rel="noopener">${escapeHtml(text)}</a>`
     : escapeHtml(text).replace(/\n/g, "<br>");
-  return `<div class="product-row"><dt>${escapeHtml(label)}</dt><dd>${body}</dd></div>`;
+  const desc = label === "Como funciona" ? " itemprop=\"description\"" : "";
+  return `<div class="product-row"><dt>${escapeHtml(label)}</dt><dd${desc}>${body}</dd></div>`;
 }
 
 function section(title, rows) {
   const html = rows.filter(Boolean).join("");
   if (!html) return "";
   return `<section class="product-block"><h2>${escapeHtml(title)}</h2><dl>${html}</dl></section>`;
+}
+
+function crmSpotlightHtml() {
+  return `<aside class="crm-spotlight" aria-label="FirestepCRM">
+      <img class="crm-spotlight-mark" src="/firestep-crm-mark.png" width="56" height="56" alt="Logo FirestepCRM">
+      <div class="crm-spotlight-copy">
+        <p class="crm-spotlight-kicker">FirestepCRM</p>
+        <h2>Está buscando um painel para gerenciar seus clientes, pedidos e reservas?</h2>
+        <p>O FirestepCRM organiza agenda, cliente e caixa no mesmo lugar — o que o site capta não fica só no WhatsApp.</p>
+        <a class="btn btn-outline btn-full" href="https://www.firestep.cloud/" target="_blank" rel="noopener">Conhecer a Firestep</a>
+      </div>
+    </aside>`;
 }
 
 function jsonLd(template, pageUrl) {
@@ -271,7 +284,7 @@ function buildPage(template) {
   <link rel="icon" href="../../favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
   <meta name="theme-color" content="#1b365d">
-  <link rel="stylesheet" href="../../style.css?v=20260916h">
+  <link rel="stylesheet" href="../../style.css?v=20260920r1">
   <script type="application/ld+json">${JSON.stringify(jsonLd(template, pageUrl))}</script>
 </head>
 <body data-page="template">
@@ -324,14 +337,15 @@ function buildPage(template) {
             ${docs ? `<a class="btn btn-outline btn-full" href="${escapeHtml(docs)}" target="_blank" rel="noopener">Documentação</a>` : ""}
           </div>
         </aside>
+        ${crmSpotlightHtml()}
         ${sideBlocks}
       </div>
     </article>
   </main>
   ${interestModal()}
-  <script src="../../config.js?v=20260916h"></script>
-  <script src="../../seed-data.js?v=20260916h"></script>
-  <script src="../../script.js?v=20260916h"></script>
+  <script src="../../config.js?v=20260920r1"></script>
+  <script src="../../seed-data.js?v=20260920r1"></script>
+  <script src="../../script.js?v=20260920r1"></script>
 </body>
 </html>
 `;

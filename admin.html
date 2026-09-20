@@ -6,12 +6,12 @@
   <meta name="description" content="firestep TEMPLATES — Admin Master">
   <meta name="robots" content="noindex,nofollow">
   <title>firestep TEMPLATES — Admin Master</title>
-  <script src="admin-boot.js?v=20260916h"></script>
+  <script src="admin-boot.js?v=20260920r1"></script>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <meta name="theme-color" content="#1b365d">
-  <link rel="stylesheet" href="style.css?v=20260916h">
+  <link rel="stylesheet" href="style.css?v=20260920r1">
 </head>
 <body data-page="admin">
 
@@ -52,6 +52,7 @@
   <div class="admin-menu">
     <div class="container admin-menu-inner">
       <button class="admin-tab-button active" data-tab="templates">Templates</button>
+      <button class="admin-tab-button" data-tab="snippet">Snippet</button>
       <button class="admin-tab-button" data-tab="empresas">Empresas</button>
       <button class="admin-tab-button" data-tab="briefings">Briefings</button>
       <button class="admin-tab-button" data-tab="pedidos">Pedidos <span id="pedidoTabCount" class="tab-count">0</span></button>
@@ -103,6 +104,77 @@
         </article>
 
       </div>
+    </section>
+
+    <!-- =====================================================
+         SNIPPET
+    ====================================================== -->
+    <section id="snippet" class="admin-section">
+      <div class="section-intro">
+        <div>
+          <span class="eyebrow">INCORPORAR NO SITE</span>
+          <h1>Snippet de 4 modelos</h1>
+          <p>Escolha exatamente 4 templates. O código copiado mostra título, categoria, subtítulo e os botões Ver modelo e Tenho interesse — no container desta plataforma, em celular, tablet e computador.</p>
+        </div>
+        <div class="section-actions">
+          <button id="snippetCopy" class="btn btn-primary" type="button">Copiar snippet</button>
+        </div>
+      </div>
+
+      <div class="snippet-admin-grid">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow">BIBLIOTECA</span>
+              <h2>Selecionar modelos</h2>
+            </div>
+            <span id="snippetPickCount" class="badge">0 / 4</span>
+          </div>
+          <div class="filter-bar snippet-filter-bar">
+            <input id="snippetFilter" class="filter" type="search" placeholder="Filtrar por nome, categoria ou tipo...">
+          </div>
+          <p class="snippet-hint">Clique para marcar até 4. A ordem dos cliques é a ordem dos cards.</p>
+          <div id="snippetPickList" class="snippet-pick-list"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow">TEXTOS</span>
+              <h2>Cabeçalho do bloco</h2>
+            </div>
+          </div>
+          <div class="form snippet-copy-form">
+            <label>
+              Título
+              <input id="snippetHeading" maxlength="120" value="Veja primeiro. Escolha depois.">
+            </label>
+            <label>
+              Subtítulo
+              <textarea id="snippetLead" rows="3">O catálogo Firestep Templates é um produto visual: imagem, categoria, tipo e prazo. Você enxerga o modelo antes de contratar.</textarea>
+            </label>
+            <label>
+              Rodapé
+              <textarea id="snippetFoot" rows="2">Estes são exemplos do tipo de projeto que você encontra no catálogo. Abra templates.firestep.cloud para ver os modelos reais, filtrar por categoria e enviar interesse.</textarea>
+            </label>
+          </div>
+          <div id="snippetSelected" class="snippet-selected"></div>
+          <label class="snippet-code-label">
+            Código para colar no site
+            <textarea id="snippetCode" class="snippet-code" readonly spellcheck="false"></textarea>
+          </label>
+        </article>
+      </div>
+
+      <article class="panel snippet-preview-panel">
+        <div class="panel-head">
+          <div>
+            <span class="eyebrow">PRÉVIA</span>
+            <h2>Como o visitante vê</h2>
+          </div>
+        </div>
+        <div id="snippetPreview" class="snippet-preview-host"></div>
+      </article>
     </section>
 
     <!-- =====================================================
@@ -1819,8 +1891,8 @@
     <p class="admin-login-error">O painel administrativo precisa de JavaScript habilitado.</p>
   </noscript>
 
-  <script src="config.js?v=20260916h"></script>
-  <script src="seed-data.js?v=20260916h"></script>
-  <script src="script.js?v=20260916h"></script>
+  <script src="config.js?v=20260920r1"></script>
+  <script src="seed-data.js?v=20260920r1"></script>
+  <script src="script.js?v=20260920r1"></script>
 </body>
 </html>

@@ -2092,6 +2092,68 @@ body.modal-open .support-chat{
   align-items:start;
 }
 
+.crm-spotlight{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  align-items:flex-start;
+  background:#fff;
+  color:var(--text);
+  border:1px solid var(--line);
+  border-radius:2px;
+  padding:18px 20px;
+}
+
+.crm-spotlight-mark{
+  width:48px;
+  height:48px;
+  border-radius:8px;
+  flex-shrink:0;
+  display:block;
+}
+
+.crm-spotlight-copy{
+  min-width:0;
+  width:100%;
+}
+
+.crm-spotlight-kicker{
+  margin:0 0 6px;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.crm-spotlight h2{
+  margin:0 0 8px;
+  font-size:15px;
+  font-weight:600;
+  line-height:1.35;
+  color:var(--blue);
+}
+
+.crm-spotlight p{
+  margin:0 0 12px;
+  color:var(--text-2);
+  font-size:13px;
+  line-height:1.45;
+}
+
+.crm-spotlight .btn-outline{
+  display:flex;
+  width:100%;
+  border-radius:2px;
+}
+
+@media(max-width:640px){
+  .crm-spotlight{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}
+
 .product-hero{
   margin:0 0 18px;
   background:#eaf0f7;
@@ -2789,5 +2851,303 @@ body[data-page="admin"] .btn{
 @media(max-width:420px){
   .table-actions .mini-btn{
     flex:1 1 100%;
+  }
+}
+
+/* SNIPPET ADMIN + EMBED */
+.snippet-admin-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:22px;
+  margin-bottom:22px;
+}
+
+.snippet-filter-bar{
+  grid-template-columns:1fr;
+}
+
+.snippet-hint{
+  margin:-4px 0 12px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.snippet-pick-list{
+  display:grid;
+  gap:8px;
+  max-height:min(62vh, 560px);
+  overflow:auto;
+  padding-right:2px;
+}
+
+.snippet-pick{
+  display:grid;
+  grid-template-columns:28px 56px minmax(0,1fr);
+  gap:10px;
+  align-items:center;
+  width:100%;
+  text-align:left;
+  background:#fffdf8;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:8px 10px;
+  color:inherit;
+}
+
+.snippet-pick.is-on{
+  border-color:var(--blue);
+  background:var(--blue-soft);
+}
+
+.snippet-pick-n{
+  width:28px;
+  height:28px;
+  border-radius:2px;
+  display:grid;
+  place-items:center;
+  font-size:12px;
+  font-weight:700;
+  font-family:"IBM Plex Mono","Segoe UI",monospace;
+  color:var(--muted);
+  background:#fff;
+  border:1px solid var(--line);
+}
+
+.snippet-pick.is-on .snippet-pick-n{
+  background:var(--blue);
+  border-color:var(--blue);
+  color:#fff;
+}
+
+.snippet-pick img{
+  width:56px;
+  height:40px;
+  object-fit:cover;
+  border-radius:2px;
+  background:#e4dccf;
+  display:block;
+}
+
+.snippet-pick strong{
+  display:block;
+  font-size:13px;
+  color:var(--blue);
+  line-height:1.3;
+}
+
+.snippet-pick small{
+  display:block;
+  margin-top:2px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.snippet-selected{
+  display:grid;
+  gap:8px;
+  margin:0 0 16px;
+}
+
+.snippet-slot{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border:1px dashed var(--line);
+  border-radius:var(--radius);
+  padding:8px 10px;
+  min-height:48px;
+  background:#fffdf8;
+}
+
+.snippet-slot strong{
+  flex:1;
+  min-width:0;
+  font-size:13px;
+  color:var(--blue);
+}
+
+.snippet-slot .mini-btn{
+  flex:0 0 auto;
+}
+
+.snippet-code-label{
+  display:block;
+}
+
+.snippet-code{
+  min-height:180px;
+  font-family:"IBM Plex Mono","Segoe UI",monospace;
+  font-size:11px;
+  line-height:1.45;
+  resize:vertical;
+}
+
+.snippet-preview-panel{
+  overflow:hidden;
+}
+
+.snippet-preview-host{
+  background:var(--bg);
+  margin:0 -20px -20px;
+  padding:28px 16px 36px;
+}
+
+.fs-t4{
+  width:min(1240px, calc(100% - 24px));
+  margin:0 auto;
+  color:var(--text);
+  font-family:"IBM Plex Sans","Segoe UI",Tahoma,Geneva,Verdana,Arial,sans-serif;
+}
+
+.fs-t4-head{
+  text-align:center;
+  margin:0 auto 28px;
+  max-width:720px;
+}
+
+.fs-t4-head h2{
+  margin:0 0 8px;
+  font-size:clamp(26px, 3.4vw, 36px);
+  letter-spacing:-.6px;
+  color:var(--blue);
+  line-height:1.15;
+}
+
+.fs-t4-head p{
+  margin:0;
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.55;
+}
+
+.fs-t4 .template-grid{
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+  gap:16px;
+}
+
+.fs-t4 .template-card{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  height:100%;
+  border-left:0;
+  border-top:0;
+}
+
+.fs-t4 .template-preview{
+  height:118px;
+  cursor:default;
+}
+
+.fs-t4 .template-preview img{display:none}
+.fs-t4 .template-preview span{display:none}
+
+.fs-t4 .template-card.is-website .template-preview{background:var(--blue)}
+.fs-t4 .template-card.is-sistema .template-preview{background:var(--teal)}
+.fs-t4 .template-card.is-catalogo .template-preview{background:var(--gold)}
+.fs-t4 .template-card.is-bio .template-preview{background:var(--rust)}
+
+.fs-t4 .card-type{
+  left:14px;
+  right:14px;
+  bottom:12px;
+  width:auto;
+  background:transparent;
+  color:#fff;
+  padding:0;
+  font-size:12px;
+  letter-spacing:.04em;
+  font-weight:600;
+  text-transform:none;
+  font-family:"IBM Plex Sans","Segoe UI",sans-serif;
+}
+
+.fs-t4 .template-body{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  padding:16px 16px 18px;
+}
+
+.fs-t4 .template-body h3{
+  font-size:17px;
+  margin:6px 0 8px;
+}
+
+.fs-t4 .template-body p{
+  -webkit-line-clamp:4;
+}
+
+.fs-t4 .template-body p.fs-t4-meta{
+  margin:0 0 10px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.4;
+  display:block;
+  -webkit-line-clamp:unset;
+  overflow:visible;
+}
+
+.fs-t4 .template-actions{
+  grid-template-columns:1fr 1fr;
+  margin-top:auto;
+  gap:8px;
+}
+
+.fs-t4 .template-actions .btn{
+  min-height:40px;
+  padding:8px 10px;
+  font-size:13px;
+  white-space:nowrap;
+}
+
+.fs-t4 .template-actions .btn-primary{
+  background:var(--blue);
+}
+
+.fs-t4 .template-actions .btn-primary:hover{
+  background:var(--blue-dark);
+}
+
+.fs-t4-foot{
+  margin:18px auto 0;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:#fff;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+  text-align:center;
+}
+
+.fs-t4-empty{
+  grid-column:1 / -1;
+  min-height:180px;
+}
+
+@media(max-width:1100px){
+  .snippet-admin-grid{
+    grid-template-columns:1fr;
+  }
+  .fs-t4 .template-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media(max-width:700px){
+  .fs-t4{
+    width:min(100% - 16px, 1240px);
+  }
+  .fs-t4 .template-grid{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  .fs-t4-head h2{font-size:28px}
+}
+
+@media(max-width:420px){
+  .fs-t4 .template-actions{
+    grid-template-columns:1fr;
   }
 }

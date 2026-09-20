@@ -14,6 +14,7 @@ const config = {
   crmWebhookUrl: process.env.FIRESTEP_CRM_WEBHOOK_URL || "",
   crmWebhookSecret: process.env.FIRESTEP_CRM_WEBHOOK_SECRET || "",
   supportWhatsapp: process.env.SUPPORT_WHATSAPP || "",
+  r2PublicBase: (process.env.R2_PUBLIC_BASE_URL || "").replace(/\/$/, ""),
   publishApi: onVercel ? "" : process.env.PUBLISH_API || "http://127.0.0.1:8787"
 };
 

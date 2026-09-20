@@ -7,6 +7,11 @@ const { publishTemplates, writeTemplatePage, loadSeededTemplates } = require("./
 
 loadEnv(__dirname);
 
+const r2Sign = require("./api/r2-sign");
+const r2Get = require("./api/r2");
+const r2Folder = require("./api/r2-folder");
+const r2Finalize = require("./api/r2-finalize");
+
 const ROOT = __dirname;
 const PORT = Number(process.env.PORT) || 8787;
 const PEDIDOS_FILE = path.join(ROOT, "data", "pedidos.json");
@@ -165,22 +170,7 @@ const server = http.createServer(async (request, response) => {
 
   try {
     if (request.method === "POST" && request.url === "/api/upload-image") {
-      const payload = JSON.parse(await readBody(request) || "{}");
-      const match = String(payload.dataUrl || "").match(/^data:(image\/(?:png|jpeg|jpg|webp|gif));base64,(.+)$/i);
-      if (!match) {
-        send(response, 400, JSON.stringify({ ok: false, error: "Imagem inválida" }), {
-          "Content-Type": "application/json"
-        });
-        return;
-      }
-
-      const mime = match[1].toLowerCase();
-      const ext = mime.includes("png") ? ".png" : mime.includes("webp") ? ".webp" : mime.includes("gif") ? ".gif" : ".jpg";
-      const dir = path.join(ROOT, "uploads", "templates");
-      fs.mkdirSync(dir, { recursive: true });
-      const fileName = `${Date.now()}-${crypto.randomBytes(4).toString("hex")}${ext}`;
-      fs.writeFileSync(path.join(dir, fileName), Buffer.from(match[2], "base64"));
-      send(response, 200, JSON.stringify({ ok: true, url: `/uploads/templates/${fileName}` }), {
+      send(response, 410, JSON.stringify({ ok: false, error: "Uploads locais desligados. Use o Cloudflare R2." }), {
         "Content-Type": "application/json"
       });
       return;
@@ -202,6 +192,19 @@ const server = http.createServer(async (request, response) => {
     }
 
     const pathname = requestPath(request);
+
+    if (pathname === "/api/r2-sign") {
+      await r2Sign(request, response);
+      return;
+    }
+    if (pathname === "/api/r2") {
+      await r2Get(request, response);
+      return;
+    }
+    if (pathname === "/api/r2-finalize") {
+      await r2Finalize(request, response);
+      return;
+    }
 
     if (pathname === "/api/pedidos" && request.method === "GET") {
       send(response, 200, JSON.stringify({ ok: true, pedidos: readPedidosFile() }), {

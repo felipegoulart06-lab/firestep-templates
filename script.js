@@ -6,6 +6,7 @@ const INTEREST_KEY = "fs_interests_v1";
 const PEDIDO_STATUSES = ["Novo", "Em contato", "Fechado", "Perdido"];
 const ADMIN_SESSION_KEY = "fs_admin_session_v1";
 const ADMIN_LOGIN_GUARD_KEY = "fs_admin_login_guard_v1";
+const SNIPPET_PICK_KEY = "fs_snippet_pick_v1";
 const LOGIN_MAX_ATTEMPTS = 8;
 const LOGIN_LOCK_MS = 5 * 60 * 1000;
 
@@ -238,6 +239,23 @@ async function signOutAdmin() {
 
 let adminAppStarted = false;
 
+async function finalizeR2Migration() {
+  const session = readAdminSession();
+  if (!session?.access_token) return;
+  try {
+    const res = await fetch("/api/r2-finalize", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${session.access_token}` }
+    });
+    const payload = await res.json().catch(() => ({}));
+    if (payload.deleted || payload.patched) {
+      console.info("R2 finalize", payload);
+    }
+  } catch {
+    /* ignore */
+  }
+}
+
 function startAdminApp() {
   if (adminAppStarted) return;
   adminAppStarted = true;
@@ -246,6 +264,7 @@ function startAdminApp() {
   initConfirmModal();
   initRecordForms();
   initTemplatesAdmin();
+  initSnippetAdmin();
   initCompanies();
   initBriefings();
   initPedidos();
@@ -255,6 +274,7 @@ function startAdminApp() {
     persistTemplateRemote(item);
     persistCategoryRemote(item.category);
   });
+  finalizeR2Migration();
 }
 
 async function initAdminAuth() {
@@ -381,6 +401,21 @@ function templateSeoHref(template = {}) {
   return `/detalhe.html?id=${id}`;
 }
 
+function publicSiteOrigin() {
+  if (typeof location === "undefined") return "https://templates.firestep.cloud";
+  const host = location.hostname || "";
+  if (host === "localhost" || host === "127.0.0.1") {
+    return "https://templates.firestep.cloud";
+  }
+  return location.origin;
+}
+
+function templatePublicUrl(template = {}, interest = false) {
+  const origin = publicSiteOrigin().replace(/\/$/, "");
+  const id = encodeURIComponent(template.id || "");
+  return `${origin}/detalhe.html?id=${id}${interest ? "&interesse=1" : ""}`;
+}
+
 function getPublishApi() {
   if (typeof location === "undefined") return "";
   if (location.hostname !== "localhost" && location.hostname !== "127.0.0.1") return "";
@@ -453,9 +488,49 @@ async function supabasePedidos(path, { method = "GET", body, query = "" } = {}) 
   return text ? JSON.parse(text) : [];
 }
 
+function r2AssetUrl(folder, fileName) {
+  const pub = String(CFG.r2PublicBase || "").replace(/\/$/, "");
+  if (pub) return `${pub}/${folder}/${fileName}`;
+  return `/api/r2?key=${encodeURIComponent(`${folder}/${fileName}`)}`;
+}
+
+function rewriteMediaUrl(url, templateId) {
+  const raw = String(url || "").trim();
+  if (!raw) return raw;
+  let folder = String(templateId || "_orphan").trim() || "_orphan";
+  let fileName = "";
+  const supabase = raw.match(/supabase\.co\/storage\/v1\/object\/public\/template-media\/(.+?)(?:\?|$)/i);
+  const proxied = raw.match(/\/api\/r2\?key=([^&]+)/i);
+  if (supabase) {
+    fileName = decodeURIComponent(supabase[1].split("/").pop());
+  } else if (proxied) {
+    const key = decodeURIComponent(proxied[1]);
+    const parts = key.split("/");
+    if (parts.length >= 2) {
+      folder = parts[0];
+      fileName = parts.slice(1).join("/");
+    }
+  } else {
+    return raw;
+  }
+  if (!fileName) return raw;
+  return r2AssetUrl(folder, fileName);
+}
+
+function rewriteTemplateMedia(template = {}) {
+  const id = template.id;
+  const next = { ...template };
+  next.image = rewriteMediaUrl(next.image, id);
+  next.pagePrint = rewriteMediaUrl(next.pagePrint, id);
+  if (Array.isArray(next.gallery)) {
+    next.gallery = next.gallery.map(url => rewriteMediaUrl(url, id));
+  }
+  return next;
+}
+
 function rowToTemplate(row = {}) {
   const payload = row.payload && typeof row.payload === "object" ? row.payload : {};
-  return {
+  return rewriteTemplateMedia({
     ...payload,
     id: row.id || payload.id,
     name: payload.name || row.name || "",
@@ -466,7 +541,7 @@ function rowToTemplate(row = {}) {
     subcategory: payload.subcategory || row.subcategory || "",
     updatedAt: payload.updatedAt || row.updated_at || "",
     createdAt: payload.createdAt || row.created_at || ""
-  };
+  });
 }
 
 function templateToRow(template = {}) {
@@ -1354,6 +1429,10 @@ function initAdminTabs() {
     if (targetTab === "briefings") {
       fillCompanySelect($("#companyId")?.value || "");
     }
+
+    if (targetTab === "snippet") {
+      if (typeof window.refreshSnippetBoard === "function") window.refreshSnippetBoard();
+    }
   }
 
   buttons.forEach(button => {
@@ -1686,70 +1765,82 @@ function fileExtension(file) {
   return "jpg";
 }
 
-async function uploadToSupabaseStorage(file) {
+async function uploadToR2(file, kind) {
   const session = readAdminSession();
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY || !session?.access_token) return "";
+  if (!session?.access_token) {
+    throw new Error("Entre no admin para enviar imagens ao R2.");
+  }
 
   const allowed = ["image/png", "image/jpeg", "image/jpg", "image/webp", "image/gif"];
-  const type = String(file.type || "").toLowerCase();
+  const type = String(file.type || "image/jpeg").toLowerCase();
   if (!allowed.includes(type) || Number(file.size || 0) > 15_728_640) {
     throw new Error("Envie uma imagem PNG, JPG, WEBP ou GIF de até 15 MB.");
   }
 
-  const path = `prints/${crypto.randomUUID()}.${fileExtension(file)}`;
-  const response = await fetch(`${SUPABASE_URL}/storage/v1/object/template-media/${path}`, {
+  const templateId = ensureTemplateFolderId();
+  const signRes = await fetch("/api/r2-sign", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${session.access_token}`,
-      apikey: SUPABASE_ANON_KEY,
-      "Content-Type": type,
-      "x-upsert": "false"
+      "Content-Type": "application/json"
     },
+    body: JSON.stringify({
+      templateId,
+      kind: kind || "gallery",
+      contentType: type,
+      fileName: file.name
+    })
+  });
+  const signed = await signRes.json().catch(() => ({}));
+  if (!signRes.ok || !signed.uploadUrl) {
+    throw new Error(signed.error || "Não foi possível assinar o upload no R2.");
+  }
+
+  const putRes = await fetch(signed.uploadUrl, {
+    method: "PUT",
+    headers: { "Content-Type": type },
     body: file
   });
-
-  if (!response.ok) return "";
-  return `${SUPABASE_URL}/storage/v1/object/public/template-media/${path}`;
+  if (!putRes.ok) {
+    throw new Error("Falha ao gravar a imagem no R2.");
+  }
+  return signed.publicUrl;
 }
 
-function readFileAsDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = () => reject(reader.error);
-    reader.readAsDataURL(file);
-  });
+async function ensureR2TemplateFolder(templateId) {
+  const session = readAdminSession();
+  if (!session?.access_token || !templateId) return;
+  await fetch("/api/r2-folder", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${session.access_token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ templateId })
+  }).catch(() => false);
 }
 
-async function uploadTemplateImageFile(file) {
-  const fromStorage = await uploadToSupabaseStorage(file).catch(() => "");
-  if (fromStorage) return fromStorage;
+function ensureTemplateFolderId() {
+  const field = $("#templateId");
+  if (!field) return createId("TMP");
+  if (!field.value.trim()) field.value = createId("TMP");
+  return field.value.trim();
+}
 
-  const dataUrl = await readFileAsDataUrl(file);
-  const api = getPublishApi();
+async function uploadTemplateImageFile(file, kind) {
+  return uploadToR2(file, kind);
+}
 
-  if (api) {
-    try {
-      const response = await fetch(`${api}/api/upload-image`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: file.name, dataUrl })
-      });
-
-      if (response.ok) {
-        const payload = await response.json();
-        if (payload.url) return payload.url;
-      }
-    } catch {
-      // fallback local
-    }
+function assertCloudMediaUrl(url, label) {
+  const raw = String(url || "").trim();
+  if (!raw) return "";
+  if (raw.startsWith("data:")) {
+    throw new Error(`${label}: envie o arquivo pelo botão de upload (Cloudflare R2). Não use imagem colada.`);
   }
-
-  if (String(dataUrl).length > 3_500_000) {
-    throw new Error("Imagem grande demais. Entre no painel logado para enviar ao armazenamento, ou use um link.");
+  if (/supabase\.co\/storage/i.test(raw)) {
+    return rewriteMediaUrl(raw, ensureTemplateFolderId());
   }
-
-  return dataUrl;
+  return raw;
 }
 
 function renderMediaPreview(targetId, url) {
@@ -1782,7 +1873,7 @@ function bindSingleImageField({ inputId, fileId, previewId, clearId }) {
     event.target.value = "";
     if (!file) return;
     try {
-      input.value = await uploadTemplateImageFile(file);
+      input.value = await uploadTemplateImageFile(file, inputId === "templatePagePrint" ? "print" : "cover");
       input.dispatchEvent(new Event("input"));
     } catch (error) {
       alert(error.message || "Não foi possível enviar a imagem.");
@@ -1821,7 +1912,7 @@ function initTemplateGalleryEditor() {
 
     for (const file of files) {
       try {
-        current.push(await uploadTemplateImageFile(file));
+        current.push(await uploadTemplateImageFile(file, "gallery"));
       } catch (error) {
         alert(error.message || "Não foi possível enviar a imagem. Use o servidor local ou uma URL.");
       }
@@ -1860,7 +1951,9 @@ function collectTemplateData() {
 
   if (!hasVideoLink(data.video)) data.video = "";
   data.category = normalizeCategory(data.category);
-  data.gallery = readGalleryInput();
+  data.gallery = readGalleryInput().map(url => assertCloudMediaUrl(url, "Galeria"));
+  data.image = assertCloudMediaUrl(data.image, "Capa");
+  data.pagePrint = assertCloudMediaUrl(data.pagePrint, "Print da landing");
 
   return data;
 }
@@ -1872,7 +1965,7 @@ function resetTemplateForm() {
 
   form.reset();
 
-  $("#templateId").value = "";
+  $("#templateId").value = createId("TMP");
   $("#templatePages").value = "5";
   $("#templateStatus").value = "Ativo";
   $("#templateSeoReady").value = "Preparado";
@@ -2044,6 +2137,7 @@ function initTemplatesAdmin() {
 
     try {
       const editingId = $("#templateId").value;
+      const existed = readStorage(TEMPLATE_KEY).some(item => item.id === editingId);
       const template = collectTemplateData();
 
       if (!template.name || !template.category || !template.serviceType || !template.url || !template.image || !template.description) {
@@ -2054,23 +2148,23 @@ function initTemplatesAdmin() {
       let templates = readStorage(TEMPLATE_KEY);
       template.updatedAt = new Date().toISOString();
 
-      if (editingId) {
+      if (existed) {
         const oldTemplate = templates.find(item => item.id === editingId);
         template.id = editingId;
         template.createdAt = oldTemplate?.createdAt || template.updatedAt;
       } else {
-        template.id = createId("TMP");
+        template.id = editingId || createId("TMP");
         template.createdAt = template.updatedAt;
       }
 
       const webhookPayload = buildMakePayload(
-        editingId ? "template_atualizado" : "template_cadastrado",
+        existed ? "template_atualizado" : "template_cadastrado",
         template,
         TEMPLATE_LABELS,
         "template"
       );
 
-      if (editingId) {
+      if (existed) {
         templates = templates.map(item => item.id === editingId ? template : item);
       } else {
         templates.unshift(template);
@@ -2078,6 +2172,7 @@ function initTemplatesAdmin() {
 
       writeStorage(TEMPLATE_KEY, templates);
       await persistTemplateRemote(template);
+      await ensureR2TemplateFolder(template.id);
       await persistCategoryRemote(template.category);
       fillCategoryDatalist();
       publishAllTemplatePages(templates).catch(() => false);
@@ -2086,10 +2181,11 @@ function initTemplatesAdmin() {
       closeRecordForm("templates");
       renderTemplates();
       renderStatistics();
+      if (typeof window.refreshSnippetBoard === "function") window.refreshSnippetBoard();
 
       const webhookOk = await sendToWebhook(TEMPLATE_WEBHOOK, webhookPayload);
 
-      showToast(editingId ? "Template atualizado." : "Template cadastrado.");
+      showToast(existed ? "Template atualizado." : "Template cadastrado.");
     } catch (error) {
       console.error("Erro ao salvar template:", error);
       alert("Não foi possível salvar o template. Tente novamente.");
@@ -2191,11 +2287,292 @@ function initTemplatesAdmin() {
       if ($("#templateId")?.value === template.id) resetTemplateForm();
       renderTemplates();
       renderStatistics();
+      if (typeof window.refreshSnippetBoard === "function") window.refreshSnippetBoard();
       showToast("Template excluído.");
     }
   );
 
   renderTemplates();
+}
+
+const SNIPPET_EMBED_CSS = `
+.fs-t4,.fs-t4 *{box-sizing:border-box}
+.fs-t4{
+  --bg:#e8edf2;--text:#172033;--muted:#5c6b80;--line:#cfc6b8;--blue:#1b365d;--blue-dark:#12263f;
+  --teal:#0f766e;--rust:#e25c2a;--gold:#c9a227;--radius:2px;
+  width:min(1240px,calc(100% - 24px));
+  margin:0 auto;
+  color:var(--text);
+  font-family:"IBM Plex Sans","Segoe UI",Tahoma,Geneva,Verdana,Arial,sans-serif;
+  -webkit-text-size-adjust:100%;
+}
+.fs-t4 a{text-decoration:none;color:inherit}
+.fs-t4-head{text-align:center;margin:0 auto 28px;max-width:720px}
+.fs-t4-head h2{margin:0 0 8px;font-size:clamp(26px,3.4vw,36px);letter-spacing:-.6px;color:var(--blue);line-height:1.15}
+.fs-t4-head p{margin:0;color:var(--muted);font-size:15px;line-height:1.55}
+.fs-t4 .template-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.fs-t4 .template-card{
+  background:#fffdf8;border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;display:flex;flex-direction:column;min-width:0;height:100%;
+}
+.fs-t4 .template-preview{position:relative;height:118px;width:100%;display:block}
+.fs-t4 .template-card.is-website .template-preview{background:var(--blue)}
+.fs-t4 .template-card.is-sistema .template-preview{background:var(--teal)}
+.fs-t4 .template-card.is-catalogo .template-preview{background:var(--gold)}
+.fs-t4 .template-card.is-bio .template-preview{background:var(--rust)}
+.fs-t4 .card-type{
+  position:absolute;left:14px;right:14px;bottom:12px;margin:0;padding:0;background:transparent;
+  color:#fff;font-size:12px;font-weight:600;letter-spacing:.04em;
+}
+.fs-t4 .template-body{padding:16px 16px 18px;flex:1;display:flex;flex-direction:column}
+.fs-t4 .card-cat{
+  display:block;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.08em;
+  font-size:11px;font-family:"IBM Plex Mono","Segoe UI",monospace;
+}
+.fs-t4 .template-body h3{margin:6px 0 8px;font-size:17px;color:var(--blue);letter-spacing:-.2px;line-height:1.25}
+.fs-t4 .template-body p{
+  margin:0 0 13px;color:var(--muted);font-size:14px;line-height:1.5;
+  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;
+}
+.fs-t4 .template-body p.fs-t4-meta{
+  display:block;-webkit-line-clamp:unset;overflow:visible;margin:0 0 10px;font-size:13px;
+}
+.fs-t4 .template-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}
+.fs-t4 .btn{
+  border:0;border-radius:2px;padding:8px 10px;min-height:40px;font-weight:600;font-size:13px;
+  display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;cursor:pointer;
+}
+.fs-t4 .btn-primary{background:var(--blue);color:#fff}
+.fs-t4 .btn-primary:hover{background:var(--blue-dark)}
+.fs-t4 .btn-outline{background:#fff;color:var(--text);border:1px solid var(--line)}
+.fs-t4-foot{
+  margin:18px auto 0;padding:12px 14px;border:1px solid var(--line);border-radius:var(--radius);
+  background:#fff;color:var(--muted);font-size:13px;line-height:1.5;text-align:center;
+}
+@media(max-width:1100px){.fs-t4 .template-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){
+  .fs-t4{width:min(100% - 16px,1240px)}
+  .fs-t4 .template-grid{grid-template-columns:1fr;gap:14px}
+  .fs-t4-head h2{font-size:28px}
+}
+@media(max-width:420px){.fs-t4 .template-actions{grid-template-columns:1fr}}
+`.trim();
+
+function snippetCardLabel(template = {}) {
+  return [template.serviceType, template.category].filter(Boolean).join(" · ") || "Template";
+}
+
+function snippetCardHtml(template = {}) {
+  const kind = catalogKindSlug(template);
+  const label = snippetCardLabel(template);
+  const prazo = template.deliveryTime || "no catálogo";
+  const tipo = template.serviceType || "template";
+  const viewUrl = templatePublicUrl(template, false);
+  const interestUrl = templatePublicUrl(template, true);
+  return `
+      <article class="template-card is-${kind}">
+        <div class="template-preview">
+          <b class="card-type">${escapeHtml(label)}</b>
+        </div>
+        <div class="template-body">
+          <small class="card-cat">${escapeHtml(label)}</small>
+          <h3>${escapeHtml(template.name || "Template")}</h3>
+          <p class="fs-t4-meta">Tipo: ${escapeHtml(tipo)} · Prazo: ${escapeHtml(prazo)}</p>
+          <p>${escapeHtml(template.description || "Template profissional pronto para personalização.")}</p>
+          <div class="template-actions">
+            <a class="btn btn-primary" href="${escapeHtml(viewUrl)}" target="_blank" rel="noopener">Ver modelo</a>
+            <a class="btn btn-outline" href="${escapeHtml(interestUrl)}" target="_blank" rel="noopener">Tenho interesse</a>
+          </div>
+        </div>
+      </article>`;
+}
+
+function buildSnippetMarkup(templates, { heading, lead, foot } = {}) {
+  const title = heading || "Veja primeiro. Escolha depois.";
+  const intro = lead || "";
+  const note = foot || "";
+  const cards = templates.map(snippetCardHtml).join("");
+  return `<!-- firestep TEMPLATES · 4 modelos -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap");
+${SNIPPET_EMBED_CSS}
+</style>
+<section class="fs-t4" data-fs-snippet="4">
+  <div class="fs-t4-head">
+    <h2>${escapeHtml(title)}</h2>
+    ${intro ? `<p>${escapeHtml(intro)}</p>` : ""}
+  </div>
+  <div class="template-grid">${cards}
+  </div>
+  ${note ? `<p class="fs-t4-foot">${escapeHtml(note)}</p>` : ""}
+</section>`;
+}
+
+function readSnippetPicks() {
+  try {
+    const ids = JSON.parse(localStorage.getItem(SNIPPET_PICK_KEY) || "[]");
+    return Array.isArray(ids) ? ids.filter(Boolean).slice(0, 4) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeSnippetPicks(ids) {
+  localStorage.setItem(SNIPPET_PICK_KEY, JSON.stringify(ids.slice(0, 4)));
+}
+
+function initSnippetAdmin() {
+  const pickList = $("#snippetPickList");
+  const preview = $("#snippetPreview");
+  const codeBox = $("#snippetCode");
+  if (!pickList || !preview || !codeBox) return;
+
+  let selectedIds = readSnippetPicks();
+
+  function allPublicTemplates() {
+    return readStorage(TEMPLATE_KEY).filter(
+      item => item.status !== "Arquivado" && item.status !== "Rascunho"
+    );
+  }
+
+  function selectedTemplates() {
+    const map = new Map(allPublicTemplates().map(item => [item.id, item]));
+    return selectedIds.map(id => map.get(id)).filter(Boolean);
+  }
+
+  function copyTexts() {
+    return {
+      heading: $("#snippetHeading")?.value.trim() || "Veja primeiro. Escolha depois.",
+      lead: $("#snippetLead")?.value.trim() || "",
+      foot: $("#snippetFoot")?.value.trim() || ""
+    };
+  }
+
+  function paint() {
+    const valid = new Set(allPublicTemplates().map(item => item.id));
+    const nextIds = selectedIds.filter(id => valid.has(id));
+    if (nextIds.length !== selectedIds.length) {
+      selectedIds = nextIds;
+      writeSnippetPicks(selectedIds);
+    }
+
+    const query = normalizeText($("#snippetFilter")?.value.trim() || "");
+    const templates = allPublicTemplates().filter(template => {
+      if (!query) return true;
+      return [
+        template.name,
+        template.category,
+        template.subcategory,
+        template.serviceType,
+        template.sku
+      ].some(value => normalizeText(value).includes(query));
+    });
+
+    $("#snippetPickCount").textContent = `${selectedIds.length} / 4`;
+
+    if (!templates.length) {
+      pickList.innerHTML = `<div class="empty-admin"><strong>Nenhum template encontrado</strong>Altere o filtro ou cadastre modelos na aba Templates.</div>`;
+    } else {
+      pickList.innerHTML = templates.map(template => {
+        const index = selectedIds.indexOf(template.id);
+        const on = index >= 0;
+        return `
+          <button class="snippet-pick${on ? " is-on" : ""}" type="button" data-snippet-pick="${escapeHtml(template.id)}">
+            <span class="snippet-pick-n">${on ? index + 1 : ""}</span>
+            <img src="${escapeHtml(template.image || "")}" alt="">
+            <div>
+              <strong>${escapeHtml(template.name || "Template")}</strong>
+              <small>${escapeHtml(snippetCardLabel(template))}</small>
+            </div>
+          </button>`;
+      }).join("");
+    }
+
+    const chosen = selectedTemplates();
+    const slots = [0, 1, 2, 3].map(index => {
+      const item = chosen[index];
+      if (!item) {
+        return `<div class="snippet-slot"><strong>Vaga ${index + 1} vazia</strong></div>`;
+      }
+      return `
+        <div class="snippet-slot">
+          <span class="snippet-pick-n">${index + 1}</span>
+          <strong>${escapeHtml(item.name || "Template")}</strong>
+          <button class="mini-btn" type="button" data-snippet-remove="${escapeHtml(item.id)}">Tirar</button>
+        </div>`;
+    }).join("");
+    $("#snippetSelected").innerHTML = slots;
+
+    const markup = chosen.length === 4 ? buildSnippetMarkup(chosen, copyTexts()) : "";
+    codeBox.value = markup || "Selecione 4 modelos para gerar o código.";
+
+    if (!chosen.length) {
+      preview.innerHTML = `<div class="empty fs-t4-empty"><strong>Selecione 4 templates</strong><p>A prévia aparece aqui no mesmo container do catálogo.</p></div>`;
+      return;
+    }
+
+    const texts = copyTexts();
+    preview.innerHTML = `
+      <section class="fs-t4">
+        <div class="fs-t4-head">
+          <h2>${escapeHtml(texts.heading)}</h2>
+          ${texts.lead ? `<p>${escapeHtml(texts.lead)}</p>` : ""}
+        </div>
+        <div class="template-grid">${chosen.map(snippetCardHtml).join("")}</div>
+        ${texts.foot ? `<p class="fs-t4-foot">${escapeHtml(texts.foot)}</p>` : ""}
+      </section>`;
+  }
+
+  window.refreshSnippetBoard = paint;
+
+  pickList.addEventListener("click", event => {
+    const button = event.target.closest("[data-snippet-pick]");
+    if (!button) return;
+    const id = button.dataset.snippetPick;
+    const index = selectedIds.indexOf(id);
+    if (index >= 0) {
+      selectedIds = selectedIds.filter(item => item !== id);
+    } else if (selectedIds.length >= 4) {
+      showToast("Escolha só 4 modelos. Tire um para trocar.");
+      return;
+    } else {
+      selectedIds = [...selectedIds, id];
+    }
+    writeSnippetPicks(selectedIds);
+    paint();
+  });
+
+  $("#snippetSelected")?.addEventListener("click", event => {
+    const button = event.target.closest("[data-snippet-remove]");
+    if (!button) return;
+    selectedIds = selectedIds.filter(id => id !== button.dataset.snippetRemove);
+    writeSnippetPicks(selectedIds);
+    paint();
+  });
+
+  $("#snippetFilter")?.addEventListener("input", paint);
+  ["snippetHeading", "snippetLead", "snippetFoot"].forEach(id => {
+    $(`#${id}`)?.addEventListener("input", paint);
+  });
+
+  $("#snippetCopy")?.addEventListener("click", async () => {
+    if (selectedTemplates().length !== 4) {
+      showToast("Selecione 4 modelos antes de copiar.");
+      return;
+    }
+    const text = codeBox.value;
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast("Snippet copiado.");
+    } catch {
+      codeBox.focus();
+      codeBox.select();
+      document.execCommand("copy");
+      showToast("Snippet copiado.");
+    }
+  });
+
+  paint();
 }
 
 function companyFieldToProperty(fieldId) {
@@ -5401,12 +5778,25 @@ function renderPublicDetailBlocks(sections, skipRows = new Set()) {
         const body = /^(https?:\/\/|\/)/i.test(text)
           ? `<a href="${escapeHtml(text)}" target="_blank" rel="noopener">${escapeHtml(text)}</a>`
           : escapeHtml(text).replace(/\n/g, "<br>");
-        return `<div class="product-row"><dt>${escapeHtml(label)}</dt><dd>${body}</dd></div>`;
+        const desc = label === "Como funciona" ? " itemprop=\"description\"" : "";
+        return `<div class="product-row"><dt>${escapeHtml(label)}</dt><dd${desc}>${body}</dd></div>`;
       })
       .join("");
     if (!rows) return "";
     return `<section class="product-block"><h2>${escapeHtml(section.title)}</h2><dl>${rows}</dl></section>`;
   }).join("");
+}
+
+function crmSpotlightHtml() {
+  return `<aside class="crm-spotlight" aria-label="FirestepCRM">
+      <img class="crm-spotlight-mark" src="/firestep-crm-mark.png" width="56" height="56" alt="Logo FirestepCRM">
+      <div class="crm-spotlight-copy">
+        <p class="crm-spotlight-kicker">FirestepCRM</p>
+        <h2>Está buscando um painel para gerenciar seus clientes, pedidos e reservas?</h2>
+        <p>O FirestepCRM organiza agenda, cliente e caixa no mesmo lugar — o que o site capta não fica só no WhatsApp.</p>
+        <a class="btn btn-outline btn-full" href="https://www.firestep.cloud/" target="_blank" rel="noopener">Conhecer a Firestep</a>
+      </div>
+    </aside>`;
 }
 
 function publicTemplateArticleHtml(template) {
@@ -5460,6 +5850,7 @@ function publicTemplateArticleHtml(template) {
             ${docs ? `<a class="btn btn-outline btn-full" href="${escapeHtml(docs)}" target="_blank" rel="noopener">Documentação</a>` : ""}
           </div>
         </aside>
+        ${crmSpotlightHtml()}
         ${sideBlocks}
       </div>
     </article>
@@ -5519,6 +5910,10 @@ document.addEventListener(
         initInterestLead();
         initSupportChat();
         initPageScrollPreview();
+        const params = new URLSearchParams(location.search);
+        if (params.get("interesse") && params.get("id")) {
+          openInterestForm(params.get("id"));
+        }
       }
     }
   }
