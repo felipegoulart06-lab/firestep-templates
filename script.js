@@ -3758,7 +3758,7 @@ function buildBriefingPdfHtml(briefing) {
     institucional: "Especificações — Site institucional",
     landing: "Especificações — Landing page / captação",
     sistema: "Especificações — Sistema / produto",
-    catalogo: "Especificações — Catálogo",
+    catalogo: "Especificações — Agendadores",
     bio: "Especificações — Link na bio"
   }[serviceKind];
 
@@ -4969,8 +4969,8 @@ function initInterestLead() {
 
 function catalogKindSlug(template) {
   const type = normalizeText(template.serviceType || "");
+  if (type.includes("agendador") || type.includes("catalogo")) return "catalogo";
   if (type.includes("sistema")) return "sistema";
-  if (type.includes("catalogo")) return "catalogo";
   if (type.includes("bio") || type.includes("link")) return "bio";
   return "website";
 }
@@ -4980,8 +4980,8 @@ function catalogKindMatches(template, kind) {
   if (kind === "website") {
     return type.includes("institucional") || type.includes("landing") || type.includes("website") || type === "site";
   }
-  if (kind === "sistema") return type.includes("sistema");
-  if (kind === "catalogo") return type.includes("catalogo");
+  if (kind === "sistema") return type.includes("sistema") && !type.includes("agendador");
+  if (kind === "catalogo") return type.includes("agendador") || type.includes("catalogo");
   if (kind === "bio") return type.includes("bio") || type.includes("link");
   return false;
 }
@@ -5142,7 +5142,7 @@ function initCatalog() {
         title: "Escolha o tipo de projeto",
         emptySearch: false,
         emptyTitle: "Selecione o tipo de projeto",
-        emptyText: "É obrigatório escolher website, sistema ou link na bio para ver os templates."
+        emptyText: "É obrigatório escolher website, sistema, agendador ou link na bio para ver os templates."
       });
       return;
     }
@@ -5186,7 +5186,7 @@ function initCatalog() {
       : selectedKind === "sistema"
         ? "Sistemas"
         : selectedKind === "catalogo"
-          ? "Catálogos"
+          ? "Agendadores"
           : "Links na bio";
 
     paintCatalogGrid(results, {
