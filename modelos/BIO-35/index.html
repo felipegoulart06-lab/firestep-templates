@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#e7e2d8">
+  <title>Hora Funcional | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Sessão</p>
+      <h1>Recupere o movimento com hora marcada.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Ter a sáb</span></p>
+    </header>
+    <article class="sheet">
+      <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=80" alt="Imagem do atendimento">
+      <p>Rua da Tecla, 35_</p>
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">01 agendar no whatsapp</a>
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Pedir avaliação</a>
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Pedir avaliação</a>
+      <a href="https://instagram.com/tecla.atelie" target="_blank" rel="noopener noreferrer">Pedir avaliação</a>
+      <a href="https://www.google.com/maps/search/?api=1&query=Rua%20da%20Tecla%2035" target="_blank" rel="noopener noreferrer">05 como chegar</a>
+    </article>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua da Tecla, 35">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Hora Funcional</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

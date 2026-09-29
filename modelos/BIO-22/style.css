@@ -1,0 +1,27 @@
+:root { --amber:#e7b56a; --open:#d6f5a2; }
+* { box-sizing:border-box; }
+body { margin:0; min-height:100dvh; background:#241612; color:#f6efe6; font-family:Quicksand,"Segoe UI",sans-serif; overflow-x:clip; }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+:focus-visible { outline:2px solid var(--amber); outline-offset:3px; }
+.page { width:min(480px,calc(100% - 28px)); margin:0 auto; padding:max(18px,env(safe-area-inset-top)) 0 max(24px,env(safe-area-inset-bottom)); }
+.kicker { margin:0; letter-spacing:.16em; text-transform:uppercase; font-size:.72rem; color:#cbb6a4; }
+h1 { margin:4px 0; font-family:"Patrick Hand",cursive; font-weight:400; font-size:clamp(2.2rem,8vw,3rem); }
+.status { display:flex; align-items:center; gap:8px; margin:0 0 12px; font-weight:700; }
+.dot { width:8px; height:8px; border-radius:50%; background:#8a7060; }
+.status.is-open { color:var(--open); } .status.is-open .dot { background:var(--open); }
+.darkroom { background:#3a221c; border-radius:28px; padding:22px 14px 14px; overflow:hidden; }
+.polaroid { width:min(300px,88%); margin:0 auto; background:#f7f1e6; color:#2a2118; padding:12px 12px 14px; transform:rotate(-1.5deg); box-shadow:0 14px 28px rgba(0,0,0,.35); }
+.polaroid img { width:100%; height:250px; object-fit:cover; display:block; background:#ddd2c2; }
+.polaroid p { margin:10px 0 8px; font-family:"Patrick Hand",cursive; font-size:1.45rem; }
+.polaroid a { display:inline-block; color:#fff; background:#2a2118; text-decoration:none; border-radius:999px; padding:8px 12px; font-weight:700; }
+.controls { display:grid; grid-template-columns:1fr auto 1fr; gap:8px; align-items:center; margin-top:16px; }
+.controls button { min-height:44px; border-radius:999px; background:#f6efe6; color:#2a2118; font-weight:700; }
+.controls p { margin:0; font-weight:700; }
+.ig { display:block; margin-top:12px; text-align:center; color:#f6efe6; font-weight:700; }
+.actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+.actions button { min-height:46px; border-radius:14px; border:1px solid #5a3b32; font-weight:700; }
+footer p { margin:12px 0 0; text-align:center; color:#cbb6a4; font-size:.8rem; }
+.toast { position:fixed; left:50%; bottom:max(16px,env(safe-area-inset-bottom)); transform:translateX(-50%); padding:12px 16px; border-radius:999px; background:#f6efe6; color:#241612; opacity:0; pointer-events:none; }
+.toast.show { opacity:1; }
+@media (max-width:380px) { .actions { grid-template-columns:1fr; } .polaroid img { height:210px; } }
+@media (prefers-reduced-motion:reduce) { .polaroid { transform:none; } }

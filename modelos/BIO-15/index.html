@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f4efe4">
+  <title>Rua Sete</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600;700&family=Archivo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <a class="place" href="https://www.google.com/maps/search/?api=1&query=Rua%20Sete%2070" target="_blank" rel="noopener noreferrer">
+      <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1200&q=80" alt="Imagem do atendimento">
+      <span><small id="statusText">Seg a sáb</small><strong>Rua Sete, 70</strong></span>
+    </a>
+    <header>
+      <h1>Rua Sete</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusLine">Hora marcada</span></p>
+    </header>
+    <section class="grid" aria-label="Atalhos">
+      <a class="mini" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=400&q=80" alt="">
+        <strong>Agendar</strong><small>WhatsApp</small>
+      </a>
+      <a class="mini" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=400&q=80" alt="">
+        <strong>Facial</strong><small>R$ 125</small>
+      </a>
+      <a class="mini" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=400&q=80" alt="">
+        <strong>Design</strong><small>R$ 290</small>
+      </a>
+      <a class="mini" href="https://instagram.com/ruasete" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=400&q=80" alt="">
+        <strong>Instagram</strong><small>@ruasete</small>
+      </a>
+    </section>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua Sete, 70">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Rua Sete</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

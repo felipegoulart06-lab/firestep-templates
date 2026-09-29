@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f4ef">
+  <meta name="description" content="Traga o que quiser contar. Não há roteiro obrigatório.">
+  <title>Espaço Escuta | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-bg"></div>
+      <div class="hero-inner">
+        <div class="hero-content">
+          <a class="brand" href="#inicio" aria-label="Espaço Escuta, início">
+            <span class="brand-mark">m<span>✳</span></span>
+            <span class="brand-name">Espaço Escuta<small>BEAUTY HOUSE</small></span>
+          </a>
+
+          <div class="hero-copy">
+            <span class="eyebrow"><i></i> SEU TEMPO. SEU CUIDADO.</span>
+            <h1>Acolhimento no horário combinado.<br>que é <em>só seu.</em></h1>
+            <p class="hero-description">A primeira conversa serve para entender o que você busca neste momento.</p>
+            <div class="trust-row">
+              <div class="avatar-stack" aria-hidden="true">
+                <span>J</span><span>M</span><span>A</span><span>+</span>
+              </div>
+              <div><strong>Seu próximo momento favorito</strong><small>Agende em poucos passos, sem complicação.</small></div>
+            </div>
+          </div>
+
+          <div class="hero-bottom"><span>Escuta</span><span>01 — 04</span></div>
+        </div>
+
+        <div class="visual">
+          <div class="photo-frame">
+            <img src="https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?auto=format&fit=crop&w=1200&q=88" alt="Mulher em um momento de autocuidado, com luz suave" fetchpriority="high">
+            <div class="photo-shade"></div>
+          </div>
+          <div class="floating-note"><span class="note-icon">✦</span><div><strong>Você merece</strong><small>um tempo para si</small></div></div>
+          <div class="round-seal"><span>Espaço Escuta</span><b>✳</b><span>CARE · BEAUTY</span></div>
+          <div class="image-caption"><span>01</span><span>O seu ritual começa aqui</span></div>
+        </div>
+      </div>
+
+      <div class="booking-card" id="agendar">
+        <div class="booking-heading">
+          <div><span class="eyebrow">RESERVA ONLINE</span><h2>O que cabe numa sessão <em>Perguntas antes de marcar</em></h2></div>
+          <span class="secure"><i>✓</i> Simples e rápido</span>
+        </div>
+        <div class="progress-track"><span id="progress"></span></div>
+        <div class="step-label"><span id="step-label">ETAPA 1 DE 3</span><span id="step-name">Escolha seu serviço</span></div>
+
+        <form id="booking-form" novalidate>
+          <section class="form-step active" data-step="1">
+            <div class="service-grid">
+              <label class="service-card selected">
+                <input type="radio" name="service" value="Sessão" data-price="95" data-duration="60" checked>
+                <span class="service-symbol">✂</span><span class="service-text"><strong>Sessão</strong><small>Forma e movimento</small></span><span class="service-price">R$ 95</span><span class="radio-dot"></span>
+              </label>
+              <label class="service-card">
+                <input type="radio" name="service" value="Avaliação" data-price="60" data-duration="45">
+                <span class="service-symbol">〰</span><span class="service-text"><strong>Avaliação</strong><small>Brilho e acabamento</small></span><span class="service-price">R$ 60</span><span class="radio-dot"></span>
+              </label>
+              <label class="service-card">
+                <input type="radio" name="service" value="Orientação" data-price="120" data-duration="60">
+                <span class="service-symbol">✧</span><span class="service-text"><strong>Orientação</strong><small>Nutrição profunda</small></span><span class="service-price">R$ 120</span><span class="radio-dot"></span>
+              </label>
+              <label class="service-card">
+                <input type="radio" name="service" value="Plantão" data-price="45" data-duration="40">
+                <span class="service-symbol">♡</span><span class="service-text"><strong>Plantão</strong><small>Cuidado nos detalhes</small></span><span class="service-price">R$ 45</span><span class="radio-dot"></span>
+              </label>
+            </div>
+            <div class="date-time-row">
+              <div class="field"><label for="date">Qual dia funciona para você?</label><input id="date" name="date" type="date" required><small>Fechado aos domingos.</small></div>
+              <div class="field"><label>Escolha um horário</label><div class="time-options">
+                <button type="button" data-time="09:00">09:00</button><button type="button" data-time="10:30">10:30</button><button type="button" data-time="13:00">13:00</button><button type="button" data-time="14:30">14:30</button><button type="button" data-time="16:00">16:00</button><button type="button" data-time="17:30">17:30</button>
+              </div><small class="availability-note"><span></span> Horários para demonstração</small></div>
+            </div>
+            <p class="error" id="step1-error" role="alert"></p>
+            <div class="form-actions"><span class="price-summary">A partir de <strong id="starting-price">R$ 95,00</strong></span><button class="button primary next" type="button">Continuar <span>→</span></button></div>
+          </section>
+
+          <section class="form-step" data-step="2">
+            <p class="step-intro">Acolhimento, escuta e um combinado claro sobre a frequência.</p>
+            <div class="contact-grid">
+              <div class="field wide"><label for="name">Seu nome completo *</label><input id="name" name="name" placeholder="Como podemos chamar você?" autocomplete="name" required minlength="3"></div>
+              <div class="field"><label for="phone">WhatsApp *</label><input id="phone" name="phone" type="tel" placeholder="(00) 00000-0000" autocomplete="tel" required></div>
+              <div class="field"><label for="email">E-mail <span>opcional</span></label><input id="email" name="email" type="email" placeholder="voce@email.com" autocomplete="email"></div>
+              <div class="field wide"><label for="notes">Algum detalhe para contar? <span>opcional</span></label><textarea id="notes" name="notes" rows="3" placeholder="Preferências, observações ou pedidos especiais..."></textarea></div>
+            </div>
+            <p class="error" id="step2-error" role="alert"></p>
+            <div class="form-actions"><button class="button secondary back" type="button">← Voltar</button><button class="button primary next" type="button">Revisar agendamento <span>→</span></button></div>
+          </section>
+
+          <section class="form-step" data-step="3">
+            <p class="step-intro">Traga o que quiser contar. Não há roteiro obrigatório.</p>
+            <div class="summary-card">
+              <div class="summary-top"><span class="summary-icon">✳</span><div><strong>Seu momento de escuta</strong><small>Resumo do agendamento</small></div><button type="button" class="edit-link" id="edit-booking">Editar</button></div>
+              <div class="summary-line"><span>Serviço</span><strong id="summary-service">—</strong></div>
+              <div class="summary-line"><span>Data</span><strong id="summary-date">—</strong></div>
+              <div class="summary-line"><span>Horário</span><strong id="summary-time">—</strong></div>
+              <div class="summary-line"><span>Nome</span><strong id="summary-name">—</strong></div>
+              <div class="summary-line"><span>WhatsApp</span><strong id="summary-phone">—</strong></div>
+              <div class="summary-total"><span>Valor estimado</span><strong id="summary-price">—</strong></div>
+            </div>
+            <label class="confirm-check"><input type="checkbox" id="confirm"><span>Conferi os dados e quero solicitar este agendamento.</span></label>
+            <p class="error" id="step3-error" role="alert"></p>
+            <div class="form-actions"><button class="button secondary back" type="button">← Voltar</button><button class="button primary" id="submit" type="submit">Solicitar horário <span>♡</span></button></div>
+            <p class="fine-print">Você escolhe o dia e a hora. A confirmação segue pelo WhatsApp.</p>
+          </section>
+
+          <section class="success-state" id="success" hidden>
+            <div class="success-check">✓</div><span class="eyebrow">SOLICITAÇÃO ENVIADA</span><h3>O que cabe numa sessão<br><em>está mais perto.</em></h3>
+            <p>Cada consulta tem um foco. Se precisar de outro tema, marque outra sessão.</p><div class="protocol" id="protocol"></div>
+            <button type="button" class="button primary" id="new-booking">Fazer novo agendamento <span>↗</span></button>
+          </section>
+        </form>
+      </div>
+    </section>
+
+    <section class="aftercare">
+      <div class="aftercare-mark">✳</div><p>UM LEMBRETE CARINHOSO</p><h2>Como a sessão acontece<br><em>dar espaço para você.</em></h2><a href="#agendar">Escolher meu horário <span>↑</span></a>
+    </section>
+  </main>
+  <footer><a class="footer-brand" href="#inicio">Espaço Escuta <span>✳</span></a><span>Sessão</span><a href="#agendar">Agende seu momento ↗</a></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

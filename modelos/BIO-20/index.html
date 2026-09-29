@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#efe6f4">
+  <title>Pele Simples | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Hidratação</p>
+      <h1>O cuidado que você marca, não encaixa.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Qua a sáb</span></p>
+    </header>
+    <article class="folder">
+      <span class="clip" aria-hidden="true"></span>
+      <p class="meta">FICHA 020 · CLIENTE DO DIA</p>
+      <span class="stamp">Hora marcada</span>
+      <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1000&q=80" alt="Imagem do atendimento">
+      <a class="row" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=160&q=80" alt="">
+        <span><strong>Drenagem</strong><small>45 min</small></span>
+        <b>R$ 130</b>
+      </a>
+      <a class="row" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=160&q=80" alt="">
+        <span><strong>Tonificação</strong><small>2 h</small></span>
+        <b>R$ 280</b>
+      </a>
+      <a class="row" href="https://instagram.com/fichalila" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=160&q=80" alt="">
+        <span><strong>Instagram</strong><small>@fichalila</small></span>
+        <b>ver</b>
+      </a>
+      <div class="perforation" aria-hidden="true"></div>
+      <a class="stub" href="https://www.google.com/maps/search/?api=1&query=Rua%20da%20Ficha%2020" target="_blank" rel="noopener noreferrer">Destacar · Rua da Ficha, 20</a>
+    </article>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua da Ficha, 20">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Pele Simples</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

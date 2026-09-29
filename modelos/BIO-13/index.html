@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f7f5">
+  <title>Estética Norte | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,560&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <h1>Atendimento estético com hora certa.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Seg a sáb</span></p>
+    </header>
+    <section class="feed" aria-label="Publicações">
+      <article class="post">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=80" alt="Imagem do atendimento">
+        <div class="meta"><strong>Protocolo</strong><small>45 min · R$ 135</small></div>
+        <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Quero este</a>
+      </article>
+      <article class="post">
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=900&q=80" alt="Tonificação">
+        <div class="meta"><strong>Hidratação</strong><small>50 min · R$ 90</small></div>
+        <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Quero este</a>
+      </article>
+      <article class="post">
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80" alt="Facial">
+        <div class="meta"><strong>Massagem</strong><small>60 min · R$ 190</small></div>
+        <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Quero este</a>
+      </article>
+      <article class="post">
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=900&q=80" alt="Drenagem">
+        <div class="meta"><strong>Instagram</strong><small>@clara.studio</small></div>
+        <a href="https://instagram.com/clara.studio" target="_blank" rel="noopener noreferrer">Abrir perfil</a>
+      </article>
+    </section>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua Clara, 18">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Clara</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

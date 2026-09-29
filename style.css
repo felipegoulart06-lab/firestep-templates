@@ -3030,36 +3030,14 @@ body[data-page="admin"] .btn{
   flex-direction:column;
   min-width:0;
   height:100%;
-  border-left:0;
-  border-top:0;
 }
 
 .fs-t4 .template-preview{
-  height:118px;
-  cursor:default;
+  height:188px;
 }
 
-.fs-t4 .template-preview img{display:none}
-.fs-t4 .template-preview span{display:none}
-
-.fs-t4 .template-card.is-website .template-preview{background:var(--blue)}
-.fs-t4 .template-card.is-sistema .template-preview{background:var(--teal)}
-.fs-t4 .template-card.is-catalogo .template-preview{background:var(--gold)}
-.fs-t4 .template-card.is-bio .template-preview{background:var(--rust)}
-
-.fs-t4 .card-type{
-  left:14px;
-  right:14px;
-  bottom:12px;
-  width:auto;
-  background:transparent;
-  color:#fff;
-  padding:0;
-  font-size:12px;
-  letter-spacing:.04em;
-  font-weight:600;
-  text-transform:none;
-  font-family:"IBM Plex Sans","Segoe UI",sans-serif;
+.fs-t4 .template-preview img{
+  height:188px;
 }
 
 .fs-t4 .template-body{

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#eef3fb">
+  <title>Passo a Passo Fisio | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Passo a Passo Fisio Studio</p>
+      <h1>Mobilidade com dia e hora.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Qua a sáb</span></p>
+    </header>
+    <div class="week" role="group" aria-label="Dias">
+      <button type="button" class="day" aria-pressed="false" data-note="Segunda fechada.">Seg</button>
+      <button type="button" class="day" aria-pressed="false" data-note="Terça fechada.">Ter</button>
+      <button type="button" class="day" aria-pressed="true" data-note="Quarta · 14h às 21h.">Qua</button>
+      <button type="button" class="day" aria-pressed="false" data-note="Quinta · 14h às 21h.">Qui</button>
+      <button type="button" class="day" aria-pressed="false" data-note="Sexta · 14h às 21h.">Sex</button>
+      <button type="button" class="day" aria-pressed="false" data-note="Sábado · 10h às 18h.">Sáb</button>
+      <button type="button" class="day" aria-pressed="false" data-note="Domingo fechado.">Dom</button>
+    </div>
+    <p class="note" id="note">Quarta · 14h às 21h.</p>
+    <nav class="cards" aria-label="Links">
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=500&q=80" alt=""><strong>Agendar</strong></a>
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer"><img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=500&q=80" alt=""><strong>Mobilidade</strong></a>
+      <a href="https://instagram.com/semana.studio" target="_blank" rel="noopener noreferrer"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=500&q=80" alt=""><strong>Instagram</strong></a>
+      <a href="https://www.google.com/maps/search/?api=1&query=Rua%20da%20Semana%2036" target="_blank" rel="noopener noreferrer"><img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=500&q=80" alt=""><strong>Como chegar</strong></a>
+    </nav>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua da Semana, 36">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Passo a Passo Fisio</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

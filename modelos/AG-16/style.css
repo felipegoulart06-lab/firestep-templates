@@ -1,0 +1,31 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { overflow-x: clip; }
+body { margin: 0; min-width: 320px; overflow-x: clip; background: #f5f3ff; color: #2a2144; font-family: Barlow, sans-serif; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+input { width: 100%; font-size: 16px; color: #1a1a1a; border: 1px solid #ddd6fe; border-radius: 12px; padding: 12px; background: #fff; }
+button:focus-visible, input:focus-visible { outline: 3px solid #7c3aed88; outline-offset: 2px; }
+[hidden] { display: none !important; }
+.app { width: min(720px, calc(100% - 20px)); margin: 16px auto 28px; }
+header p { margin: 0; color: #7c3aed; font-weight: 700; }
+h1 { margin: 4px 0 14px; font-size: clamp(26px, 4vw, 36px); letter-spacing: -0.03em; }
+h2 { margin: 0; }
+.services { display: grid; gap: 8px; margin-bottom: 14px; }
+.svc { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; text-align: left; border: 1px solid #ddd6fe; background: #fff; border-radius: 14px; padding: 10px 12px; color: #2a2144; }
+.svc .track { grid-column: 1 / -1; height: 8px; background: #efe9ff; border-radius: 99px; overflow: hidden; }
+.svc .track i { display: block; height: 100%; background: #7c3aed; }
+.svc.on { border-color: #7c3aed; box-shadow: inset 0 0 0 1px #7c3aed; }
+.pager { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; gap: 8px; align-items: center; margin-bottom: 10px; }
+.pager button, form button, .done button { border: 0; background: #7c3aed; color: #fff; border-radius: 12px; min-height: 44px; font-weight: 700; }
+.pager strong { text-align: center; }
+.slots { display: grid; gap: 8px; }
+.slot { width: 100%; text-align: left; border: 1px solid #ddd6fe; background: #fff; border-radius: 12px; min-height: 48px; padding: 10px 12px; color: #2a2144; font-weight: 700; }
+.slot.on { background: #7c3aed; color: #fff; border-color: #7c3aed; }
+form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+label { display: grid; gap: 6px; font-weight: 700; font-size: 14px; min-width: 0; }
+form button { grid-column: 1 / -1; }
+.msg { grid-column: 1 / -1; margin: 0; color: #9a3412; font-weight: 700; }
+.msg:empty { display: none; }
+.done { background: #fff; border-radius: 16px; padding: 20px; }
+@media (max-width: 560px) { form { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

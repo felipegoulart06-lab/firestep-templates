@@ -1,0 +1,27 @@
+(() => {
+  "use strict";
+  const HOURS = { 0:null, 1:[9,18], 2:[9,18], 3:[9,18], 4:[9,18], 5:[9,18], 6:null };
+  const WHEN = ["no domingo","na segunda","na terça","na quarta","na quinta","na sexta","no sábado"];
+  const status = document.querySelector("#status"), statusText = document.querySelector("#statusText"), toastEl = document.querySelector("#toast");
+  const dialog = document.querySelector("#viewer");
+  let timer;
+  const nextOpening = day => { for (let s=1;s<=7;s++){ const d=(day+s)%7; if(HOURS[d]) return `abre ${s===1?"amanhã":WHEN[d]} às ${HOURS[d][0]}h`; } return "sem expediente"; };
+  const describe = now => { const r=HOURS[now.getDay()], m=now.getHours()*60+now.getMinutes(); if(!r) return {open:false,text:`Fechado · ${nextOpening(now.getDay())}`}; if(m<r[0]*60) return {open:false,text:`Abre hoje às ${r[0]}h`}; if(m>=r[1]*60) return {open:false,text:`Fechado · ${nextOpening(now.getDay())}`}; return {open:true,text:`Aberto agora · até ${r[1]}h`}; };
+  const render = () => { const n=describe(new Date()); if(statusText.textContent!==n.text) statusText.textContent=n.text; status.classList.toggle("is-open", n.open); };
+  const toast = m => { toastEl.textContent=m; toastEl.classList.add("show"); clearTimeout(timer); timer=setTimeout(()=>toastEl.classList.remove("show"),2400); };
+  const copyText = (value, success) => { const fallback=()=>{ const a=document.createElement("textarea"); a.value=value; a.style.cssText="position:fixed;left:-9999px"; document.body.append(a); a.select(); toast(document.execCommand("copy")?success:"Não foi possível copiar"); a.remove(); }; if(navigator.clipboard&&window.isSecureContext) navigator.clipboard.writeText(value).then(()=>toast(success)).catch(fallback); else fallback(); };
+  document.querySelectorAll(".shot").forEach(shot => shot.addEventListener("click", () => {
+    const img = shot.querySelector("img");
+    document.querySelector("#viewerImg").src = img.currentSrc || img.src;
+    document.querySelector("#viewerImg").alt = shot.dataset.title;
+    document.querySelector("#viewerTitle").textContent = shot.dataset.title;
+    document.querySelector("#viewerLink").href = shot.dataset.href;
+    dialog.showModal();
+  }));
+  document.querySelector("#closeViewer").onclick = () => dialog.close();
+  dialog.addEventListener("click", event => { const r=dialog.getBoundingClientRect(); const inside=event.clientX>=r.left&&event.clientX<=r.right&&event.clientY>=r.top&&event.clientY<=r.bottom; if(!inside) dialog.close(); });
+  document.querySelector("#copyAddress").onclick = () => copyText(document.querySelector("#copyAddress").dataset.copy, "Endereço copiado");
+  document.querySelector("#share").onclick = async () => { if(navigator.share){ try{ await navigator.share({title:"Casa Lina",url:location.href}); return;}catch(e){ if(e.name==="AbortError") return;} } copyText(location.href,"Link copiado"); };
+  document.querySelector("#year").textContent = String(new Date().getFullYear());
+  render(); setInterval(render, 30000);
+})();

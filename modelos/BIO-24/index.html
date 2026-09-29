@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#16130f">
+  <title>Espaço do Agora | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Unbounded:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Espaço do Agora</p>
+      <h1>O encontro terapêutico começa na agenda.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Seg a sáb</span></p>
+    </header>
+    <section class="player">
+      <div class="disc-wrap">
+        <div class="vinyl" id="vinyl">
+          <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=400&q=80" alt="">
+        </div>
+      </div>
+      <div class="side">
+        <div class="tracks" role="list">
+          <button type="button" class="track" aria-pressed="true" data-title="Agendar" data-href="https://wa.me/5547999999999?text=Ol%C3%A1!%20Quero%20agendar%20no%20Lado%20B.">
+            <b>01</b>
+            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=120&q=80" alt="">
+            <span>Agendar<small>WhatsApp</small></span>
+          </button>
+          <button type="button" class="track" aria-pressed="false" data-title="Corte" data-href="https://wa.me/5547999999999?text=Ol%C3%A1!%20Quero%20corte%20no%20Lado%20B.">
+            <b>02</b>
+            <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=120&q=80" alt="">
+            <span>Presença<small>R$ 140</small></span>
+          </button>
+          <button type="button" class="track" aria-pressed="false" data-title="Cor" data-href="https://wa.me/5547999999999?text=Ol%C3%A1!%20Quero%20cor%20no%20Lado%20B.">
+            <b>03</b>
+            <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=120&q=80" alt="">
+            <span>Pausa<small>R$ 310</small></span>
+          </button>
+          <button type="button" class="track" aria-pressed="false" data-title="Instagram" data-href="https://instagram.com/ladob.studio">
+            <b>04</b>
+            <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=120&q=80" alt="">
+            <span>Instagram<small>@ladob.studio</small></span>
+          </button>
+        </div>
+        <a class="book" id="book" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Reservar · <span id="now">Agendar</span></a>
+      </div>
+    </section>
+    <a class="map" href="https://www.google.com/maps/search/?api=1&query=Rua%20do%20Disco%2024" target="_blank" rel="noopener noreferrer">Como chegar · Rua do Disco, 24</a>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua do Disco, 24">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Espaço do Agora</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

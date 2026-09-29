@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#6b4b55">
+  <title>Escuta Clara | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="booking-card" aria-label="Agendamento do Escuta Clara">
+      <aside class="brand-panel">
+        <div class="brand-mark" aria-hidden="true">b.</div>
+        <p class="eyebrow">Escuta Clara</p>
+        <h1>A consulta começa quando você marca.<br><em>de cuidado.</em></h1>
+        <p class="brand-copy">Traga o que quiser contar. Não há roteiro obrigatório.</p>
+        <div class="brand-divider"></div>
+        <div class="brand-detail"><span class="detail-icon">✦</span><span>Encontro</span></div>
+        <div class="brand-detail"><span class="detail-icon">⌁</span><span>Agende em poucos passos.</span></div>
+        <div class="panel-bottom">FEITO PARA VOCÊ <span>♡</span></div>
+      </aside>
+
+      <section class="form-panel">
+        <header class="form-header">
+          <div class="header-copy">
+            <p class="eyebrow">AGENDAMENTO ONLINE</p>
+            <h2>Três formas de começar</h2>
+            <p class="subheading">Você pode remarcar pelo mesmo WhatsApp, com antecedência.</p>
+          </div>
+          <div class="step-indicator" aria-label="Etapas do agendamento"><span>01</span><i></i><span>02</span><i></i><span>03</span></div>
+        </header>
+
+        <form id="bookingForm">
+          <section class="form-section" aria-labelledby="serviceHeading">
+            <div class="section-heading"><span class="section-number">01</span><div><h3 id="serviceHeading">Três formas de começar</h3><p>Selecione uma opção para continuar.</p></div></div>
+            <div class="service-grid" id="serviceGrid">
+              <button class="service-option selected" type="button" data-service="Sessão" aria-pressed="true"><span class="service-icon">✂</span><span class="service-name">Sessão</span><span class="service-meta">45 min</span><strong>R$ 75,00</strong></button>
+              <button class="service-option" type="button" data-service="Avaliação" aria-pressed="false"><span class="service-icon">〰</span><span class="service-name">Avaliação</span><span class="service-meta">40 min</span><strong>R$ 55,00</strong></button>
+              <button class="service-option" type="button" data-service="Orientação" aria-pressed="false"><span class="service-icon">✧</span><span class="service-name">Orientação</span><span class="service-meta">40 min</span><strong>R$ 35,00</strong></button>
+              <button class="service-option" type="button" data-service="Retorno" aria-pressed="false"><span class="service-icon">◒</span><span class="service-name">Retorno</span><span class="service-meta">2 horas</span><strong>R$ 180,00</strong></button>
+            </div>
+          </section>
+
+          <section class="form-section" aria-labelledby="dateHeading">
+            <div class="section-heading"><span class="section-number">02</span><div><h3 id="dateHeading">A escuta, em ordem</h3><p>Acolhimento, escuta e um combinado claro sobre a frequência.</p></div></div>
+            <div class="calendar-layout">
+              <div class="calendar">
+                <div class="calendar-top"><button type="button" id="prevMonth" class="month-arrow" aria-label="Mês anterior">‹</button><strong id="monthLabel"></strong><button type="button" id="nextMonth" class="month-arrow" aria-label="Próximo mês">›</button></div>
+                <div class="calendar-weekdays" aria-hidden="true"><span>DOM</span><span>SEG</span><span>TER</span><span>QUA</span><span>QUI</span><span>SEX</span><span>SÁB</span></div>
+                <div class="calendar-days" id="calendarDays"></div>
+                <p class="calendar-note"><span></span> Datas disponíveis</p>
+              </div>
+              <div class="time-panel">
+                <div class="time-title"><strong id="selectedDateLabel">Selecione uma data</strong><span id="slotCount">—</span></div>
+                <div class="time-slots" id="timeSlots"><p class="empty-state">Não prometemos resultado em uma sessão. O cuidado é contínuo.</p></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="form-section" aria-labelledby="detailsHeading">
+            <div class="section-heading"><span class="section-number">03</span><div><h3 id="detailsHeading">O que cabe numa sessão</h3><p>Para confirmarmos seu agendamento.</p></div></div>
+            <div class="input-grid">
+              <label class="field full-field">Nome completo<input type="text" name="name" id="name" placeholder="Como podemos te chamar?" required autocomplete="name"></label>
+              <label class="field">WhatsApp<input type="tel" name="phone" id="phone" placeholder="(00) 00000-0000" required autocomplete="tel" inputmode="tel"></label>
+              <label class="field">E-mail <span class="optional">(opcional)</span><input type="email" name="email" id="email" placeholder="voce@email.com" autocomplete="email" inputmode="email"></label>
+              <label class="field full-field">Observações <span class="optional">(opcional)</span><textarea name="notes" id="notes" rows="2" placeholder="Alguma preferência ou informação importante?"></textarea></label>
+            </div>
+          </section>
+
+          <div class="summary-card">
+            <div class="summary-copy"><span class="summary-label">RESUMO DO AGENDAMENTO</span><strong id="summaryService">Sessão</strong><span id="summaryWhen">Selecione data e horário</span></div>
+            <div class="summary-price" id="summaryPrice">R$ 75,00</div>
+          </div>
+          <button type="submit" class="submit-button" id="submitButton">Solicitar agendamento <span aria-hidden="true">→</span></button>
+          <p class="privacy-note"><span>♧</span> Você escolhe o dia e a hora. A confirmação segue pelo WhatsApp.</p>
+          <div class="form-message" id="formMessage" role="status" aria-live="polite"></div>
+        </form>
+        <footer>Escuta Clara <span>·</span> UM CUIDADO QUE É TODO SEU</footer>
+      </section>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

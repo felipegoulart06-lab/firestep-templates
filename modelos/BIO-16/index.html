@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111">
+  <title>Sala Serena Beauty | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Serif:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Sala Serena Beauty Studio</p>
+      <h1>O cuidado que você marca, não encaixa.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Qua a sáb</span></p>
+    </header>
+    <div class="strip" aria-label="Fotos">
+      <a class="frame" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=700&q=80" alt="Imagem do atendimento">
+        <span>01 · Agendar</span>
+      </a>
+      <a class="frame" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=700&q=80" alt="Protocolo">
+        <span>Tonificação</span>
+      </a>
+      <a class="frame" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=700&q=80" alt="Limpeza">
+        <span>Hidratação</span>
+      </a>
+      <a class="frame" href="https://instagram.com/filmestudio" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=700&q=80" alt="Retrato.">
+        <span>04 · Instagram</span>
+      </a>
+    </div>
+    <nav class="notes" aria-label="Atalhos">
+      <a href="https://www.google.com/maps/search/?api=1&query=Rua%20do%20Filme%2012" target="_blank" rel="noopener noreferrer">Como chegar · Rua do Sala Serena Beauty, 12</a>
+      <button type="button" id="copyAddress" data-copy="Rua do Filme, 12">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </nav>
+    <footer><p>© <span id="year">2026</span> Sala Serena Beauty Studio</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

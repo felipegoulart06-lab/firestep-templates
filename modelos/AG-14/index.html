@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#121417">
+  <title>Hora de Cuidar | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="term">
+    <header class="top"><span>Hora de Cuidar</span><b id="clock"></b><span>QUI–SÁB 12–21 · DOM 12–18</span></header>
+    <div class="body" id="work">
+      <nav class="menu" id="services" aria-label="Serviços"></nav>
+      <section class="board">
+        <h1>Bem-estar com dia e hora.</h1>
+        <div class="cal-nav"><button type="button" id="prev" aria-label="Mês anterior">‹</button><strong id="month"></strong><button type="button" id="next" aria-label="Próximo mês">›</button></div>
+        <div class="wds" aria-hidden="true"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+        <div class="days" id="days"></div>
+        <div class="slots" id="slots"></div>
+        <form id="form" novalidate>
+          <label>NOME<input id="name" autocomplete="name"></label>
+          <label>WHATSAPP<input id="phone" inputmode="tel" autocomplete="tel"></label>
+          <button type="submit">GRAVAR TURNO</button>
+          <p class="msg" id="msg" role="alert"></p>
+        </form>
+      </section>
+    </div>
+    <section class="done" id="done" hidden aria-live="polite">
+      <p>TURNO GRAVADO</p>
+      <h2 id="doneTitle"></h2>
+      <p id="doneMeta"></p>
+      <button type="button" id="again">NOVO TURNO</button>
+    </section>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

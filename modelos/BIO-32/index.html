@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f1e7">
+  <title>Recuperação Calma | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Nunito:wght@500;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <article class="recipe">
+      <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1200&q=80" alt="Imagem do atendimento">
+      <p class="kicker">Rendimento: 1 cliente</p>
+      <h1>Mobilidade com dia e hora.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Seg a sáb</span></p>
+      <h2>Depois de agendar</h2>
+      <ul>
+        <li><span>Avaliação</span><b>45 min</b></li>
+        <li><span>Alongamento</span><b>2 h</b></li>
+        <li><span>Mobilidade</span><b>50 min</b></li>
+        <li><span>Pele</span><b>60 min</b></li>
+      </ul>
+      <h2>Três focos de cuidado</h2>
+      <nav class="steps" aria-label="Links">
+        <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">1. Chamar no WhatsApp</a>
+        <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Agendar sessão</a>
+        <a href="https://instagram.com/receita.studio" target="_blank" rel="noopener noreferrer">3. Ver o Instagram</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Rua%20da%20Receita%2032" target="_blank" rel="noopener noreferrer">4. Ir à Rua da Recuperação Calma, 32</a>
+      </nav>
+    </article>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua da Receita, 32">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Recuperação Calma</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

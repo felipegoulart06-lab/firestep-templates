@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7f7fb">
+<title>Acolhida Norte | Agende um horário</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+  <header class="app-header">
+    <a class="brand" href="#" aria-label="Acolhida Norte">
+      <span class="brand-icon">í</span><span><b>íris</b><small>Orientação</small></span>
+    </a>
+    <div class="header-center"><span class="live-dot"></span> Agendamento online <span class="header-divider">·</span> <span>Seg–Sáb, 09h–19h</span></div>
+    <button class="help-button" id="helpButton" type="button"><span>?</span> Ajuda</button>
+  </header>
+
+  <main class="booking-app">
+    <aside class="booking-sidebar">
+      <div class="sidebar-top">
+        <span class="eyebrow">RESERVE SEU HORÁRIO</span>
+        <h1>Sua sessão, com hora marcada.<br><em>momento de cuidado.</em></h1>
+        <p>O sigilo da conversa fica entre você e o profissional que atender.</p>
+      </div>
+      <div class="progress-list" aria-label="Etapas do agendamento">
+        <div class="progress-item active" data-progress="1"><span class="progress-number">01</span><span><b>Serviço</b><small>O que vamos fazer?</small></span><i>✓</i></div>
+        <div class="progress-rail"></div>
+        <div class="progress-item" data-progress="2"><span class="progress-number">02</span><span><b>Data e horário</b><small>Escolha quando vir</small></span><i>✓</i></div>
+        <div class="progress-rail"></div>
+        <div class="progress-item" data-progress="3"><span class="progress-number">03</span><span><b>Seus dados</b><small>Como falar com você</small></span><i>✓</i></div>
+        <div class="progress-rail"></div>
+        <div class="progress-item" data-progress="4"><span class="progress-number">04</span><span><b>Confirmação</b><small>Revise e finalize</small></span><i>✓</i></div>
+      </div>
+      <div class="sidebar-contact"><div class="contact-icon">✦</div><div><b>Precisa de ajuda?</b><small>Fale com nosso atendimento.</small><button id="contactButton" type="button">Ver opções de contato ↗</button></div></div>
+      <div class="sidebar-footer"><span>🔒</span> Seus dados são tratados com cuidado.</div>
+    </aside>
+
+    <section class="main-panel">
+      <div class="panel-topline"><span id="stepKicker">PASSO 1 DE 4</span><span class="step-progress"><i id="progressBar"></i></span><span id="stepPercent">25%</span></div>
+
+      <section class="step-view" id="step1">
+        <div class="view-heading"><div><span class="section-kicker">VAMOS COMEÇAR</span><h2>A escuta, em ordem</h2><p>Traga o que quiser contar. Não há roteiro obrigatório.</p></div><span class="selection-count" id="serviceCount">1 selecionado</span></div>
+        <div class="service-list" id="serviceList">
+          <button class="service-option chosen" data-name="Consulta" data-price="75" data-duration="1h" data-desc="Esmaltação em gel com acabamento impecável.">
+            <span class="service-symbol pink">✳</span><span class="service-info"><b>Consulta</b><small>Agendar sessão</small><em>1h de duração</em></span><span class="service-price"><b>R$ 75</b><i class="radio-mark">✓</i></span>
+          </button>
+          <button class="service-option" data-name="Encontro" data-price="65" data-duration="50 min" data-desc="Cuidado completo com hidratação relaxante.">
+            <span class="service-symbol peach">♧</span><span class="service-info"><b>Encontro</b><small>Agendar sessão</small><em>50 min de duração</em></span><span class="service-price"><b>R$ 65</b><i class="radio-mark">✓</i></span>
+          </button>
+          <button class="service-option" data-name="Acolhida" data-price="50" data-duration="30 min" data-desc="Design personalizado para valorizar seu olhar.">
+            <span class="service-symbol lilac">⌁</span><span class="service-info"><b>Acolhida</b><small>Design personalizado</small><em>30 min de duração</em></span><span class="service-price"><b>R$ 50</b><i class="radio-mark">✓</i></span>
+          </button>
+          <button class="service-option" data-name="Cuidado" data-price="85" data-duration="1h" data-desc="Finalização com movimento e brilho.">
+            <span class="service-symbol blue">〰</span><span class="service-info"><b>Cuidado</b><small>Agendar sessão</small><em>1h de duração</em></span><span class="service-price"><b>R$ 85</b><i class="radio-mark">✓</i></span>
+          </button>
+          <button class="service-option" data-name="Combo mãos + pés" data-price="125" data-duration="1h 40 min" data-desc="Manicure e pedicure em um só momento.">
+            <span class="service-symbol green">✧</span><span class="service-info"><b>Combo mãos + pés</b><small>Agendar sessão</small><em>1h 40 min de duração</em></span><span class="service-price"><b>R$ 125</b><i class="radio-mark">✓</i></span>
+          </button>
+        </div>
+        <div class="panel-actions"><span class="subtle-note">Você poderá revisar tudo antes de confirmar.</span><button class="btn-primary" id="next1">Escolher data <span>→</span></button></div>
+      </section>
+
+      <section class="step-view hidden" id="step2">
+        <div class="view-heading"><div><span class="section-kicker">SUA AGENDA</span><h2>O que cabe numa sessão</h2><p>Você pode remarcar pelo mesmo WhatsApp, com antecedência.</p></div><button class="text-button" id="changeService">← Trocar serviço</button></div>
+        <div class="date-layout">
+          <div class="calendar-card">
+            <div class="calendar-toolbar"><button id="prevMonth" aria-label="Mês anterior">‹</button><b id="monthLabel"></b><button id="nextMonth" aria-label="Próximo mês">›</button></div>
+            <div class="weekday-row"><span>SEG</span><span>TER</span><span>QUA</span><span>QUI</span><span>SEX</span><span>SÁB</span><span>DOM</span></div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <div class="calendar-foot"><span><i class="dot-available"></i> Disponível</span><span><i class="dot-unavailable"></i> Indisponível</span></div>
+          </div>
+          <div class="times-card">
+            <div class="times-heading"><div><b id="selectedDateLabel">Selecione uma data</b><small id="timesSub">Horários para atendimento</small></div><span class="clock-icon">◷</span></div>
+            <div class="time-grid" id="timeGrid"><div class="time-placeholder">Primeiro, escolha uma data no calendário.</div></div>
+            <div class="duration-note"><span>◷</span><span>Duração prevista: <b id="durationLabel">1h</b></span></div>
+          </div>
+        </div>
+        <div class="panel-actions"><button class="btn-secondary" id="back1">← Voltar</button><button class="btn-primary" id="next2" disabled>Continuar <span>→</span></button></div>
+      </section>
+
+      <section class="step-view hidden" id="step3">
+        <div class="view-heading"><div><span class="section-kicker">QUASE LÁ</span><h2>Perguntas antes de marcar</h2><p>Chegue alguns minutos antes. O horário seguinte não é empurrado.</p></div><span class="privacy-badge">🔒 Dados protegidos</span></div>
+        <form id="detailsForm" class="details-form">
+          <label>Nome completo <input id="fullName" name="name" required minlength="2" autocomplete="name" placeholder="Ex.: Ana Souza"></label>
+          <div class="input-row"><label>WhatsApp <input id="phone" name="phone" required inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000"></label><label>E-mail <span class="optional">Opcional</span><input id="email" name="email" type="email" autocomplete="email" placeholder="voce@email.com"></label></div>
+          <label>Observações <span class="optional">Opcional</span><textarea id="notes" name="notes" rows="4" placeholder="Tem alguma preferência ou informação para nossa equipe?"></textarea></label>
+          <div class="notice-box"><span>i</span><p>Não é preciso trazer diagnóstico. Basta marcar e chegar no horário.</p></div>
+          <div class="panel-actions"><button type="button" class="btn-secondary" id="back2">← Voltar</button><button class="btn-primary" type="submit">Revisar reserva <span>→</span></button></div>
+        </form>
+      </section>
+
+      <section class="step-view hidden" id="step4">
+        <div class="view-heading"><div><span class="section-kicker">REVISE OS DETALHES</span><h2>Como a sessão acontece</h2><p>Você escolhe o dia e a hora. A confirmação segue pelo WhatsApp.</p></div><span class="review-check">✓</span></div>
+        <div class="review-card">
+          <div class="review-top"><span class="review-service-icon" id="reviewIcon">✳</span><div><small>SERVIÇO ESCOLHIDO</small><h3 id="reviewService"></h3><span id="reviewDuration"></span></div><button id="editService" type="button">Editar</button></div>
+          <div class="review-details"><div><span>Data</span><b id="reviewDate"></b></div><div><span>Horário</span><b id="reviewTime"></b></div><div><span>Cliente</span><b id="reviewName"></b></div><div><span>WhatsApp</span><b id="reviewPhone"></b></div><div id="reviewEmailRow" class="hidden"><span>E-mail</span><b id="reviewEmail"></b></div><div id="reviewNotesRow" class="hidden"><span>Observação</span><b id="reviewNotes"></b></div></div>
+          <div class="review-total"><span>Valor do atendimento</span><b id="reviewPrice"></b></div>
+        </div>
+        <div class="panel-actions"><button class="btn-secondary" id="back3">← Editar dados</button><button class="btn-primary" id="confirm">Confirmar agendamento <span>✓</span></button></div>
+      </section>
+
+      <section class="success-view hidden" id="successView">
+        <div class="success-illustration"><span>✓</span><i>✦</i><b>✧</b></div><span class="section-kicker">SOLICITAÇÃO REGISTRADA</span><h2>O que você pode marcar <em id="successName"></em>!</h2><p id="successMessage"></p>
+        <div class="success-summary"><span>Seu horário</span><b id="successWhen"></b><span>Serviço</span><b id="successService"></b></div>
+        <button class="btn-primary" id="restart">Fazer outro agendamento <span>↗</span></button>
+      </section>
+      <div class="panel-bottom"><span>Acolhida Norte</span><span>Uma pausa no seu dia, feita para você.</span><span>© <span id="year"></span></span></div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="script.js"></script>
+</body></html>

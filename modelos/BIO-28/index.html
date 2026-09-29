@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f4efe8">
+  <title>Acompanhamento Vivo | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;700&family=Fraunces:opsz,wght@9..144,560&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Acompanhamento Vivo</p>
+      <h1>O encontro terapêutico começa na agenda.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Qua a sáb</span></p>
+    </header>
+    <section class="stairs" aria-label="Links">
+      <a class="step" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80" alt="">
+        <span><small>01</small><strong>Agendar</strong><em>WhatsApp</em></span>
+      </a>
+      <a class="step" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80" alt="">
+        <span><small>02</small><strong>Acompanha</strong><em>R$ 130</em></span>
+      </a>
+      <a class="step" href="https://instagram.com/degrau.studio" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=800&q=80" alt="">
+        <span><small>03</small><strong>Instagram</strong><em>@Acompanhamento Vivo.studio</em></span>
+      </a>
+      <a class="step" href="https://www.google.com/maps/search/?api=1&query=Rua%20do%20Degrau%2028" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=800&q=80" alt="">
+        <span><small>04</small><strong>Como chegar</strong><em>Rua do Degrau, 28</em></span>
+      </a>
+    </section>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua do Degrau, 28">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Acompanhamento Vivo</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

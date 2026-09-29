@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f4f6f2">
+  <title>Tesoura Leve | Agende seu horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Cor</p>
+      <h1>Marque a próxima tesoura.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Seg a sáb</span></p>
+    </header>
+    <div class="ring">
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Agendar o dia</a>
+    </div>
+    <nav class="legend" aria-label="Porções">
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=300&q=80" alt="">
+        <span><i class="c1"></i><strong>Tratamento</strong><small>40% do dia · R$ 120</small></span>
+      </a>
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=300&q=80" alt="">
+        <span><i class="c2"></i><strong>Penteado</strong><small>30% · R$ 280</small></span>
+      </a>
+      <a href="https://instagram.com/porcao.studio" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=300&q=80" alt="">
+        <span><i class="c3"></i><strong>Instagram</strong><small>o resto do dia</small></span>
+      </a>
+    </nav>
+    <a class="map" href="https://www.google.com/maps/search/?api=1&query=Rua%20da%20Porcao%2049" target="_blank" rel="noopener noreferrer">Quero este horário</a>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua da Porção, 49">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Cor</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

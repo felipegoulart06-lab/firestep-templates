@@ -1,0 +1,40 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { overflow-x: clip; }
+body { margin: 0; min-width: 320px; overflow-x: clip; background: #eef2f8; color: #172033; font-family: Manrope, sans-serif; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+input { width: 100%; font-size: 16px; color: #1a1a1a; border: 1px solid #d5deee; border-radius: 12px; padding: 12px; background: #fff; }
+button:focus-visible, input:focus-visible { outline: 3px solid #1f4b9988; outline-offset: 2px; }
+[hidden] { display: none !important; }
+.app { width: min(760px, calc(100% - 24px)); margin: 16px auto 32px; }
+.top, #work, .done { background: #fff; border-radius: 20px; }
+.top { display: flex; justify-content: space-between; gap: 10px; align-items: center; padding: 14px 16px; margin-bottom: 12px; }
+.top span { color: #5c6b86; font-size: 13px; }
+#work, .done { padding: 16px; }
+h1 { margin: 0 0 12px; font-size: clamp(26px, 4vw, 34px); letter-spacing: -0.04em; }
+h2 { margin: 18px 0 8px; font-size: 15px; color: #5c6b86; }
+.people { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.person, .svc, .day, .slot, form button, .done button { border: 1px solid #d5deee; background: #fff; color: #172033; border-radius: 14px; }
+.person { padding: 12px 8px; min-height: 92px; }
+.avatar { width: 36px; height: 36px; margin: 0 auto 6px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 800; }
+.person b, .person small { display: block; }
+.person small { color: #5c6b86; }
+.person.on, .svc.on, .day.on, .slot.on { border-color: #1f4b99; box-shadow: inset 0 0 0 1px #1f4b99; background: #f3f6fd; }
+.services, .slots { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.svc, .slot { min-height: 48px; padding: 8px 10px; text-align: left; }
+.days { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+.day { flex: 0 0 auto; min-width: 72px; min-height: 64px; }
+.day b, .day small { display: block; }
+form { display: grid; gap: 10px; margin-top: 16px; }
+form button, .done button { background: #1f4b99; color: #fff; border: 0; min-height: 50px; font-weight: 800; }
+.msg { margin: 0; color: #9a3412; font-weight: 700; }
+.msg:empty { display: none; }
+.done { text-align: center; }
+@media (max-width: 640px) {
+  .top span { display: none; }
+  .people { grid-template-columns: 1fr; }
+  .person { display: flex; align-items: center; gap: 10px; min-height: 64px; text-align: left; }
+  .avatar { margin: 0; }
+  .services, .slots { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

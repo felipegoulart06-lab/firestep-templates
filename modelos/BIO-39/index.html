@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f2ec">
+  <title>Movimento Marcado | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Mulish:wght@500;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Casa Movimento Marcado</p>
+      <h1>Recupere o movimento com hora marcada.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Seg a sáb</span></p>
+    </header>
+    <div class="mirror">
+      <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=800&q=80" alt="Retrato do atendimento em Movimento Marcado.">
+    </div>
+    <nav class="tray" aria-label="Bandeja">
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=300&q=80" alt=""><strong>Agenda</strong>
+      </a>
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=300&q=80" alt=""><strong>Alongamento</strong>
+      </a>
+      <a href="https://instagram.com/casaoval" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=300&q=80" alt=""><strong>Insta</strong>
+      </a>
+    </nav>
+    <a class="map" href="https://www.google.com/maps/search/?api=1&query=Rua%20do%20Espelho%2039" target="_blank" rel="noopener noreferrer">Reabilitação</a>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua do Espelho, 39">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Movimento Marcado</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

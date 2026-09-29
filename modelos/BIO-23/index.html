@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#d7d1c8">
+  <title>Sessão Nove | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Rua da Vitrine, 23</p>
+      <h1>Uma sessão para o seu bem-estar.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Seg a sáb</span></p>
+    </header>
+    <section class="window" aria-label="Vidraça de links">
+      <a class="pane" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=700&q=80" alt="Roda">
+        <span>Agendar</span>
+      </a>
+      <a class="pane" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=700&q=80" alt="Encontro">
+        <span>Retorno</span>
+      </a>
+      <a class="pane" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=700&q=80" alt="Retrato.">
+        <span>Pele</span>
+      </a>
+      <a class="pane" href="https://instagram.com/vitrine.studio" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=700&q=80" alt="Presença">
+        <span>Instagram</span>
+      </a>
+    </section>
+    <a class="map" href="https://www.google.com/maps/search/?api=1&query=Rua%20da%20Vitrine%2023" target="_blank" rel="noopener noreferrer">Como chegar</a>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua da Vitrine, 23">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Sessão Nove</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

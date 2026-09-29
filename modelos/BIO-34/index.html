@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1a120e">
+  <title>Fisio da Tarde | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Fisio da Tarde Studio</p>
+      <h1>Seu tratamento, sem fila.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Todos os dias</span></p>
+    </header>
+    <section class="tape" aria-label="Fita">
+      <div class="reels" aria-hidden="true"><i></i><i></i></div>
+      <div class="window">
+        <p>Conduta</p>
+        <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">A1 Agendar</a>
+        <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Quero este horário</a>
+        <a href="https://instagram.com/mixtape.studio" target="_blank" rel="noopener noreferrer">A3 Instagram</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Rua%20da%20Fita%2034" target="_blank" rel="noopener noreferrer">A4 Rua da Fita, 34</a>
+      </div>
+      <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=800&q=80" alt="Retrato da Fisio da Tarde.">
+    </section>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua da Fita, 34">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Fisio da Tarde</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

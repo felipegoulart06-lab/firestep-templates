@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#5c2e1e">
+<meta name="description" content="Imagem do atendimento">
+<title>Terapia Leve | Agende um horário</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#agendar">Ir para o agendamento</a>
+
+<main class="sheet">
+  <p class="kicker">Uma carta, não um anúncio</p>
+  <h1>Reserve o seu horário terapêutico.</h1>
+  <p class="lead">Escolha o tipo de sessão, o dia e o horário que cabem na sua rotina.</p>
+  <p>A sessão terapêutica é um encontro com hora, em ambiente reservado.</p>
+  <div class="stats">
+    <div class="stat"><b>45 min</b><span class="muted">corte com conversa curta</span></div>
+    <div class="stat"><b>1 cadeira</b><span class="muted">por vez, sem atropelo</span></div>
+    <div class="stat"><b>Ter–sáb</b><span class="muted">10h às 19h</span></div>
+  </div>
+  <div class="row"><a class="btn" href="#agendar">Quero essa hora</a><a class="btn ghost" href="#depois">Ver o que acontece depois</a></div>
+  <h2 id="depois">Um horário, um foco</h2>
+  <div class="grid3">
+    <article class="card"><h3>1. O pedido entra</h3><p>Não substitui avaliação médica. É um espaço de escuta e bem-estar.</p></article>
+    <article class="card"><h3>2. A casa lê</h3><p>A sessão terapêutica é um encontro com hora, em ambiente reservado.</p></article>
+    <article class="card"><h3>Um horário, um foco</h3><p>Chegue no horário. O encontro seguinte já tem outra pessoa.</p></article>
+  </div>
+  <blockquote>Escolha o tipo de sessão, o dia e o horário que cabem na sua rotina. <span class="muted">— Rita, cliente da casa</span></blockquote>
+</main>
+<section class="wrap" style="margin-top:28px"><h2>Como o encontro funciona</h2>
+<div class="grid3">
+  <article class="card"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1400&q=80" alt="Presença"><h3>Como o encontro funciona</h3><p>A sessão terapêutica é um encontro com hora, em ambiente reservado.</p><a href="#agendar">Roda</a></article>
+  <article class="card"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1400&q=80" alt="Sessão"><h3>O que a sessão oferece</h3><p>Você marca o acompanhamento. A confirmação vai pelo WhatsApp.</p><a href="#agendar">Pausa</a></article>
+  <article class="card"><img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1400&q=80" alt="Cuidado"><h3>Antes de chegar</h3><p>Não substitui avaliação médica. É um espaço de escuta e bem-estar.</p><a href="#agendar">Encontro</a></article>
+</div></section>
+<div class="wrap" style="margin-top:22px">
+
+<section class="wrap more" id="fecha"><p class="kicker">A carta fecha aqui</p><h2>O que a sessão oferece</h2><p class="lead">O pedido fica registrado nesta demonstração e segue para confirmação.</p><div class="grid3"><article class="card"><h3>Depois de marcar</h3><p>O acolhimento começa na pontualidade e no silêncio da sala.</p></article><article class="card"><h3>Três caminhos de cuidado</h3><p>Você marca o acompanhamento. A confirmação vai pelo WhatsApp.</p></article><article class="card"><h3>O acompanhamento</h3><p>Não substitui avaliação médica. É um espaço de escuta e bem-estar.</p></article></div></section>
+<section class="booking-shell" id="agendar">
+  <div class="booking-top"><div><p class="kicker">Hora marcada</p><h2>Antes de chegar</h2></div><div><span id="stepNumber">01</span> / 03</div></div>
+  <div class="progress-track"><span id="progressBar"></span></div>
+  <form id="bookingForm" novalidate>
+    <section class="form-step active" data-step="1">
+      <div class="service-options"><label class="service-option selected"><input type="radio" name="service" value="Acompanha" checked><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1400&q=80" alt=""><span><b>Acompanha</b><small>45 min, sem encaixe.</small></span><i>✓</i></label><label class="service-option"><input type="radio" name="service" value="Acolhida"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1400&q=80" alt=""><span><b>Acolhida</b><small>Retorno</small></span><i>✓</i></label><label class="service-option"><input type="radio" name="service" value="Retorno"><img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1400&q=80" alt=""><span><b>Retorno</b><small>Pausa</small></span><i>✓</i></label></div>
+      <div class="field-grid">
+        <label class="field">Data<input id="date" name="date" type="date" required></label>
+        <label class="field">Horário<select id="time" name="time" required><option value="">Escolher</option><option>09:00</option><option>10:30</option><option>13:00</option><option>15:00</option><option>17:00</option></select></label>
+      </div>
+      <button class="button button-primary next-step" type="button">Continuar</button>
+    </section>
+    <section class="form-step" data-step="2">
+      <div class="fields">
+        <label class="field full">Nome completo<input id="name" name="name" autocomplete="name" required minlength="3" placeholder="Seu nome"></label>
+        <label class="field">WhatsApp<input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(00) 00000-0000"></label>
+        <label class="field">E-mail <small>(opcional)</small><input id="email" name="email" type="email" autocomplete="email" placeholder="voce@email.com"></label>
+      </div>
+      <div class="button-row"><button class="button button-quiet prev-step" type="button">Voltar</button><button class="button button-primary next-step" type="button">Revisar</button></div>
+    </section>
+    <section class="form-step" data-step="3">
+      <div class="review-line"><span>Serviço</span><b id="reviewService">—</b></div>
+      <div class="review-line"><span>Data</span><b id="reviewDate">—</b></div>
+      <div class="review-line"><span>Horário</span><b id="reviewTime">—</b></div>
+      <div class="review-line"><span>Nome</span><b id="reviewName">—</b></div>
+      <label class="consent"><input id="consent" type="checkbox" required><span>Quero que confirmem este horário.</span></label>
+      <div class="button-row"><button class="button button-quiet prev-step" type="button">Voltar</button><button class="button button-primary" id="submitBooking" type="submit">Quero este horário</button></div>
+    </section>
+  </form>
+  <div class="success-panel" id="successPanel" hidden>
+    <h3>O que levar em conta</h3>
+    <p>Traga o que estiver pesando na semana. Não precisa preparar discurso.</p>
+    <p><a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Confirmar no WhatsApp</a></p>
+    <button class="button button-primary" id="newBooking" type="button">Pedir outro horário</button>
+  </div>
+</section>
+
+<footer class="wrap"><b>Terapia Leve</b><span>Rua do Tempo, 23 · ter a sáb, 10h–19h</span><a href="https://wa.me/5547999999999" target="_blank" rel="noopener noreferrer">WhatsApp</a><small>© <span id="year">2026</span> Terapia Leve</small></footer>
+
+<a class="btn float-cta" href="#agendar">Agendar atendimento</a>
+<script src="script.js"></script>
+</body>
+</html>

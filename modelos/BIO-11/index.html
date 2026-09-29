@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#eef3f6">
+  <title>Cuidado Diário | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header class="who">
+      <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=200&q=80" alt="Retrato da Cuidado Diário.">
+      <div>
+        <h1>Um horário só para o seu cuidado.</h1>
+        <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Seg a sex</span></p>
+      </div>
+    </header>
+    <section class="mosaic" aria-label="Serviços">
+      <button class="shot" type="button" data-title="Corte" data-href="https://wa.me/5547999999999?text=Ol%C3%A1!%20Quero%20corte%20na%20Casa%20Lina.">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80" alt="Revitalização">
+        <span>Corte · R$ 130</span>
+      </button>
+      <button class="shot" type="button" data-title="Unhas" data-href="https://wa.me/5547999999999?text=Ol%C3%A1!%20Quero%20unhas%20na%20Casa%20Lina.">
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80" alt="Peeling">
+        <span>Tonificação</span>
+      </button>
+      <button class="shot" type="button" data-title="Pele" data-href="https://wa.me/5547999999999?text=Ol%C3%A1!%20Quero%20pele%20na%20Casa%20Lina.">
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=800&q=80" alt="Pele.">
+        <span>Pele · R$ 170</span>
+      </button>
+      <button class="shot" type="button" data-title="Salão" data-href="https://instagram.com/casalina">
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=800&q=80" alt="Ambiente da Cuidado Diário.">
+        <span>Instagram</span>
+      </button>
+    </section>
+    <a class="cta" href="https://www.google.com/maps/search/?api=1&query=Alameda%20Lina%2033" target="_blank" rel="noopener noreferrer">Como chegar · Alameda Lina, 33</a>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Alameda Lina, 33">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>Toque numa foto para ampliar. © <span id="year">2026</span></p></footer>
+  </main>
+  <dialog id="viewer" aria-labelledby="viewerTitle">
+    <img id="viewerImg" alt="">
+    <p id="viewerTitle"></p>
+    <div class="viewer-actions">
+      <a id="viewerLink" href="#" target="_blank" rel="noopener noreferrer">Abrir</a>
+      <button type="button" id="closeViewer">Fechar</button>
+    </div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

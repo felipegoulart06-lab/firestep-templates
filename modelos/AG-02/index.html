@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#202023">
+  <title>Sala Serena | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Sala Serena início"><span class="brand-symbol">♧</span><span class="brand-name">Sala Serena</span><small>Reservar escuta</small></a>
+      <nav>
+        <a class="nav-link active" href="#agendamento"><span>▦</span> Agendar</a>
+        <a class="nav-link" href="#servicos"><span>✧</span> Nossos serviços</a>
+        <a class="nav-link" href="#sobre"><span>♡</span> Sobre nós</a>
+        <a class="nav-link" href="#contato"><span>☏</span> Fale conosco</a>
+      </nav>
+      <div class="sidebar-contact" id="contato"><span class="whatsapp">◉</span><div><small>Dúvidas? Fale conosco</small><strong>(47) 9 9999-9999</strong></div></div>
+    </aside>
+
+    <main class="main" id="agendamento">
+      <header class="hero">
+        <div class="hero-copy"><p class="eyebrow">SEU MOMENTO COMEÇA AQUI</p><h1>Há um horário guardado para você.<br><em>nosso cuidado.</em></h1><p>Não é preciso trazer diagnóstico. Basta marcar e chegar no horário.</p></div>
+        <div class="hero-art" role="img" aria-label="Imagem do atendimento"><div class="art-orb"></div><div class="art-card"><span>Cuidado</span><b>Um tempo<br>para você.</b><i>✦</i></div></div>
+        <div class="mini-brand"><span>♧</span><div><strong>Escuta</strong><small>Consulta</small></div></div>
+      </header>
+
+      <div class="stepper" aria-label="Etapas"><div class="step active"><span>1</span> Serviço</div><i></i><div class="step"><span>2</span> Data e horário</div><i></i><div class="step"><span>3</span> Seus dados</div></div>
+
+      <div class="content-grid">
+        <div class="booking-column">
+          <section class="section" id="servicos">
+            <div class="section-title"><div><p class="eyebrow">ETAPA 01</p><h2>Perguntas antes de marcar</h2><p class="muted">Selecione o procedimento desejado.</p></div><span class="section-icon">✧</span></div>
+            <div class="services" id="services">
+              <button class="service selected" type="button" data-service="Retorno"><span class="service-art art-hair">✂</span><span class="service-info"><b>Retorno</b><small>45 minutos</small><strong>R$ 60,00</strong></span><span class="check">✓</span></button>
+              <button class="service" type="button" data-service="Encontro"><span class="service-art art-brush">〰</span><span class="service-info"><b>Encontro</b><small>60 minutos</small><strong>R$ 70,00</strong></span><span class="check">✓</span></button>
+              <button class="service" type="button" data-service="Sessão"><span class="service-art art-nails">✧</span><span class="service-info"><b>Sessão</b><small>30 minutos</small><strong>R$ 40,00</strong></span><span class="check">✓</span></button>
+              <button class="service" type="button" data-service="Orientação"><span class="service-art art-pedi">♡</span><span class="service-info"><b>Orientação</b><small>45 minutos</small><strong>R$ 50,00</strong></span><span class="check">✓</span></button>
+              <button class="service" type="button" data-service="Plantão"><span class="service-art art-color">◒</span><span class="service-info"><b>Plantão</b><small>120 minutos</small><strong>R$ 120,00</strong></span><span class="check">✓</span></button>
+              <button class="service" type="button" data-service="Consulta"><span class="service-art art-care">✦</span><span class="service-info"><b>Consulta</b><small>60 minutos</small><strong>R$ 80,00</strong></span><span class="check">✓</span></button>
+              <button class="service" type="button" data-service="Avaliação"><span class="service-art art-brow">⌁</span><span class="service-info"><b>Avaliação</b><small>30 minutos</small><strong>R$ 40,00</strong></span><span class="check">✓</span></button>
+              <button class="service" type="button" data-service="Acolhida"><span class="service-art art-makeup">✧</span><span class="service-info"><b>Acolhida</b><small>60 minutos</small><strong>R$ 100,00</strong></span><span class="check">✓</span></button>
+            </div>
+          </section>
+
+          <section class="section date-section">
+            <div class="section-title"><div><p class="eyebrow">ETAPA 02</p><h2>Como a sessão acontece</h2><p class="muted">Você escolhe o dia e a hora. A confirmação segue pelo WhatsApp.</p></div></div>
+            <div class="date-time">
+              <div class="calendar-card">
+                <div class="calendar-head"><button type="button" id="prevMonth" aria-label="Mês anterior">‹</button><strong id="monthLabel"></strong><button type="button" id="nextMonth" aria-label="Próximo mês">›</button></div>
+                <div class="weekdays"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+                <div class="days" id="days"></div>
+                <div class="legend"><i></i> Datas disponíveis</div>
+              </div>
+              <div class="slots-card"><div class="slots-head"><h3>Perguntas antes de marcar</h3><span id="slotDate">Selecione uma data</span></div><div class="slots" id="slots"><p class="empty">Traga o que quiser contar. Não há roteiro obrigatório.</p></div></div>
+            </div>
+          </section>
+
+          <section class="section details-section">
+            <div class="section-title"><div><p class="eyebrow">ETAPA 03</p><h2>O que você pode marcar</h2><p class="muted">Você pode remarcar pelo mesmo WhatsApp, com antecedência.</p></div></div>
+            <form id="bookingForm">
+              <div class="fields">
+                <label class="wide">Nome completo *<input id="name" name="name" required autocomplete="name" placeholder="Digite seu nome"></label>
+                <label>WhatsApp *<input id="phone" name="phone" type="tel" inputmode="tel" required autocomplete="tel" placeholder="(00) 00000-0000"></label>
+                <label>E-mail <small>(opcional)</small><input id="email" name="email" type="email" autocomplete="email" placeholder="voce@email.com"></label>
+                <label class="wide">Observações <small>(opcional)</small><textarea id="notes" name="notes" rows="2" placeholder="Conte algo que devemos saber"></textarea></label>
+              </div>
+              <button class="book-button" type="submit" id="submitButton">Solicitar agendamento <span>→</span></button>
+              <p class="secure">Acolhimento, escuta e um combinado claro sobre a frequência.</p>
+              <div id="message" class="message" role="status" aria-live="polite"></div>
+            </form>
+          </section>
+        </div>
+
+        <aside class="summary-column">
+          <div class="summary-card">
+            <p class="eyebrow">SEU AGENDAMENTO</p><h2>Resumo <em>Antes da consulta</em></h2>
+            <div class="summary-service"><div class="summary-thumb">✂</div><div><strong id="summaryService">Retorno</strong><small id="summaryDuration">45 minutos</small><b id="summaryPrice">R$ 60,00</b></div></div>
+            <div class="summary-line"><span>▦</span><div><small>Data</small><strong id="summaryDate">A definir</strong></div></div>
+            <div class="summary-line"><span>◷</span><div><small>Horário</small><strong id="summaryTime">A definir</strong></div></div>
+            <div class="total"><span>Total estimado</span><strong id="summaryTotal">R$ 60,00</strong></div>
+            <div class="summary-note"><span>✦</span><p>Chegue alguns minutos antes. O horário seguinte não é empurrado.</p></div>
+          </div>
+          <div class="quote-card" id="sobre"><span>“</span><p>Cuidado<br>um momento só seu.</p><small>Você escolhe o dia e a hora. A confirmação segue pelo WhatsApp.</small></div>
+        </aside>
+      </div>
+      <footer class="page-footer">Sala Serena <span>·</span> Cuidado</footer>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

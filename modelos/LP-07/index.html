@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#6d302f"><meta name="description" content="Você escolhe o dia e a hora. A confirmação segue pelo WhatsApp.">
+<title>Consultório Vale | Agende um horário</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="header">
+  <a class="logo" href="#"><span class="logo-symbol">❋</span><span>Consultório Vale<small>Agendar sessão</small></span></a>
+  <button class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">☰</button>
+  <nav id="nav"><a href="#agendar">Agendamento</a><a href="#servicos">Serviços</a><a href="#espaco">Nosso espaço</a><a href="#depoimentos">Depoimentos</a><a class="nav-cta" href="#agendar">Agende agora ↗</a></nav>
+</header>
+<main>
+<section class="hero" id="agendar">
+  <div class="hero-photo"></div><div class="hero-shade"></div>
+  <div class="hero-content">
+    <div class="logo hero-logo"><span class="logo-symbol">❋</span><span>Consultório Vale<small>Orientação</small></span></div>
+    <p class="eyebrow light">UM TEMPO PARA VOCÊ</p>
+    <h1>O primeiro passo é marcar.<br>te faz <em>única.</em></h1>
+    <p class="hero-text">Cada consulta tem um foco. Se precisar de outro tema, marque outra sessão.</p>
+    <div class="benefits"><div><span>♧</span><small>Profissionais<br>especializadas</small></div><div><span>✧</span><small>Ambiente<br>aconchegante</small></div><div><span>✿</span><small>Produtos<br>de qualidade</small></div><div><span>♡</span><small>Atendimento<br>personalizado</small></div></div>
+  </div>
+  <div class="booking-card">
+    <div class="booking-head"><div><p class="eyebrow">AGENDE SEU HORÁRIO</p><h2>Perguntas antes de marcar</h2><p>É rápido, fácil e seguro.</p></div><span class="booking-flower">✿</span></div>
+    <div class="steps"><span class="step active">1<small>Serviço</small></span><i></i><span class="step">2<small>Data e hora</small></span><i></i><span class="step">3<small>Dados</small></span><i></i><span class="step">4<small>Confirmação</small></span></div>
+    <form id="bookingForm" novalidate>
+      <div class="form-step active" data-step="1"><h3>Perguntas antes de marcar</h3><p class="hint">Você pode remarcar pelo mesmo WhatsApp, com antecedência.</p>
+        <div class="services">
+          <label class="service selected"><input type="radio" name="service" value="Cuidado" checked><img src="https://images.unsplash.com/photo-1560867916-964b6abf6b7d?auto=format&fit=crop&w=160&q=80" alt=""><span><b>Cuidado</b><small>45 min · R$ 89,90</small></span><i></i></label>
+          <label class="service"><input type="radio" name="service" value="Escuta"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=160&q=80" alt=""><span><b>Escuta</b><small>60 min · R$ 79,90</small></span><i></i></label>
+          <label class="service"><input type="radio" name="service" value="Avaliação"><img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&w=160&q=80" alt=""><span><b>Avaliação</b><small>60 min · R$ 99,90</small></span><i></i></label>
+          <label class="service"><input type="radio" name="service" value="Acolhida"><img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=160&q=80" alt=""><span><b>Acolhida</b><small>120 min · R$ 149,90</small></span><i></i></label>
+          <label class="service"><input type="radio" name="service" value="Orientação"><img src="https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=160&q=80" alt=""><span><b>Orientação</b><small>30 min · R$ 49,90</small></span><i></i></label>
+        </div><button class="btn next" type="button">Próximo passo <span>→</span></button><p class="secure">Acolhimento, escuta e um combinado claro sobre a frequência.</p>
+      </div>
+      <div class="form-step" data-step="2"><h3>Como a sessão acontece</h3><p class="hint">Não prometemos resultado em uma sessão. O cuidado é contínuo.</p>
+        <div class="field"><label for="date">Data desejada</label><input id="date" name="date" type="date" required></div>
+        <div class="field"><label for="time">Horários disponíveis</label><select id="time" name="time" required><option value="">Selecione um horário</option><option>09:00</option><option>10:00</option><option>11:30</option><option>13:00</option><option>14:30</option><option>16:00</option><option>17:30</option></select></div>
+        <div class="actions"><button class="btn secondary prev" type="button">← Voltar</button><button class="btn next" type="button">Próximo passo →</button></div>
+      </div>
+      <div class="form-step" data-step="3"><h3>O que você pode marcar</h3><p class="hint">Para entrarmos em contato com você.</p>
+        <div class="field"><label for="name">Nome completo</label><input id="name" name="name" placeholder="Como podemos chamar você?" autocomplete="name" required></div>
+        <div class="field"><label for="phone">WhatsApp</label><input id="phone" name="phone" type="tel" placeholder="(00) 00000-0000" autocomplete="tel" required></div>
+        <div class="field"><label for="email">E-mail <small>(opcional)</small></label><input id="email" name="email" type="email" placeholder="voce@email.com" autocomplete="email"></div>
+        <div class="actions"><button class="btn secondary prev" type="button">← Voltar</button><button class="btn next" type="button">Revisar pedido →</button></div>
+      </div>
+      <div class="form-step" data-step="4"><h3>Antes da consulta</h3><p class="hint">Só falta confirmar os detalhes.</p><div class="summary"><div><span>Serviço</span><b id="sumService">—</b></div><div><span>Data</span><b id="sumDate">—</b></div><div><span>Horário</span><b id="sumTime">—</b></div><div><span>Nome</span><b id="sumName">—</b></div></div>
+        <label class="consent"><input type="checkbox" id="consent" required> Autorizo o contato sobre este agendamento.</label><div class="actions"><button class="btn secondary prev" type="button">← Voltar</button><button class="btn next" id="submitBtn" type="submit">Solicitar horário ↗</button></div>
+      </div>
+    </form>
+    <div class="success" id="success" hidden><span>✓</span><h3>Depois que você agenda</h3><p>O sigilo da conversa fica entre você e o profissional que atender.</p><button class="btn" id="restart" type="button">Novo agendamento</button></div>
+  </div>
+</section>
+<section class="services-section section" id="servicos"><div class="section-title"><div><p class="eyebrow">NOSSOS SERVIÇOS</p><h2>Como a sessão acontece<br>para <em>todas as ocasiões.</em></h2></div><a href="#agendar">Ver todos os serviços　→</a></div><p class="section-intro">Cada consulta tem um foco. Se precisar de outro tema, marque outra sessão.</p>
+<div class="service-grid">
+<article><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=700&q=80" alt="Imagem do atendimento" loading="lazy"><div><span>Sessão</span><h3>Três formas de começar</h3><p>Você pode remarcar pelo mesmo WhatsApp, com antecedência.</p><a href="#agendar">Agendar serviço ↗</a></div></article>
+<article><img src="https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=700&q=80" alt="Imagem do atendimento" loading="lazy"><div><span>Plantão</span><h3>A escuta, em ordem</h3><p>Acolhimento, escuta e um combinado claro sobre a frequência.</p><a href="#agendar">Agendar serviço ↗</a></div></article>
+<article><img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=700&q=80" alt="Tratamento facial" loading="lazy"><div><span>Encontro</span><h3>O que cabe numa sessão</h3><p>Não prometemos resultado em uma sessão. O cuidado é contínuo.</p><a href="#agendar">Agendar serviço ↗</a></div></article>
+<article><img src="https://images.unsplash.com/photo-1508322453653-7b5b5f5b5c2a?auto=format&fit=crop&w=700&q=80" alt="Consulta" loading="lazy"><div><span>04 / OLHAR</span><h3>Olhar & Perguntas antes de marcar</h3><p>Você escolhe o dia e a hora. A confirmação segue pelo WhatsApp.</p><a href="#agendar">Agendar serviço ↗</a></div></article>
+<article><img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=700&q=80" alt="Produtos para tratamento capilar" loading="lazy"><div><span>05 / TRATAMENTOS</span><h3>Como a sessão acontece</h3><p>Traga o que quiser contar. Não há roteiro obrigatório.</p><a href="#agendar">Agendar serviço ↗</a></div></article>
+</div></section>
+<section class="space-section" id="espaco"><div class="space-photo"><img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=1200&q=85" alt="Você pode remarcar pelo mesmo WhatsApp, com antecedência." loading="lazy"><span class="play">▶</span></div><div class="space-copy"><p class="eyebrow light">CONHEÇA NOSSO ESPAÇO</p><h2>O que você pode marcar<br>feito para <em>você.</em></h2><p>O pedido desta página não cobra agora. O consultório confirma a vaga.</p><a href="#contato">Conheça o espaço　→</a></div></section>
+<section class="testimonials section" id="depoimentos"><p class="eyebrow">DEPOIMENTOS</p><h2>Antes da consulta <em>dizem.</em></h2><div class="testimonial-card"><div class="client-avatar">M</div><div><div class="stars">★★★★★</div><blockquote>Não é preciso trazer diagnóstico. Basta marcar e chegar no horário.</blockquote><b>Mariana Silva</b><small>Cliente Consultório Vale</small></div></div></section>
+<section class="cta-band"><span class="heart">♡</span><h2>Depois que você agenda<br>também é <em>amor-próprio.</em></h2><div class="cta-benefits"><span>✧<small>Atendimento<br>personalizado</small></span><span>♧<small>Ambiente<br>aconchegante</small></span><span>✿<small>Produtos<br>de qualidade</small></span></div><a href="#agendar">Agende agora　→</a></section>
+</main>
+<footer id="contato"><a class="logo" href="#"><span class="logo-symbol">❋</span><span>Consultório Vale<small>Agendar sessão</small></span></a><p>Você escolhe o dia e a hora. A confirmação segue pelo WhatsApp.</p><div class="social"><a href="#" aria-label="Instagram">◎</a><a href="#" aria-label="Facebook">f</a><a href="https://wa.me/5547999999999" aria-label="WhatsApp">◉</a></div><span class="footer-note">Cuidado é se sentir ouvido. ♡</span></footer>
+<script src="script.js"></script>
+</body></html>

@@ -1,0 +1,75 @@
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:Montserrat,sans-serif;
+background:linear-gradient(180deg,#fff,#fff7f8);
+color:#222;
+}
+.hero{
+height:70vh;
+background:url('https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1600') center/cover;
+position:relative;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.overlay{
+position:absolute;inset:0;
+background:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.55));
+}
+.hero-content{
+position:relative;
+text-align:center;
+color:white;
+max-width:700px;
+padding:20px;
+}
+.hero h1{
+font-family:'Cormorant Garamond',serif;
+font-size:4rem;
+margin:15px 0;
+}
+.btn{
+display:inline-block;
+padding:16px 30px;
+background:#d89aae;
+color:white;
+text-decoration:none;
+border-radius:40px;
+}
+.container{
+max-width:1100px;
+margin:-70px auto 50px;
+padding:20px;
+display:grid;
+gap:25px;
+}
+.card{
+display:grid;
+grid-template-columns:320px 1fr;
+background:white;
+border-radius:30px;
+overflow:hidden;
+text-decoration:none;
+color:inherit;
+box-shadow:0 20px 60px rgba(0,0,0,.08);
+transition:.4s;
+}
+.card:hover{transform:translateY(-8px)}
+.card img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+.info{padding:35px}
+.info h2{
+font-family:'Cormorant Garamond',serif;
+font-size:2.3rem;
+margin-bottom:10px;
+}
+.info p{line-height:1.8}
+@media(max-width:768px){
+.hero h1{font-size:2.5rem}
+.card{grid-template-columns:1fr}
+.card img{height:240px}
+}

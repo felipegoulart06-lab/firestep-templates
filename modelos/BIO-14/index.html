@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6efe8">
+  <title>Hora da Face | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&family=Literata:opsz,wght@7..72,560&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Hora da Face</p>
+      <h1>Hidratação</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Seg a sáb</span></p>
+    </header>
+    <section class="folds" aria-label="Serviços">
+      <article class="fold">
+        <button type="button" class="fold-btn" aria-expanded="false">
+          <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=300&q=80" alt="">
+          <span><strong>Revitalização</strong><small>45 min · R$ 140</small></span>
+        </button>
+        <div class="panel" hidden>
+          <p>O atendimento é com hora marcada, um cuidado por vez.</p>
+          <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Limpeza</a>
+        </div>
+      </article>
+      <article class="fold">
+        <button type="button" class="fold-btn" aria-expanded="false">
+          <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=300&q=80" alt="">
+          <span><strong>Protocolo</strong><small>50 min · R$ 85</small></span>
+        </button>
+        <div class="panel" hidden>
+          <p>O valor é alinhado no WhatsApp antes de você sair de casa.</p>
+          <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Design</a>
+        </div>
+      </article>
+      <article class="fold">
+        <button type="button" class="fold-btn" aria-expanded="false">
+          <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=300&q=80" alt="">
+          <span><strong>Pele</strong><small>60 min · R$ 170</small></span>
+        </button>
+        <div class="panel" hidden>
+          <p>Um procedimento por horário. Combinar dois pede outra reserva.</p>
+          <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Agendar pele</a>
+        </div>
+      </article>
+      <article class="fold">
+        <button type="button" class="fold-btn" aria-expanded="false">
+          <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=300&q=80" alt="">
+          <span><strong>O estúdio</strong><small>Instagram e mapa</small></span>
+        </button>
+        <div class="panel" hidden>
+          <p>Rua da Camada, 4 · Centro.</p>
+          <a href="https://instagram.com/camada.studio" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Rua%20da%20Camada%204" target="_blank" rel="noopener noreferrer">Como chegar</a>
+        </div>
+      </article>
+    </section>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua da Camada, 4">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Hora da Face</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

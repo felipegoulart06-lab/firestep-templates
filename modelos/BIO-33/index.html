@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#e7eef6">
+  <title>Mobiliza | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Reabilitação</p>
+      <h1>Reabilitação no horário combinado.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Seg a sex</span></p>
+    </header>
+    <article class="pass">
+      <div class="top">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=600&q=80" alt="Orientação">
+        <div>
+          <p class="route">CASA <small>→</small> Avaliação</p>
+          <p>Portão 33 · Rua do Mobiliza, 33</p>
+        </div>
+      </div>
+      <div class="stub">
+        <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer"><b>Agendar</b><small>WhatsApp</small></a>
+        <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer"><b>Alongamento</b><small>R$ 140</small></a>
+        <a href="https://instagram.com/embarque.studio" target="_blank" rel="noopener noreferrer"><b>Insta</b><small>@Mobiliza</small></a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Rua%20do%20Embarque%2033" target="_blank" rel="noopener noreferrer"><b>Mapa</b><small>Portão</small></a>
+      </div>
+      <div class="barcode" aria-hidden="true"></div>
+    </article>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua do Embarque, 33">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Mobiliza</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

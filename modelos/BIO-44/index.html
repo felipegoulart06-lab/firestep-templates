@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111">
+  <title>Fio Certo | Agende seu horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=IBM+Plex+Sans:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Tratamento</p>
+      <h1>O cabelo não espera encaixe.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Manhã</span></p>
+    </header>
+    <section class="film" aria-label="Quadros">
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <i aria-hidden="true"></i>
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80" alt="Barba">
+        <i aria-hidden="true"></i>
+        <span>3 · Agendar</span>
+      </a>
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <i aria-hidden="true"></i>
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80" alt="Penteado">
+        <i aria-hidden="true"></i>
+        <span>2 · Corte · R$ 125</span>
+      </a>
+      <a href="https://instagram.com/rolo.studio" target="_blank" rel="noopener noreferrer">
+        <i aria-hidden="true"></i>
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=800&q=80" alt="Retrato.">
+        <i aria-hidden="true"></i>
+        <span>1 · Instagram</span>
+      </a>
+    </section>
+    <a class="map" href="https://www.google.com/maps/search/?api=1&query=Rua%20do%20Rolo%2044" target="_blank" rel="noopener noreferrer">Quero este horário</a>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua do Rolo, 44">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Finalização</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

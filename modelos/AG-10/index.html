@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#e25b45">
+  <title>Estética Leve | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="device">
+    <header class="top">
+      <b>Estética Leve</b>
+      <span id="stepLabel">1 de 5</span>
+    </header>
+    <div class="bar" aria-hidden="true"><i id="progress"></i></div>
+    <div class="screens" id="screens">
+      <section class="step on" data-step="1">
+        <h1>Um tempo só para você.</h1>
+        <div class="choices" id="services"></div>
+      </section>
+      <section class="step" data-step="2">
+        <h1>Marque o próximo cuidado.</h1>
+        <div class="cal-nav"><button type="button" id="prev" aria-label="Mês anterior">‹</button><strong id="month"></strong><button type="button" id="next" aria-label="Próximo mês">›</button></div>
+        <div class="wds" aria-hidden="true"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+        <div class="days" id="days"></div>
+      </section>
+      <section class="step" data-step="3">
+        <h1>Plantão</h1>
+        <p class="hint" id="dayHint"></p>
+        <div class="slots" id="slots"></div>
+      </section>
+      <section class="step" data-step="4">
+        <h1>O seu ritual, no dia escolhido.</h1>
+        <form id="form" novalidate>
+          <label>Nome<input id="name" autocomplete="name" placeholder="Como te chamar"></label>
+          <label>WhatsApp<input id="phone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000"></label>
+          <label>E-mail <span>(opcional)</span><input id="email" type="email" autocomplete="email" placeholder="voce@email.com"></label>
+        </form>
+      </section>
+      <section class="step" data-step="5">
+        <h1>Retorno</h1>
+        <dl id="review"></dl>
+      </section>
+    </div>
+    <p class="msg" id="msg" role="alert"></p>
+    <footer class="nav">
+      <button type="button" id="back">Voltar</button>
+      <button type="button" id="go">Continuar</button>
+    </footer>
+    <section class="done" id="done" hidden aria-live="polite">
+      <p>Horário marcado</p>
+      <h2 id="doneTitle"></h2>
+      <p id="doneMeta"></p>
+      <button type="button" id="again">Novo agendamento</button>
+    </section>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

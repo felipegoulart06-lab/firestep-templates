@@ -1,0 +1,36 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { overflow-x: clip; }
+body { margin: 0; min-width: 320px; overflow-x: clip; background: #f3f6ee; color: #1c2a12; font-family: Sora, sans-serif; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+input { width: 100%; font-size: 16px; color: #1a1a1a; border: 1px solid #d5e0c8; border-radius: 12px; padding: 12px; background: #fff; }
+button:focus-visible, input:focus-visible { outline: 3px solid #36531488; outline-offset: 2px; }
+[hidden] { display: none !important; }
+.app { width: min(980px, calc(100% - 20px)); margin: 16px auto 28px; }
+header p { margin: 0; color: #4d6b32; font-weight: 700; font-size: 13px; }
+h1 { margin: 4px 0 12px; font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.04em; }
+h2 { margin: 14px 0 8px; font-size: 16px; }
+.services { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.svc, .slot, .card, form button, .done button { border: 1px solid #d5e0c8; background: #fff; color: #1c2a12; border-radius: 14px; }
+.svc { min-height: 40px; padding: 8px 12px; }
+.svc.on, .card.on, .slot.on { background: #365314; color: #fff; border-color: #365314; }
+.cards { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
+.card { min-height: 84px; padding: 8px 4px; }
+.card small, .card b, .card em { display: block; font-style: normal; }
+.card b { font-size: 22px; }
+.card em { font-size: 11px; opacity: 0.8; }
+.slots { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.slot { min-height: 44px; font-weight: 700; }
+form { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; margin-top: 14px; }
+label { display: grid; gap: 6px; font-size: 13px; font-weight: 700; min-width: 0; }
+form button, .done button { background: #365314; color: #fff; border: 0; min-height: 48px; padding: 0 14px; font-weight: 700; }
+.msg { grid-column: 1 / -1; margin: 0; color: #9a3412; font-weight: 700; }
+.msg:empty { display: none; }
+.done { background: #fff; border-radius: 16px; padding: 20px; }
+@media (max-width: 900px) { .cards { grid-template-columns: repeat(4, minmax(0, 1fr)); } .slots { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 640px) {
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .slots, form { grid-template-columns: 1fr 1fr; }
+  form button, .msg { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#7f1d1d">
+<meta name="description" content="Faixas de argumento, uma ação no fim de cada uma.">
+<title>Corpo em Dia | Agende um horário</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#agendar">Ir para o agendamento</a>
+
+<section class="band"><div class="wrap">
+  <p class="kicker">Faixa 1</p>
+  <h1>Reserve o acompanhamento do seu corpo.</h1>
+  <p class="lead">Exercícios de casa só são indicados quando fazem sentido para você.</p>
+  <a class="btn" href="#agendar">Ir para o horário</a>
+</div></section>
+<section class="band inv"><div class="wrap">
+  <p class="kicker">Faixa 2</p>
+  <h2>Antes da fisioterapia</h2>
+  <div class="grid3">
+    <article class="card"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1400&q=80" alt="Mobilidade"><h3>Antes da fisioterapia</h3><p>40 min. Sem chapar até colar.</p></article>
+    <article class="card"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1400&q=80" alt="Alongamento"><h3>Depois de agendar</h3><p>Use roupa em que seja possível mover o corpo com conforto.</p></article>
+    <article class="card"><img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=1400&q=80" alt="Fortalecimento"><h3>Três focos de cuidado</h3><p>40 min. Cor que não pede desculpa.</p></article>
+  </div>
+</div></section>
+<section class="band"><div class="wrap">
+  <p class="kicker">Faixa 3</p>
+  <h2>Depois de agendar</h2>
+  <p>Rua da Faixa, 40. A última faixa é o formulário: serviço, dia, hora, nome.</p>
+  <a class="btn" href="#agendar">Converter esta página em horário</a>
+</div></section>
+<div class="wrap">
+
+<section class="wrap more" id="fecha"><p class="kicker">A faixa que falta</p><h2>Três focos de cuidado</h2><p>Rua da Faixa, 40, 10h às 20h. Não prometemos cura. O trabalho é reabilitação, mobilidade e prevenção.</p><div class="grid3"><article class="card"><h3>40 min</h3><p>Retorno</p></article><article class="card"><h3>90 min</h3><p>Você agenda avaliação, retorno ou orientação de movimento.</p></article><article class="card"><h3>O pedido</h3><p>Cada retorno observa o que mudou desde a visita anterior.</p></article></div></section>
+<section class="booking-shell" id="agendar">
+  <div class="booking-top"><div><p class="kicker">Hora marcada</p><h2>O movimento, em etapas</h2></div><div><span id="stepNumber">01</span> / 03</div></div>
+  <div class="progress-track"><span id="progressBar"></span></div>
+  <form id="bookingForm" novalidate>
+    <section class="form-step active" data-step="1">
+      <div class="service-options"><label class="service-option selected"><input type="radio" name="service" value="Prevenção" checked><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1400&q=80" alt=""><span><b>Prevenção</b><small>Movimento, não chapado.</small></span><i>✓</i></label><label class="service-option"><input type="radio" name="service" value="Orientação"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1400&q=80" alt=""><span><b>Orientação</b><small>Tom que aparece na luz.</small></span><i>✓</i></label><label class="service-option"><input type="radio" name="service" value="Avaliação"><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1400&q=80" alt=""><span><b>Avaliação</b><small>Mobilidade</small></span><i>✓</i></label></div>
+      <div class="field-grid">
+        <label class="field">Data<input id="date" name="date" type="date" required></label>
+        <label class="field">Horário<select id="time" name="time" required><option value="">Escolher</option><option>10:00</option><option>12:00</option><option>15:00</option><option>18:00</option><option>19:30</option></select></label>
+      </div>
+      <button class="button button-primary next-step" type="button">Continuar</button>
+    </section>
+    <section class="form-step" data-step="2">
+      <div class="fields">
+        <label class="field full">Nome completo<input id="name" name="name" autocomplete="name" required minlength="3" placeholder="Seu nome"></label>
+        <label class="field">WhatsApp<input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(00) 00000-0000"></label>
+        <label class="field">E-mail <small>(opcional)</small><input id="email" name="email" type="email" autocomplete="email" placeholder="voce@email.com"></label>
+      </div>
+      <div class="button-row"><button class="button button-quiet prev-step" type="button">Voltar</button><button class="button button-primary next-step" type="button">Revisar</button></div>
+    </section>
+    <section class="form-step" data-step="3">
+      <div class="review-line"><span>Serviço</span><b id="reviewService">—</b></div>
+      <div class="review-line"><span>Data</span><b id="reviewDate">—</b></div>
+      <div class="review-line"><span>Horário</span><b id="reviewTime">—</b></div>
+      <div class="review-line"><span>Nome</span><b id="reviewName">—</b></div>
+      <label class="consent"><input id="consent" type="checkbox" required><span>Quero que confirmem este horário.</span></label>
+      <div class="button-row"><button class="button button-quiet prev-step" type="button">Voltar</button><button class="button button-primary" id="submitBooking" type="submit">Quero este horário</button></div>
+    </section>
+  </form>
+  <div class="success-panel" id="successPanel" hidden>
+    <h3>O movimento, em etapas</h3>
+    <p>Faixa convertida em horário pedido.</p>
+    <p><a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Confirmar no WhatsApp</a></p>
+    <button class="button button-primary" id="newBooking" type="button">Pedir outro horário</button>
+  </div>
+</section>
+
+<footer class="wrap"><b>Corpo em Dia</b><span>Rua da Faixa, 40 · ter a sáb, 10h–20h</span><a href="https://wa.me/5547999999999" target="_blank" rel="noopener noreferrer">WhatsApp</a><small>© <span id="year">2026</span> Corpo em Dia</small></footer>
+
+<a class="btn float-cta" href="#agendar">Agendar atendimento</a>
+<script src="script.js"></script>
+</body>
+</html>

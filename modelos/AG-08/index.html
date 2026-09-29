@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#9a4b3c">
+  <title>Hora da Pele | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,680&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#desk">Ir para a agenda</a>
+  <div class="app">
+    <header class="top">
+      <div class="brand"><span class="mark">BL</span><div><b>Hora da Pele</b><small>Recepção</small></div></div>
+      <p class="today" id="todayLabel"></p>
+      <p class="hours">O atendimento é com hora marcada, um cuidado por vez.</p>
+    </header>
+
+    <div class="desk" id="desk">
+      <section class="pane" aria-labelledby="svcTitle">
+        <h1 id="svcTitle">Pele e autocuidado, com hora marcada.</h1>
+        <div class="services" id="services"></div>
+      </section>
+      <section class="pane" aria-label="Calendário">
+        <div class="cal-nav">
+          <button type="button" id="prev" aria-label="Mês anterior">‹</button>
+          <strong id="month"></strong>
+          <button type="button" id="next" aria-label="Próximo mês">›</button>
+        </div>
+        <div class="wds" aria-hidden="true"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+        <div class="days" id="days"></div>
+        <p class="legend"><i></i> Dia com horário livre</p>
+      </section>
+      <section class="pane" aria-labelledby="timeTitle">
+        <h2 id="timeTitle">O que dá para agendar</h2>
+        <div class="slots" id="slots"></div>
+      </section>
+    </div>
+
+    <form class="bar" id="form" novalidate>
+      <label>Nome<input id="name" autocomplete="name" placeholder="Seu nome"></label>
+      <label>WhatsApp<input id="phone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000"></label>
+      <label class="opt">E-mail <span>(opcional)</span><input id="email" type="email" inputmode="email" autocomplete="email" placeholder="voce@email.com"></label>
+      <p class="sum" id="sum">Selecione dia e horário</p>
+      <button type="submit" id="submit">Marcar horário</button>
+      <p class="msg" id="msg" role="alert"></p>
+    </form>
+
+    <section class="done" id="done" hidden aria-live="polite">
+      <p class="kicker">Agendamento registrado</p>
+      <h2 id="doneTitle"></h2>
+      <p id="doneWhen"></p>
+      <p id="doneWho"></p>
+      <button type="button" id="again">Marcar outro horário</button>
+    </section>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

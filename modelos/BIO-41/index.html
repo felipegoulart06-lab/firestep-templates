@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#efe9f6">
+  <title>Corte Marcado | Agende seu horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header class="who">
+      <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=200&q=80" alt="Imagem do atendimento">
+      <div>
+        <p class="kicker">Finalização</p>
+        <h1>Marque a próxima tesoura.</h1>
+        <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Manhãs</span></p>
+      </div>
+    </header>
+    <section class="chat" aria-label="Conversa">
+      <p class="bubble them">Um serviço por visita. Combo pede um horário mais longo.</p>
+      <a class="bubble me" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Quero agendar</a>
+      <p class="bubble them">Corte fica R$ 120, em 45 minutos.</p>
+      <a class="bubble me" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Mechas</a>
+      <a class="bubble me" href="https://instagram.com/recado.studio" target="_blank" rel="noopener noreferrer">Ver o Instagram</a>
+      <a class="bubble me" href="https://www.google.com/maps/search/?api=1&query=Rua%20do%20Recado%2041" target="_blank" rel="noopener noreferrer">Reservar cadeira</a>
+    </section>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua do Recado, 41">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Finalização</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

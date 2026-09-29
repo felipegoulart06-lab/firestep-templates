@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f3f6f1">
+  <title>Acolhida Viva | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,650&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Acolhida Viva</p>
+      <h1>Reserve um tempo para a sua escuta.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Seg a sáb</span></p>
+    </header>
+    <section class="bento" aria-label="Links">
+      <a class="tile big" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=80" alt="Imagem do atendimento">
+        <span><small>Principal</small><strong>Agendar horário</strong></span>
+      </a>
+      <a class="tile" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80" alt="Sessão">
+        <span><small>R$ 150</small><strong>Encontro</strong></span>
+      </a>
+      <a class="tile" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=800&q=80" alt="Escuta">
+        <span><small>R$ 320</small><strong>Consulta</strong></span>
+      </a>
+      <a class="tile wide" href="https://instagram.com/atelienorte" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1200&q=80" alt="Avaliação">
+        <span><small>@atelienorte</small><strong>Instagram</strong></span>
+      </a>
+      <a class="tile" href="https://www.google.com/maps/search/?api=1&query=Rua%20Norte%20210" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80" alt="">
+        <span><small>Centro</small><strong>Como chegar</strong></span>
+      </a>
+    </section>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua Norte, 210">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Acolhida Viva</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

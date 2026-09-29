@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Você pode remarcar pelo mesmo WhatsApp, com antecedência.">
+  <meta name="theme-color" content="#f4f1eb">
+  <title>Escuta Simples | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="top">
+        <span class="mark" aria-hidden="true">VS</span>
+        <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Ter a sáb · hora marcada</span></p>
+      </div>
+      <h1>Reserve um tempo para a sua escuta.<br>Studio</h1>
+      <p class="bio">Cada consulta tem um foco. Se precisar de outro tema, marque outra sessão.</p>
+      <div class="filters" role="group" aria-label="Filtrar links">
+        <button type="button" data-filter="todos" class="on">Todos</button>
+        <button type="button" data-filter="cabelo">Cuidado</button>
+        <button type="button" data-filter="pele">Pele</button>
+        <button type="button" data-filter="unhas">Encontro</button>
+      </div>
+    </header>
+
+    <section class="grid" id="grid" aria-label="Links">
+      <a class="tile" data-kind="cabelo" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <span class="num">01</span>
+        <span class="copy"><strong>Sessão</strong><small>WhatsApp com a recepção</small></span>
+        <span class="go" aria-hidden="true">→</span>
+      </a>
+      <a class="tile" data-kind="cabelo" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <span class="num">02</span>
+        <span class="copy"><strong>Consulta</strong><small>Quero este horário</small></span>
+        <span class="go" aria-hidden="true">→</span>
+      </a>
+      <a class="tile" data-kind="pele" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <span class="num">03</span>
+        <span class="copy"><strong>Pele</strong><small>Limpeza e protocolos faciais</small></span>
+        <span class="go" aria-hidden="true">→</span>
+      </a>
+      <a class="tile" data-kind="unhas" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <span class="num">04</span>
+        <span class="copy"><strong>Encontro</strong><small>Quero este horário</small></span>
+        <span class="go" aria-hidden="true">→</span>
+      </a>
+      <a class="tile" data-kind="cabelo" href="https://instagram.com/verticestudio" target="_blank" rel="noopener noreferrer">
+        <span class="num">05</span>
+        <span class="copy"><strong>Instagram</strong><small>@verticestudio</small></span>
+        <span class="go" aria-hidden="true">→</span>
+      </a>
+      <a class="tile" data-kind="pele" href="https://www.google.com/maps/search/?api=1&query=Rua%20do%20V%C3%A9rtice%20120%20Centro" target="_blank" rel="noopener noreferrer">
+        <span class="num">06</span>
+        <span class="copy"><strong>Como chegar</strong><small>Rua do Vértice, 120 · Centro</small></span>
+        <span class="go" aria-hidden="true">→</span>
+      </a>
+    </section>
+    <p class="empty" id="empty" hidden>Não prometemos resultado em uma sessão. O cuidado é contínuo.</p>
+
+    <section class="prices" aria-label="Valores">
+      <div class="section-label"><h2>Perguntas antes de marcar</h2><span>Arraste</span></div>
+      <div class="rail">
+        <a class="price" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer"><b>R$ 160</b><span>Acolhida<small>50 min</small></span></a>
+        <a class="price" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer"><b>R$ 380</b><span>Retorno<small>3 h</small></span></a>
+        <a class="price" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer"><b>R$ 190</b><span>Limpeza de pele<small>60 min</small></span></a>
+        <a class="price" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer"><b>R$ 90</b><span>Escuta<small>50 min</small></span></a>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button type="button" class="ghost" id="copyAddress" data-copy="Rua do Vértice, 120 · Centro">Copiar endereço</button>
+      <button type="button" class="ghost" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Escuta Simples</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

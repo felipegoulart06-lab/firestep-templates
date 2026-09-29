@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f4f0ea">
+  <title>Fisio Íntegro | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Studio Fisio Íntegro</p>
+      <h1>Mobilidade com dia e hora.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Fim de semana</span></p>
+    </header>
+    <section class="bands" aria-label="Fisio Íntegros">
+      <a class="band a" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80" alt="">
+        <span><strong>Agendar</strong><small>WhatsApp</small></span>
+      </a>
+      <a class="band b" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80" alt="">
+        <span><strong>Fortalecimento</strong><small>R$ 150</small></span>
+      </a>
+      <a class="band c" href="https://instagram.com/faixa.studio" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=800&q=80" alt="">
+        <span><strong>Instagram</strong><small>@Fisio Íntegro.studio</small></span>
+      </a>
+      <a class="band d" href="https://www.google.com/maps/search/?api=1&query=Rua%20da%20Faixa%2040" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=800&q=80" alt="">
+        <span><strong>Mapa</strong><small>Rua da Faixa, 40</small></span>
+      </a>
+    </section>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua da Faixa, 40">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Fisio Íntegro</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

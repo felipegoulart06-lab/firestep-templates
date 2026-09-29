@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f3e6d4">
+  <title>Terapia Simples | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;700&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Terapia Simples</p>
+      <h1>Sua sessão, sem encaixe.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Seg a sáb</span></p>
+    </header>
+    <article class="letter">
+      <span class="seal" aria-hidden="true">AC</span>
+      <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1000&q=80" alt="Imagem do atendimento">
+      <p class="dear">Querida cliente,</p>
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Agendar pelo WhatsApp</a>
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Reservar cuidado</a>
+      <a href="https://instagram.com/ateliecarta" target="_blank" rel="noopener noreferrer">Pausa</a>
+      <a href="https://www.google.com/maps/search/?api=1&query=Rua%20da%20Carta%2026" target="_blank" rel="noopener noreferrer">Como chegar · Rua da Carta, 26</a>
+      <p class="sign">Com carinho,<br>Terapia Simples</p>
+    </article>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua da Carta, 26">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Terapia Simples</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

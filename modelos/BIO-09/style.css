@@ -1,0 +1,25 @@
+:root { --ink:#3a2430; --paper:#f8eef1; --muted:#7a6170; --open:#1f7a3a; }
+* { box-sizing:border-box; }
+body { margin:0; min-height:100dvh; background:var(--paper); color:var(--ink); font-family:Nunito,"Segoe UI",sans-serif; overflow-x:clip; }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+img { display:block; width:100%; height:190px; object-fit:cover; }
+:focus-visible { outline:2px solid var(--ink); outline-offset:3px; }
+.page { width:min(460px,calc(100% - 28px)); margin:0 auto; padding:max(22px,env(safe-area-inset-top)) 0 max(28px,env(safe-area-inset-bottom)); }
+.kicker { margin:0; letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; color:var(--muted); }
+h1 { margin:6px 0; font-family:"Libre Baskerville",Georgia,serif; font-size:clamp(2.6rem,8vw,3.4rem); }
+.status { display:flex; align-items:center; gap:8px; margin:0 0 16px; font-weight:700; }
+.dot { width:8px; height:8px; border-radius:50%; background:#b59aaa; }
+.status.is-open { color:var(--open); } .status.is-open .dot { background:var(--open); }
+.stack { display:grid; gap:14px; }
+.card { display:block; background:#fff; border-radius:22px; overflow:hidden; color:inherit; text-decoration:none; box-shadow:0 12px 30px rgba(58,36,48,.06); }
+.body { display:block; padding:14px 16px 16px; }
+.body small { color:var(--muted); letter-spacing:.06em; text-transform:uppercase; font-size:.72rem; }
+.body strong { display:block; margin-top:4px; font-family:"Libre Baskerville",Georgia,serif; font-size:1.35rem; }
+.body em { display:block; margin-top:4px; font-style:normal; color:var(--muted); }
+.card:active { transform:scale(.99); }
+.actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:14px; }
+.actions button { min-height:46px; border-radius:14px; background:#fff; font-weight:700; }
+footer p { margin:14px 0 0; text-align:center; color:var(--muted); font-size:.82rem; }
+.toast { position:fixed; left:50%; bottom:max(16px,env(safe-area-inset-bottom)); transform:translateX(-50%); padding:12px 16px; border-radius:999px; background:var(--ink); color:#fff; opacity:0; pointer-events:none; }
+.toast.show { opacity:1; }
+@media (max-width:380px) { .actions { grid-template-columns:1fr; } img { height:160px; } }

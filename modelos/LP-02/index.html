@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#c72f70">
+  <meta name="description" content="O sigilo da conversa fica entre você e o profissional que atender.">
+  <title>Sala Calma | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-glow glow-one"></div>
+  <div class="page-glow glow-two"></div>
+
+  <main>
+    <section class="hero section-wrap" id="inicio">
+      <div class="hero-copy">
+        <div class="brand"><span class="brand-mark">✿</span><span>FLORA <small>BEAUTY STUDIO</small></span></div>
+        <p class="eyebrow">Avaliação</p>
+        <h1>Marque a próxima sessão. <em>Escuta com dia e hora.</em></h1>
+        <p class="hero-description">Cada consulta tem um foco. Se precisar de outro tema, marque outra sessão.</p>
+        <div class="hero-perks">
+          <div><span class="perk-icon">♡</span><span>Atendimento<br>personalizado</span></div>
+          <div><span class="perk-icon">✧</span><span>Profissionais<br>especializadas</span></div>
+          <div><span class="perk-icon">✿</span><span>Um tempo só<br>para você</span></div>
+        </div>
+        <a class="button button-primary hero-cta" href="#agendamento">Agendar meu horário <span>↗</span></a>
+        <div class="social-proof"><span class="proof-stars">★★★★★</span><span><strong>Seu cuidado em boas mãos</strong><br><small>Encontro</small></span></div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-image" role="img" aria-label="Você pode remarcar pelo mesmo WhatsApp, com antecedência."></div>
+        <div class="floating-note note-top"><span>✦</span><div><strong>Seu momento</strong><small>começa agora</small></div></div>
+        <div class="floating-note note-bottom"><span class="note-heart">♡</span><div><strong>Você merece</strong><small>esse cuidado</small></div></div>
+        <div class="hero-sticker">BEAUTY<br><i>is a feeling</i></div>
+      </div>
+    </section>
+
+    <section class="booking-section section-wrap" id="agendamento">
+      <div class="booking-heading">
+        <p class="eyebrow">RESERVE SEU MOMENTO</p>
+        <h2>Como a sessão acontece <em>O que você pode marcar</em></h2>
+        <p>Acolhimento, escuta e um combinado claro sobre a frequência.</p>
+      </div>
+
+      <div class="booking-shell">
+        <aside class="booking-aside">
+          <div class="aside-brand"><span class="brand-mark">✿</span><span>FLORA <small>BEAUTY STUDIO</small></span></div>
+          <p class="aside-intro">Retorno<br><em>um tempo especial.</em></p>
+          <div class="step-list" aria-label="Etapas do agendamento">
+            <div class="step-item active" data-step-indicator="1"><span class="step-number">1</span><span><strong>Escolha o serviço</strong><small>O que vamos fazer?</small></span></div>
+            <div class="step-item" data-step-indicator="2"><span class="step-number">2</span><span><strong>Data e horário</strong><small>Quando fica melhor?</small></span></div>
+            <div class="step-item" data-step-indicator="3"><span class="step-number">3</span><span><strong>Seus dados</strong><small>Como falar com você</small></span></div>
+            <div class="step-item" data-step-indicator="4"><span class="step-number">4</span><span><strong>Confirmação</strong><small>Revise e finalize</small></span></div>
+          </div>
+          <div class="aside-bottom"><span>♡</span><p>Um carinho em você<br>faz toda a diferença.</p></div>
+          <div class="aside-flower">✿</div>
+        </aside>
+
+        <div class="booking-main">
+          <div class="progress-top"><span id="step-label">ETAPA 1 DE 4</span><span id="progress-percent">25%</span></div>
+          <div class="progress-track"><span id="progress-bar"></span></div>
+
+          <form id="booking-form" novalidate>
+            <section class="form-step active" data-step="1">
+              <div class="step-heading"><h3>Como a sessão acontece</h3><p>Não prometemos resultado em uma sessão. O cuidado é contínuo.</p></div>
+              <div class="category-tabs" role="group" aria-label="Filtrar serviços">
+                <button type="button" class="category-tab active" data-category="Todos">Todos</button>
+                <button type="button" class="category-tab" data-category="Cabelo">Acolhida</button>
+                <button type="button" class="category-tab" data-category="Unhas">Consulta</button>
+                <button type="button" class="category-tab" data-category="Estética">Sessão</button>
+              </div>
+              <div class="service-grid" id="service-grid">
+                <label class="service-card selected" data-category="Cabelo">
+                  <input type="radio" name="service" value="Escuta" data-price="85" data-duration="60" checked>
+                  <span class="service-emoji">✂</span><span class="service-info"><strong>Escuta</strong><small>60 min · R$ 85,00</small></span><span class="radio-dot"></span>
+                </label>
+                <label class="service-card" data-category="Cabelo">
+                  <input type="radio" name="service" value="Cuidado" data-price="55" data-duration="45">
+                  <span class="service-emoji">♧</span><span class="service-info"><strong>Cuidado</strong><small>45 min · R$ 55,00</small></span><span class="radio-dot"></span>
+                </label>
+                <label class="service-card" data-category="Cabelo">
+                  <input type="radio" name="service" value="Plantão" data-price="180" data-duration="120">
+                  <span class="service-emoji">✧</span><span class="service-info"><strong>Plantão</strong><small>120 min · a partir de R$ 180</small></span><span class="radio-dot"></span>
+                </label>
+                <label class="service-card" data-category="Cabelo">
+                  <input type="radio" name="service" value="Avaliação" data-price="95" data-duration="60">
+                  <span class="service-emoji">❋</span><span class="service-info"><strong>Avaliação</strong><small>60 min · R$ 95,00</small></span><span class="radio-dot"></span>
+                </label>
+                <label class="service-card" data-category="Unhas">
+                  <input type="radio" name="service" value="Orientação" data-price="40" data-duration="40">
+                  <span class="service-emoji">♡</span><span class="service-info"><strong>Orientação</strong><small>40 min · R$ 40,00</small></span><span class="radio-dot"></span>
+                </label>
+                <label class="service-card" data-category="Unhas">
+                  <input type="radio" name="service" value="Encontro" data-price="50" data-duration="50">
+                  <span class="service-emoji">✿</span><span class="service-info"><strong>Encontro</strong><small>50 min · R$ 50,00</small></span><span class="radio-dot"></span>
+                </label>
+                <label class="service-card" data-category="Estética">
+                  <input type="radio" name="service" value="Orientação" data-price="45" data-duration="30">
+                  <span class="service-emoji">〰</span><span class="service-info"><strong>Orientação</strong><small>30 min · R$ 45,00</small></span><span class="radio-dot"></span>
+                </label>
+                <label class="service-card" data-category="Estética">
+                  <input type="radio" name="service" value="Limpeza de pele" data-price="130" data-duration="75">
+                  <span class="service-emoji">✧</span><span class="service-info"><strong>Limpeza de pele</strong><small>75 min · R$ 130,00</small></span><span class="radio-dot"></span>
+                </label>
+              </div>
+              <div class="form-error" id="service-error" role="alert"></div>
+              <div class="form-actions"><span class="secure-note">♡ Agendamento simples e seguro</span><button type="button" class="button button-primary next-step">Continuar <span>→</span></button></div>
+            </section>
+
+            <section class="form-step" data-step="2">
+              <div class="step-heading"><h3>O que você pode marcar</h3><p>Você escolhe o dia e a hora. A confirmação segue pelo WhatsApp.</p></div>
+              <div class="date-time-layout">
+                <div class="field-group"><label for="booking-date">Data desejada</label><input id="booking-date" name="date" type="date" required><small>Atendimentos de terça a sábado.</small></div>
+                <div class="field-group"><label>Horários disponíveis</label><div class="time-grid" id="time-grid"><button type="button" class="time-slot" data-time="09:00">09:00</button><button type="button" class="time-slot" data-time="10:00">10:00</button><button type="button" class="time-slot" data-time="11:00">11:00</button><button type="button" class="time-slot" data-time="13:00">13:00</button><button type="button" class="time-slot" data-time="14:00">14:00</button><button type="button" class="time-slot" data-time="15:00">15:00</button><button type="button" class="time-slot" data-time="16:00">16:00</button><button type="button" class="time-slot" data-time="17:00">17:00</button></div><small class="availability-note">O pedido desta página não cobra agora. O consultório confirma a vaga.</small></div>
+              </div>
+              <div class="form-error" id="date-error" role="alert"></div>
+              <div class="form-actions"><button type="button" class="button button-quiet prev-step">← Voltar</button><button type="button" class="button button-primary next-step">Continuar <span>→</span></button></div>
+            </section>
+
+            <section class="form-step" data-step="3">
+              <div class="step-heading"><h3>Antes da consulta</h3><p>Acolhimento, escuta e um combinado claro sobre a frequência.</p></div>
+              <div class="fields-grid">
+                <div class="field-group full"><label for="customer-name">Nome completo *</label><input id="customer-name" name="name" type="text" placeholder="Como podemos te chamar?" autocomplete="name" required minlength="3"></div>
+                <div class="field-group"><label for="customer-phone">WhatsApp *</label><input id="customer-phone" name="phone" type="tel" placeholder="(00) 00000-0000" autocomplete="tel" required></div>
+                <div class="field-group"><label for="customer-email">E-mail (opcional)</label><input id="customer-email" name="email" type="email" placeholder="voce@email.com" autocomplete="email"></div>
+                <div class="field-group full"><label for="customer-notes">Observações (opcional)</label><textarea id="customer-notes" name="notes" rows="3" placeholder="Tem alguma preferência ou informação importante?"></textarea></div>
+              </div>
+              <div class="form-error" id="customer-error" role="alert"></div>
+              <div class="form-actions"><button type="button" class="button button-quiet prev-step">← Voltar</button><button type="button" class="button button-primary next-step">Revisar agendamento <span>→</span></button></div>
+            </section>
+
+            <section class="form-step" data-step="4">
+              <div class="step-heading"><h3>Depois que você agenda</h3><p>Acolhimento, escuta e um combinado claro sobre a frequência.</p></div>
+              <div class="summary-card">
+                <div class="summary-title"><span class="summary-flower">✿</span><div><strong>Seu momento Flora</strong><small>Resumo do agendamento</small></div></div>
+                <div class="summary-row"><span>Serviço</span><strong id="summary-service">—</strong></div>
+                <div class="summary-row"><span>Data</span><strong id="summary-date">—</strong></div>
+                <div class="summary-row"><span>Horário</span><strong id="summary-time">—</strong></div>
+                <div class="summary-row"><span>Nome</span><strong id="summary-name">—</strong></div>
+                <div class="summary-row"><span>WhatsApp</span><strong id="summary-phone">—</strong></div>
+                <div class="summary-total"><span>Valor estimado</span><strong id="summary-price">—</strong></div>
+              </div>
+              <label class="consent"><input type="checkbox" id="confirm-consent" required><span>Confirmo que os dados estão corretos e quero solicitar este agendamento.</span></label>
+              <div class="form-error" id="confirm-error" role="alert"></div>
+              <div class="form-actions"><button type="button" class="button button-quiet prev-step">← Voltar</button><button type="submit" class="button button-primary" id="submit-booking">Confirmar agendamento <span>♡</span></button></div>
+              <p class="demo-note">Não é preciso trazer diagnóstico. Basta marcar e chegar no horário. <code>script.js</code> para receber agendamentos reais.</p>
+            </section>
+
+            <section class="success-panel" id="success-panel" hidden>
+              <div class="success-icon">✓</div><p class="eyebrow">SOLICITAÇÃO REGISTRADA</p><h3>Três formas de começar</h3><p>O sigilo da conversa fica entre você e o profissional que atender.</p><div class="success-reference" id="success-reference"></div><button type="button" class="button button-primary" id="new-booking">Fazer novo agendamento</button>
+            </section>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="experience section-wrap">
+      <div class="experience-copy"><p class="eyebrow">UM ESPAÇO PARA VOCÊ</p><h2>Antes da consulta<br><em>Uma pausa na rotina.</em></h2><p>Cada consulta tem um foco. Se precisar de outro tema, marque outra sessão.</p><a class="text-link" href="#agendamento">Escolha seu horário <span>↗</span></a></div>
+      <div class="experience-features"><div><span>♡</span><strong>Carinho em cada atendimento</strong><small>Você é única, e seu cuidado também.</small></div><div><span>✧</span><strong>Profissionais especializadas</strong><small>Técnica, atenção e delicadeza.</small></div><div><span>✿</span><strong>Seu tempo, do seu jeito</strong><small>Agendamento prático e sem complicação.</small></div></div>
+      <div class="decor-flower">✿</div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="footer-brand"><span class="brand-mark">✿</span><span>FLORA <small>BEAUTY STUDIO</small></span></div><span>Seu momento de florescer.</span><a href="#agendamento">Agendar agora ↑</a></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

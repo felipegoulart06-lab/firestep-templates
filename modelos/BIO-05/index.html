@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Você escolhe o dia e a hora. A confirmação segue pelo WhatsApp.">
+  <meta name="theme-color" content="#f7f3fb">
+  <title>Presença Diária | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <img class="avatar" src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=400&q=80" alt="Retrato da Presença Diária." width="400" height="400">
+      <h1>Escolha o dia da sua consulta.</h1>
+      <p class="handle">@lumabeauty</p>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Seg a sáb</span></p>
+    </header>
+
+    <section class="stories" aria-label="Destaques">
+      <button class="story" type="button" data-caption="Unhas em gel">
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=300&q=80" alt="">
+        <span>Consulta</span>
+      </button>
+      <button class="story" type="button" data-caption="Pele iluminada">
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=300&q=80" alt="">
+        <span>Pele</span>
+      </button>
+      <button class="story" type="button" data-caption="No estúdio">
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=300&q=80" alt="">
+        <span>Estúdio</span>
+      </button>
+      <button class="story" type="button" data-caption="Corte e finalização">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=300&q=80" alt="">
+        <span>Acolhida</span>
+      </button>
+    </section>
+
+    <nav class="pills" aria-label="Links">
+      <a class="pill primary" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <span><strong>Agendar horário</strong><small>Chama no WhatsApp</small></span>
+        <i aria-hidden="true">→</i>
+      </a>
+      <a class="pill" href="https://instagram.com/lumabeauty" target="_blank" rel="noopener noreferrer">
+        <span><strong>Instagram</strong><small>Novidades e resultados</small></span>
+        <i aria-hidden="true">→</i>
+      </a>
+      <a class="pill" href="https://www.google.com/maps/search/?api=1&query=Rua%20das%20Luzes%2088" target="_blank" rel="noopener noreferrer">
+        <span><strong>Como chegar</strong><small>Rua das Luzes, 88</small></span>
+        <i aria-hidden="true">→</i>
+      </a>
+      <button class="pill" type="button" id="openMenu">
+        <span><strong>Cardápio de preços</strong><small>Toque para abrir</small></span>
+        <i aria-hidden="true">＋</i>
+      </button>
+    </nav>
+
+    <div class="actions">
+      <button type="button" class="ghost" id="copyAddress" data-copy="Rua das Luzes, 88">Copiar endereço</button>
+      <button type="button" class="ghost" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Presença Diária</p></footer>
+  </main>
+
+  <dialog id="menu" aria-labelledby="menuTitle">
+    <div class="sheet">
+      <div class="sheet-bar">
+        <h2 id="menuTitle">Cardápio</h2>
+        <button type="button" id="closeMenu">Fechar</button>
+      </div>
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer"><span>Orientação<small>50 min</small></span><b>R$ 85</b></a>
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer"><span>Retorno<small>45 min</small></span><b>R$ 75</b></a>
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer"><span>Escuta<small>30 min</small></span><b>R$ 55</b></a>
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer"><span>Limpeza de pele<small>60 min</small></span><b>R$ 160</b></a>
+    </div>
+  </dialog>
+
+  <dialog id="storyDialog" aria-labelledby="storyCaption">
+    <div class="viewer">
+      <div class="viewer-bar">
+        <p id="storyCount">1 / 4</p>
+        <button type="button" id="closeStory">Fechar</button>
+      </div>
+      <img id="storyImage" alt="">
+      <p id="storyCaption"></p>
+      <div class="viewer-nav">
+        <button type="button" id="prevStory">Anterior</button>
+        <button type="button" id="nextStory">Próxima</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

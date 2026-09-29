@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Imagem do atendimento">
+  <meta name="theme-color" content="#16343a">
+  <title>Sala 21 | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="split">
+    <section class="visual">
+      <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1400&q=80" alt="Imagem do atendimento">
+      <div class="visual-copy">
+        <p class="kicker">Sala 21</p>
+        <h1>Escuta com dia e hora.</h1>
+        <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Qua a dom</span></p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="lead">A primeira conversa serve para entender o que você busca neste momento.</p>
+      <nav class="cards" aria-label="Links">
+        <a class="media" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+          <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=300&q=80" alt="">
+          <span><strong>Agendar</strong><small>WhatsApp da casa</small></span>
+          <b aria-hidden="true">→</b>
+        </a>
+        <a class="media" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+          <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=300&q=80" alt="">
+          <span><strong>Acolhida</strong><small>A partir de R$ 140</small></span>
+          <b aria-hidden="true">→</b>
+        </a>
+        <a class="media" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+          <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=300&q=80" alt="">
+          <span><strong>Avaliação</strong><small>A partir de R$ 280</small></span>
+          <b aria-hidden="true">→</b>
+        </a>
+        <a class="media" href="https://instagram.com/casamare" target="_blank" rel="noopener noreferrer">
+          <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=300&q=80" alt="">
+          <span><strong>Instagram</strong><small>@casamare</small></span>
+          <b aria-hidden="true">→</b>
+        </a>
+        <a class="media" href="https://www.google.com/maps/search/?api=1&query=Avenida%20Beira%20Mar%2040" target="_blank" rel="noopener noreferrer">
+          <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=300&q=80" alt="">
+          <span><strong>Endereço</strong><small>Av. Beira Mar, 40</small></span>
+          <b aria-hidden="true">→</b>
+        </a>
+      </nav>
+      <div class="actions">
+        <button type="button" id="copyAddress" data-copy="Avenida Beira Mar, 40">Copiar endereço</button>
+        <button type="button" id="share">Compartilhar</button>
+      </div>
+      <footer><p>© <span id="year">2026</span> Sala 21</p></footer>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

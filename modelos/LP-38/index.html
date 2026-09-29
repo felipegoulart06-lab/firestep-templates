@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#e6c27a">
+<meta name="description" content="Atendimento depois do expediente, com a casa já calma.">
+<title>Fisio Leve | Agende um horário</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500&family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#agendar">Ir para o agendamento</a>
+
+<main class="wrap" style="padding-top:28px">
+  <p class="kicker">Depois das 18h</p>
+  <h1>Uma sessão para mover com cuidado.</h1>
+  <p class="lead">O plano é explicado em linguagem simples, sem jargão desnecessário.</p>
+  <div class="grid3">
+    <article class="card"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1400&q=80" alt="Alongamento"><h3>18:00</h3><p>Corte noturno, 45 minutos.</p></article>
+    <article class="card"><img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1400&q=80" alt="Retorno"><h3>19:30</h3><p>Orientação</p></article>
+    <article class="card"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1400&q=80" alt="Rosto."><h3>20:15</h3><p>Última sobrancelha da noite.</p></article>
+  </div>
+  <div class="row" style="margin:16px 0"><a class="btn" href="#agendar">Reservar o turno</a></div>
+  <h2>Três focos de cuidado</h2>
+  <p>Exercícios de casa só são indicados quando fazem sentido para você.</p>
+</main>
+<div class="wrap">
+
+<section class="wrap more" id="fecha"><p class="kicker">O que cabe depois das 18h</p><h2>O movimento, em etapas</h2><p>Rua do Turno, 38, quinta a sábado, 18h às 21h. Exercícios de casa só são indicados quando fazem sentido para você.</p><div class="grid3"><article class="card"><h3>18:00</h3><p>Corte de quarenta e cinco minutos.</p></article><article class="card"><h3>19:30</h3><p>Orientação</p></article><article class="card"><h3>20:15</h3><p>Atraso reduz o tempo da sessão. O próximo horário permanece.</p></article></div></section>
+<section class="booking-shell" id="agendar">
+  <div class="booking-top"><div><p class="kicker">Hora marcada</p><h2>O que a sessão pede</h2></div><div><span id="stepNumber">01</span> / 03</div></div>
+  <div class="progress-track"><span id="progressBar"></span></div>
+  <form id="bookingForm" novalidate>
+    <section class="form-step active" data-step="1">
+      <div class="service-options"><label class="service-option selected"><input type="radio" name="service" value="Sessão" checked><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1400&q=80" alt=""><span><b>Sessão</b><small>45 min, luz baixa.</small></span><i>✓</i></label><label class="service-option"><input type="radio" name="service" value="Avaliação"><img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1400&q=80" alt=""><span><b>Avaliação</b><small>Depois do trabalho.</small></span><i>✓</i></label><label class="service-option"><input type="radio" name="service" value="Mobilidade"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1400&q=80" alt=""><span><b>Mobilidade</b><small>Fecha o dia.</small></span><i>✓</i></label></div>
+      <div class="field-grid">
+        <label class="field">Data<input id="date" name="date" type="date" required></label>
+        <label class="field">Horário<select id="time" name="time" required><option value="">Escolher</option><option>18:00</option><option>18:45</option><option>19:30</option><option>20:15</option></select></label>
+      </div>
+      <button class="button button-primary next-step" type="button">Continuar</button>
+    </section>
+    <section class="form-step" data-step="2">
+      <div class="fields">
+        <label class="field full">Nome completo<input id="name" name="name" autocomplete="name" required minlength="3" placeholder="Seu nome"></label>
+        <label class="field">WhatsApp<input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(00) 00000-0000"></label>
+        <label class="field">E-mail <small>(opcional)</small><input id="email" name="email" type="email" autocomplete="email" placeholder="voce@email.com"></label>
+      </div>
+      <div class="button-row"><button class="button button-quiet prev-step" type="button">Voltar</button><button class="button button-primary next-step" type="button">Revisar</button></div>
+    </section>
+    <section class="form-step" data-step="3">
+      <div class="review-line"><span>Serviço</span><b id="reviewService">—</b></div>
+      <div class="review-line"><span>Data</span><b id="reviewDate">—</b></div>
+      <div class="review-line"><span>Horário</span><b id="reviewTime">—</b></div>
+      <div class="review-line"><span>Nome</span><b id="reviewName">—</b></div>
+      <label class="consent"><input id="consent" type="checkbox" required><span>Quero que confirmem este horário.</span></label>
+      <div class="button-row"><button class="button button-quiet prev-step" type="button">Voltar</button><button class="button button-primary" id="submitBooking" type="submit">Quero este horário</button></div>
+    </section>
+  </form>
+  <div class="success-panel" id="successPanel" hidden>
+    <h3>Três focos de cuidado</h3>
+    <p>O plano é explicado em linguagem simples, sem jargão desnecessário.</p>
+    <p><a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Confirmar no WhatsApp</a></p>
+    <button class="button button-primary" id="newBooking" type="button">Pedir outro horário</button>
+  </div>
+</section>
+
+<footer class="wrap"><b>Fisio Leve</b><span>Rua do Turno, 38 · qui a sáb, 18h–21h</span><a href="https://wa.me/5547999999999" target="_blank" rel="noopener noreferrer">WhatsApp</a><small>© <span id="year">2026</span> Fisio Leve</small></footer>
+
+<a class="btn float-cta" href="#agendar">Agendar atendimento</a>
+<script src="script.js"></script>
+</body>
+</html>

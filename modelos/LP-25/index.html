@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#7c2d12">
+<meta name="description" content="Seis razões para parar de adiar o cuidado.">
+<title>Caminho Sereno | Agende um horário</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#agendar">Ir para o agendamento</a>
+
+<main class="wrap" style="padding-top:28px">
+  <p class="kicker">Acolhida</p>
+  <h1>Há espaço para o seu cuidado.</h1>
+  <p class="lead">A sessão terapêutica é um encontro com hora, em ambiente reservado.</p>
+  <div class="grid3">
+    <article class="card pain"><strong>01</strong><p>Você marca o acompanhamento. A confirmação vai pelo WhatsApp.</p></article>
+    <article class="card pain"><strong>02</strong><p>Remarcações pedem aviso prévio pelo mesmo contato.</p></article>
+    <article class="card pain"><strong>03</strong><p>Chegue no horário. O encontro seguinte já tem outra pessoa.</p></article>
+    <article class="card pain"><strong>04</strong><p>O “depois do feriado” já passou.</p></article>
+    <article class="card pain"><strong>05</strong><p>O acolhimento começa na pontualidade e no silêncio da sala.</p></article>
+    <article class="card pain"><strong>06</strong><p>Remarcações pedem aviso prévio pelo mesmo contato.</p></article>
+  </div>
+  <div class="row" style="margin:16px 0"><a class="btn" href="#agendar">Marcar por um desses motivos</a></div>
+  <h2>O acompanhamento</h2>
+  <div class="grid2">
+    <article class="card"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1400&q=80" alt="Escuta"><h3>O acompanhamento</h3><p>O pedido fica registrado nesta demonstração e segue para confirmação.</p></article>
+    <article class="card"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1400&q=80" alt="Roda"><h3>O que levar em conta</h3><p>A sessão terapêutica é um encontro com hora, em ambiente reservado.</p></article>
+  </div>
+</main>
+<div class="wrap" style="margin-top:18px">
+
+<section class="wrap more" id="fecha"><p class="kicker">O sexto motivo vira horário</p><h2>O que levar em conta</h2><p>Rua do Motivo, 25, segunda a sábado, 9h às 19h. Traga o que estiver pesando na semana. Não precisa preparar discurso.</p><div class="grid3"><article class="card"><img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1400&q=80" alt="Encontro"><h3>Um horário, um foco</h3><p>A sessão terapêutica é um encontro com hora, em ambiente reservado.</p></article><article class="card"><h3>Como o encontro funciona</h3><p>O processo é no seu ritmo. Não há meta prometida de antemão.</p></article><article class="card"><h3>O que a sessão oferece</h3><p>A sessão terapêutica é um encontro com hora, em ambiente reservado.</p></article></div></section>
+<section class="booking-shell" id="agendar">
+  <div class="booking-top"><div><p class="kicker">Hora marcada</p><h2>Um horário, um foco</h2></div><div><span id="stepNumber">01</span> / 03</div></div>
+  <div class="progress-track"><span id="progressBar"></span></div>
+  <form id="bookingForm" novalidate>
+    <section class="form-step active" data-step="1">
+      <div class="service-options"><label class="service-option selected"><input type="radio" name="service" value="Acompanha" checked><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1400&q=80" alt=""><span><b>Acompanha</b><small>Forma nova em 40 min.</small></span><i>✓</i></label><label class="service-option"><input type="radio" name="service" value="Acolhida"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1400&q=80" alt=""><span><b>Acolhida</b><small>Do tom atual ao próximo.</small></span><i>✓</i></label><label class="service-option"><input type="radio" name="service" value="Retorno"><img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1400&q=80" alt=""><span><b>Retorno</b><small>Acabamento limpo.</small></span><i>✓</i></label></div>
+      <div class="field-grid">
+        <label class="field">Data<input id="date" name="date" type="date" required></label>
+        <label class="field">Horário<select id="time" name="time" required><option value="">Escolher</option><option>09:00</option><option>10:30</option><option>13:00</option><option>15:00</option><option>17:00</option></select></label>
+      </div>
+      <button class="button button-primary next-step" type="button">Continuar</button>
+    </section>
+    <section class="form-step" data-step="2">
+      <div class="fields">
+        <label class="field full">Nome completo<input id="name" name="name" autocomplete="name" required minlength="3" placeholder="Seu nome"></label>
+        <label class="field">WhatsApp<input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(00) 00000-0000"></label>
+        <label class="field">E-mail <small>(opcional)</small><input id="email" name="email" type="email" autocomplete="email" placeholder="voce@email.com"></label>
+      </div>
+      <div class="button-row"><button class="button button-quiet prev-step" type="button">Voltar</button><button class="button button-primary next-step" type="button">Revisar</button></div>
+    </section>
+    <section class="form-step" data-step="3">
+      <div class="review-line"><span>Serviço</span><b id="reviewService">—</b></div>
+      <div class="review-line"><span>Data</span><b id="reviewDate">—</b></div>
+      <div class="review-line"><span>Horário</span><b id="reviewTime">—</b></div>
+      <div class="review-line"><span>Nome</span><b id="reviewName">—</b></div>
+      <label class="consent"><input id="consent" type="checkbox" required><span>Quero que confirmem este horário.</span></label>
+      <div class="button-row"><button class="button button-quiet prev-step" type="button">Voltar</button><button class="button button-primary" id="submitBooking" type="submit">Quero este horário</button></div>
+    </section>
+  </form>
+  <div class="success-panel" id="successPanel" hidden>
+    <h3>Antes de chegar</h3>
+    <p>Você marca o acompanhamento. A confirmação vai pelo WhatsApp.</p>
+    <p><a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Confirmar no WhatsApp</a></p>
+    <button class="button button-primary" id="newBooking" type="button">Pedir outro horário</button>
+  </div>
+</section>
+
+<footer class="wrap"><b>Caminho Sereno</b><span>Rua do Motivo, 25 · seg a sáb, 9h–19h</span><a href="https://wa.me/5547999999999" target="_blank" rel="noopener noreferrer">WhatsApp</a><small>© <span id="year">2026</span> Caminho Sereno</small></footer>
+
+<a class="btn float-cta" href="#agendar">Agendar atendimento</a>
+<script src="script.js"></script>
+</body>
+</html>

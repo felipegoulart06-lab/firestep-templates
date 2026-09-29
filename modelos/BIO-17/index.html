@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f3f5ef">
+  <title>Pele Marcada | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600&family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Cardápio</p>
+      <h1>Atendimento estético com hora certa.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Seg a sex</span></p>
+    </header>
+    <section class="menu" aria-label="Serviços">
+      <a class="dish" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=200&q=80" alt="">
+        <span><strong>Design</strong><small>45 min · consultoria inclusa</small></span>
+        <b>R$ 120</b>
+      </a>
+      <a class="dish" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=200&q=80" alt="">
+        <span><strong>Protocolo</strong><small>Tonificação</small></span>
+        <b>R$ 280</b>
+      </a>
+      <a class="dish" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=200&q=80" alt="">
+        <span><strong>Tonificação</strong><small>Massagem</small></span>
+        <b>R$ 85</b>
+      </a>
+      <a class="dish" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=200&q=80" alt="">
+        <span><strong>Pele</strong><small>60 min · limpeza</small></span>
+        <b>R$ 160</b>
+      </a>
+    </section>
+    <nav class="extra" aria-label="Outros links">
+      <a href="https://instagram.com/ateliedois" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="https://www.google.com/maps/search/?api=1&query=Rua%20Dois%202" target="_blank" rel="noopener noreferrer">Como chegar</a>
+    </nav>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua Dois, 2">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Facial</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+:root { --ink:#1c241c; --paper:#f3f6f1; --muted:#5d675d; --open:#1f7a3a; }
+* { box-sizing:border-box; }
+body { margin:0; min-height:100dvh; background:var(--paper); color:var(--ink); font-family:Outfit,"Segoe UI",sans-serif; overflow-x:clip; }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+img { display:block; width:100%; height:100%; object-fit:cover; }
+:focus-visible { outline:2px solid var(--ink); outline-offset:3px; }
+.page { width:min(880px,calc(100% - 28px)); margin:0 auto; padding:max(22px,env(safe-area-inset-top)) 0 max(28px,env(safe-area-inset-bottom)); }
+.kicker { margin:0; letter-spacing:.16em; text-transform:uppercase; font-size:.75rem; color:var(--muted); }
+h1 { margin:8px 0; font-family:Newsreader,Georgia,serif; font-size:clamp(2.2rem,6vw,3.4rem); font-weight:560; letter-spacing:-.03em; line-height:1; max-width:14ch; }
+.status { display:flex; align-items:center; gap:8px; margin:0; font-weight:600; }
+.dot { width:8px; height:8px; border-radius:50%; background:#8d978d; }
+.status.is-open { color:var(--open); } .status.is-open .dot { background:var(--open); }
+.bento { display:grid; gap:12px; margin-top:18px; }
+.tile { position:relative; display:block; min-height:168px; border-radius:22px; overflow:hidden; color:#fff; text-decoration:none; background:#8d978d; }
+.tile img { position:absolute; inset:0; }
+.tile span { position:absolute; left:0; right:0; bottom:0; padding:28px 14px 14px; background:linear-gradient(transparent,rgba(12,18,12,.78)); }
+.tile small { display:block; letter-spacing:.08em; text-transform:uppercase; font-size:.72rem; }
+.tile strong { font-family:Newsreader,Georgia,serif; font-size:1.45rem; font-weight:560; }
+.big { min-height:240px; }
+.actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:14px; }
+.actions button { min-height:46px; border-radius:14px; background:#fff; font-weight:600; }
+footer p { margin:14px 0 0; text-align:center; color:var(--muted); font-size:.82rem; }
+.toast { position:fixed; left:50%; bottom:max(16px,env(safe-area-inset-bottom)); transform:translateX(-50%); padding:12px 16px; border-radius:999px; background:var(--ink); color:#fff; opacity:0; pointer-events:none; }
+.toast.show { opacity:1; }
+@media (min-width:760px) {
+  .bento { grid-template-columns:1fr 1fr; }
+  .big,.wide { grid-column:1 / -1; }
+  .big { min-height:320px; }
+}
+@media (max-width:380px) { .actions { grid-template-columns:1fr; } }

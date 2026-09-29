@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#b45309">
+  <title>Sessão Calma | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;700&family=Literata:opsz,wght@7..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="top"><p>Sessão Calma</p><h1 id="title">Acompanhamento com hora marcada.</h1></header>
+    <div id="work">
+      <div class="services" id="services"></div>
+      <div class="pager">
+        <button type="button" id="prev">Dia anterior</button>
+        <div><b id="dayTitle"></b><small id="daySub"></small></div>
+        <button type="button" id="next">Próximo dia</button>
+      </div>
+      <div class="line" id="slots"></div>
+      <form id="form" novalidate>
+        <label>Nome<input id="name" autocomplete="name" placeholder="Seu nome"></label>
+        <label>WhatsApp<input id="phone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000"></label>
+        <button type="submit">Reservar este horário</button>
+        <p class="msg" id="msg" role="alert"></p>
+      </form>
+    </div>
+    <section class="done" id="done" hidden aria-live="polite">
+      <p>Reservado na linha</p>
+      <h2 id="doneTitle"></h2>
+      <p id="doneMeta"></p>
+      <button type="button" id="again">Ver a linha de novo</button>
+    </section>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ece7df">
+  <title>Salão Norte | Agende seu horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="kicker">Fichário</p>
+      <h1>O cabelo não espera encaixe.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Fim de semana</span></p>
+    </header>
+    <div class="binder">
+      <div class="tabs" role="tablist" aria-label="Divisórias">
+        <button type="button" role="tab" id="t1" aria-selected="true" aria-controls="p1">Agenda</button>
+        <button type="button" role="tab" id="t2" aria-selected="false" aria-controls="p2">Mechas</button>
+        <button type="button" role="tab" id="t3" aria-selected="false" aria-controls="p3">Insta</button>
+        <button type="button" role="tab" id="t4" aria-selected="false" aria-controls="p4">Mapa</button>
+      </div>
+      <section class="sheet" id="p1" role="tabpanel" aria-labelledby="t1">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80" alt="">
+        <h2>Agenda</h2>
+        <p>Hora marcada pelo WhatsApp.</p>
+        <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Abrir agenda</a>
+      </section>
+      <section class="sheet" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80" alt="">
+        <h2>Depois de marcar</h2>
+        <p>45 min · R$ 130.</p>
+        <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">Finalização</a>
+      </section>
+      <section class="sheet" id="p3" role="tabpanel" aria-labelledby="t3" hidden>
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=800&q=80" alt="">
+        <h2>Instagram</h2>
+        <p>@argola.studio</p>
+        <a href="https://instagram.com/argola.studio" target="_blank" rel="noopener noreferrer">Ver perfil</a>
+      </section>
+      <section class="sheet" id="p4" role="tabpanel" aria-labelledby="t4" hidden>
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=800&q=80" alt="">
+        <h2>Mapa</h2>
+        <p>Rua da Argola, 48.</p>
+        <a href="https://www.google.com/maps/search/?api=1&query=Rua%20da%20Argola%2048" target="_blank" rel="noopener noreferrer">Como chegar</a>
+      </section>
+    </div>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua da Argola, 48">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Barba</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

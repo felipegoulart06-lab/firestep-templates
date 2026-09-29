@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Consulta Nove — agende um horário, fale no WhatsApp e veja se estamos abertos.">
+  <meta name="theme-color" content="#f4efe8" media="(max-width: 959px)">
+  <meta name="theme-color" content="#241710" media="(min-width: 960px)">
+  <title>Consulta Nove | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=5">
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="billboard">
+      <p class="kicker">Avaliação</p>
+      <p class="display">Luz baixa,<br>Encontro</p>
+      <p class="lede">Cada consulta tem um foco. Se precisar de outro tema, marque outra sessão.</p>
+      <ul class="facts">
+        <li>Hora marcada</li>
+        <li>Centro</li>
+        <li>Seg a sáb</li>
+      </ul>
+    </aside>
+
+    <main class="card">
+      <div class="cover">
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1200&q=80" alt="Você escolhe o dia e a hora. A confirmação segue pelo WhatsApp." width="1200" height="800">
+      </div>
+
+      <header class="identity pad">
+        <div class="avatar">
+          <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=400&q=80" alt="Imagem do atendimento" width="400" height="400">
+          <span class="presence" id="presence"></span>
+        </div>
+        <div class="identity-text">
+          <h1>Um horário para ser escutado.</h1>
+          <p class="handle">@orsa.atelie</p>
+        </div>
+      </header>
+
+      <p class="status pad" id="status" aria-live="polite">
+        <span class="dot" aria-hidden="true"></span>
+        <span id="statusText">Seg a sáb · hora marcada</span>
+      </p>
+
+      <p class="bio pad">Cada consulta tem um foco. Se precisar de outro tema, marque outra sessão.</p>
+
+      <nav class="links pad" aria-label="Links principais">
+        <a class="link primary" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M7 3.5h10a2 2 0 0 1 2 2V20l-3.2-2H7a2 2 0 0 1-2-2V5.5a2 2 0 0 1 2-2Z"/><path d="M8 8.5h8M8 12h5"/></svg>
+          </span>
+          <span class="label"><strong>Agendar horário</strong><small>Resposta pelo WhatsApp</small></span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="link" href="https://instagram.com/orsa.atelie" target="_blank" rel="noopener noreferrer">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3.5"/><circle cx="17.2" cy="6.8" r=".8" fill="currentColor" stroke="none"/></svg>
+          </span>
+          <span class="label"><strong>Instagram</strong><small>@orsa.atelie</small></span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="link" href="https://www.google.com/maps/search/?api=1&query=Rua%20das%20Ac%C3%A1cias%2048%20Centro" target="_blank" rel="noopener noreferrer">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 21s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10Z"/><circle cx="12" cy="11" r="2"/></svg>
+          </span>
+          <span class="label"><strong>Como chegar</strong><small>Rua das Acácias, 48 · Centro</small></span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </nav>
+
+      <section class="gallery pad" aria-label="Portfólio">
+        <div class="section-label">
+          <h2>Três formas de começar</h2>
+          <span>Arraste para o lado</span>
+        </div>
+        <div class="scroller">
+          <button class="shot" type="button" data-caption="Corte em camadas">
+            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=80" alt="" width="900" height="1100">
+            <span>Consulta</span>
+          </button>
+          <button class="shot" type="button" data-caption="Cor e luz">
+            <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=900&q=80" alt="" width="900" height="1100">
+            <span>Cuidado</span>
+          </button>
+          <button class="shot" type="button" data-caption="Pele iluminada">
+            <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80" alt="" width="900" height="1100">
+            <span>Pele iluminada</span>
+          </button>
+          <button class="shot" type="button" data-caption="No ateliê">
+            <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=900&q=80" alt="" width="900" height="1100">
+            <span>Orientação</span>
+          </button>
+        </div>
+      </section>
+
+      <div class="folds pad">
+        <details class="fold">
+          <summary>
+            <span><strong>Serviços</strong><small>Toque e chame no WhatsApp</small></span>
+            <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="fold-body">
+            <a class="service" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+              <span>Sessão<small>60 min</small></span><b>R$ 140</b>
+            </a>
+            <a class="service" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+              <span>Cuidado<small>2h30</small></span><b>R$ 320</b>
+            </a>
+            <a class="service" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+              <span>Ritual de pele<small>50 min</small></span><b>R$ 180</b>
+            </a>
+            <a class="service" href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+              <span>Plantão<small>30 min</small></span><b>R$ 70</b>
+            </a>
+          </div>
+        </details>
+
+        <details class="fold">
+          <summary>
+            <span><strong>Horários</strong><small>O dia de hoje fica marcado</small></span>
+            <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="fold-body">
+            <ul class="hours" id="hours">
+              <li data-day="1"><span>Segunda</span><b>9h – 19h</b></li>
+              <li data-day="2"><span>Terça</span><b>9h – 19h</b></li>
+              <li data-day="3"><span>Quarta</span><b>9h – 19h</b></li>
+              <li data-day="4"><span>Quinta</span><b>9h – 19h</b></li>
+              <li data-day="5"><span>Sexta</span><b>9h – 19h</b></li>
+              <li data-day="6"><span>Sábado</span><b>9h – 16h</b></li>
+              <li data-day="0"><span>Domingo</span><b>Fechado</b></li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <div class="actions pad">
+        <button class="ghost" type="button" id="copyAddress" data-copy="Rua das Acácias, 48 · Centro">Copiar endereço</button>
+        <button class="ghost" type="button" id="share">Compartilhar</button>
+      </div>
+
+      <footer class="pad">
+        <p>© <span id="year">2026</span> Consulta Nove</p>
+      </footer>
+    </main>
+  </div>
+
+  <dialog id="portfolio" aria-labelledby="portfolioTitle">
+    <div class="viewer">
+      <div class="viewer-bar">
+        <p id="portfolioTitle">Portfólio</p>
+        <span id="portfolioCount">1 / 4</span>
+        <button type="button" id="closePortfolio">Fechar</button>
+      </div>
+      <figure id="portfolioFigure">
+        <img id="portfolioImage" alt="" width="900" height="1100">
+        <figcaption id="portfolioCaption"></figcaption>
+      </figure>
+      <div class="viewer-nav">
+        <button type="button" id="prevShot">Anterior</button>
+        <button type="button" id="nextShot">Próxima</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

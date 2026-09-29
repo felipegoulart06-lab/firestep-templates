@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#56365f"><meta name="description" content="Acolhimento, escuta e um combinado claro sobre a frequência.">
+<title>Consulta Leve | Agende um horário</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="ambient a"></div><div class="ambient b"></div>
+<main>
+<section class="hero wrap" id="inicio">
+ <div class="hero-copy">
+  <a class="brand" href="#inicio"><span>☾</span><b>LUNA<small>Avaliação</small></b></a>
+  <p class="eyebrow">Acolhida</p>
+  <h1>O primeiro passo é marcar.<br><em>Seu tempo.</em><br>Seu ritual.</h1>
+  <p class="intro">Não é preciso trazer diagnóstico. Basta marcar e chegar no horário.</p>
+  <a class="btn dark" href="#agendar">Encontrar meu horário <span>↗</span></a>
+  <div class="social"><span class="bubbles">✦ ♡ ✿</span><div><b>Um cuidado que se sente</b><small>Atendimento próximo, resultado impecável.</small></div></div>
+ </div>
+ <div class="hero-art"><div class="portrait" role="img" aria-label="Você escolhe o dia e a hora. A confirmação segue pelo WhatsApp."></div><div class="orbit"></div><div class="vertical">BEAUTY · CARE · YOU</div><div class="art-note"><span>✧</span><div><b>Um novo ritual</b><small>começa por você</small></div></div><div class="stamp">LUNA<br><strong>✦</strong><br>STUDIO</div></div>
+ <div class="hero-foot"><span>01 / 03</span><span>UM ESPAÇO PARA FLORESCER</span><span>ROLE PARA DESCOBRIR ↓</span></div>
+</section>
+<section class="booking" id="agendar"><div class="wrap">
+ <div class="section-head"><div><p class="eyebrow">RESERVA ONLINE</p><h2>Depois que você agenda <em>de você?</em></h2></div><p>Traga o que quiser contar. Não há roteiro obrigatório.<br>Escolha, agende e deixe o resto com a gente.</p></div>
+ <div class="booking-layout">
+  <aside class="rail"><div class="rail-brand"><span>☾</span><b>LUNA<small>Avaliação</small></b></div><p class="rail-label">SEU AGENDAMENTO</p>
+   <div class="steps"><div class="step active" data-ind="1"><i>01</i><span><b>O que você deseja?</b><small>Escolha o serviço</small></span></div><div class="step" data-ind="2"><i>02</i><span><b>Quando vem?</b><small>Data e horário</small></span></div><div class="step" data-ind="3"><i>03</i><span><b>Quem é você?</b><small>Seus contatos</small></span></div><div class="step" data-ind="4"><i>04</i><span><b>Tudo certo?</b><small>Revisar pedido</small></span></div></div>
+   <div class="quote"><span>“</span><p>Você pode remarcar pelo mesmo WhatsApp, com antecedência.</p></div><div class="rail-orbit"></div>
+  </aside>
+  <div class="booking-card"><div class="top"><div><small id="step-kicker">PASSO 1 DE 4</small><h3 id="step-title">Depois que você agenda</h3></div><b id="counter">01 <i>/ 04</i></b></div><div class="progress"><span id="progress"></span></div>
+   <form id="booking-form" novalidate>
+    <section class="form-step active" data-step="1"><p class="desc">Acolhimento, escuta e um combinado claro sobre a frequência.</p><div class="services">
+     <label class="service selected"><input type="radio" name="service" value="Cuidado" data-price="95" data-duration="60" checked><span class="service-icon">✂</span><span class="service-copy"><b>Retorno & Orientação</b><small>Forma, movimento e leveza</small></span><span class="price"><b>R$ 95</b><small>60 min</small></span><i class="check">✓</i></label>
+     <label class="service"><input type="radio" name="service" value="Plantão" data-price="65" data-duration="45"><span class="service-icon">〰</span><span class="service-copy"><b>Plantão</b><small>Brilho e acabamento</small></span><span class="price"><b>R$ 65</b><small>45 min</small></span><i class="check">✓</i></label>
+     <label class="service"><input type="radio" name="service" value="Encontro" data-price="110" data-duration="60"><span class="service-icon">✧</span><span class="service-copy"><b>Encontro</b><small>Maciez da raiz às pontas</small></span><span class="price"><b>R$ 110</b><small>60 min</small></span><i class="check">✓</i></label>
+     <label class="service"><input type="radio" name="service" value="Escuta" data-price="45" data-duration="40"><span class="service-icon">♡</span><span class="service-copy"><b>Sessão & cuidado</b><small>Um detalhe que faz diferença</small></span><span class="price"><b>R$ 45</b><small>40 min</small></span><i class="check">✓</i></label>
+     <label class="service"><input type="radio" name="service" value="Consulta" data-price="60" data-duration="50"><span class="service-icon">✿</span><span class="service-copy"><b>Consulta</b><small>Conforto e renovação</small></span><span class="price"><b>R$ 60</b><small>50 min</small></span><i class="check">✓</i></label>
+     <label class="service"><input type="radio" name="service" value="Cuidado" data-price="50" data-duration="30"><span class="service-icon">⌁</span><span class="service-copy"><b>Cuidado</b><small>Harmonia para o olhar</small></span><span class="price"><b>R$ 50</b><small>30 min</small></span><i class="check">✓</i></label>
+    </div><div class="error" id="service-error"></div><div class="actions"><small>✦ Valores ilustrativos</small><button class="btn dark next" type="button">Escolher horário <span>→</span></button></div></section>
+    <section class="form-step" data-step="2"><p class="desc">Não prometemos resultado em uma sessão. O cuidado é contínuo.</p><div class="schedule"><div class="field"><label for="date">Data do atendimento</label><input id="date" name="date" type="date" required><small>Não atendemos aos domingos.</small></div><div class="field"><label>Horários</label><div class="slots"><button type="button" data-time="09:00">09:00</button><button type="button" data-time="10:00">10:00</button><button type="button" data-time="11:00">11:00</button><button type="button" data-time="13:00">13:00</button><button type="button" data-time="14:00">14:00</button><button type="button" data-time="15:00">15:00</button><button type="button" data-time="16:00">16:00</button><button type="button" data-time="17:00">17:00</button></div><small>Disponibilidade demonstrativa.</small></div></div><div class="error" id="date-error"></div><div class="actions"><button class="btn light back" type="button">← Voltar</button><button class="btn dark next" type="button">Continuar <span>→</span></button></div></section>
+    <section class="form-step" data-step="3"><p class="desc">Você escolhe o dia e a hora. A confirmação segue pelo WhatsApp.</p><div class="data-grid"><div class="field full"><label for="name">Nome completo *</label><input id="name" name="name" placeholder="Seu nome e sobrenome" autocomplete="name" required minlength="3"></div><div class="field"><label for="phone">WhatsApp *</label><input id="phone" name="phone" type="tel" placeholder="(00) 00000-0000" autocomplete="tel" required></div><div class="field"><label for="email">E-mail <i>opcional</i></label><input id="email" name="email" type="email" placeholder="voce@email.com" autocomplete="email"></div><div class="field full"><label for="notes">Quer nos contar algo? <i>opcional</i></label><textarea id="notes" name="notes" rows="3" placeholder="Preferências, observações ou dúvidas..."></textarea></div></div><div class="error" id="data-error"></div><div class="actions"><button class="btn light back" type="button">← Voltar</button><button class="btn dark next" type="button">Revisar agendamento <span>→</span></button></div></section>
+    <section class="form-step" data-step="4"><p class="desc">Traga o que quiser contar. Não há roteiro obrigatório.</p><div class="review"><div class="review-head"><span>☾</span><div><b>Sua sessão</b><small>Resumo da solicitação</small></div></div><div class="review-row"><span>Serviço</span><b id="r-service">—</b></div><div class="review-row"><span>Data</span><b id="r-date">—</b></div><div class="review-row"><span>Horário</span><b id="r-time">—</b></div><div class="review-row"><span>Nome</span><b id="r-name">—</b></div><div class="review-row"><span>WhatsApp</span><b id="r-phone">—</b></div><div class="total"><span>Total estimado</span><b id="r-price">—</b></div></div><label class="consent"><input type="checkbox" id="consent"><span>Revisei meus dados e confirmo que quero solicitar esse horário.</span></label><div class="error" id="review-error"></div><div class="actions"><button class="btn light back" type="button">← Voltar</button><button class="btn dark" id="submit" type="submit">Enviar solicitação <span>♡</span></button></div><p class="demo">Você pode remarcar pelo mesmo WhatsApp, com antecedência. <code>script.js</code> para receber pedidos reais.</p></section>
+    <section class="success" id="success" hidden><div class="success-icon">✓</div><small class="eyebrow">PEDIDO REGISTRADO</small><h3>Três formas de começar<br><em>com a gente.</em></h3><p>O pedido desta página não cobra agora. O consultório confirma a vaga.</p><div id="reference" class="reference"></div><button type="button" class="btn dark" id="restart">Novo agendamento</button></section>
+   </form>
+  </div>
+ </div><p class="booking-note">Não prometemos resultado em uma sessão. O cuidado é contínuo.</p>
+</div></section>
+<section class="manifesto wrap"><span class="manifesto-icon">✳</span><div><small class="eyebrow">UM LEMBRETE PARA VOCÊ</small><h2>Três formas de começar<br><em>Você é a ocasião.</em></h2></div><a href="#agendar">Reserve seu momento ↗</a></section>
+</main>
+<footer><a class="footer-brand" href="#inicio">☾ <b>LUNA<small>Avaliação</small></b></a><span>Feito para o seu momento.</span><a href="#agendar">Agende online ↑</a></footer><div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="script.js"></script>
+</body></html>

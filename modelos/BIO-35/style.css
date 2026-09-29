@@ -1,0 +1,24 @@
+:root { --ink:#2a241c; --paper:#e7e2d8; --muted:#6f675c; --open:#1f7a3a; }
+* { box-sizing:border-box; }
+body { margin:0; min-height:100dvh; overflow-x:clip; background:var(--paper); color:var(--ink); font-family:"Courier Prime",ui-monospace,monospace; }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+img { max-width:100%; display:block; }
+:focus-visible { outline:2px solid var(--ink); outline-offset:3px; }
+.page { width:min(560px,calc(100% - 28px)); margin:0 auto; padding:max(18px,env(safe-area-inset-top)) 0 max(28px,env(safe-area-inset-bottom)); }
+.kicker { margin:0; letter-spacing:.12em; text-transform:uppercase; font-size:.72rem; color:var(--muted); }
+h1 { margin:6px 0; font-weight:700; font-size:clamp(1.7rem,6vw,2.4rem); }
+.status { display:flex; align-items:center; gap:8px; margin:0 0 12px; }
+.dot { width:8px; height:8px; border-radius:50%; background:#b3aa9c; }
+.status.is-open { color:var(--open); } .status.is-open .dot { background:var(--open); }
+.sheet { background:#f7f4ee; padding:14px; box-shadow:0 12px 28px rgba(40,30,10,.08); border-radius:2px; }
+.sheet img { width:100%; height:150px; object-fit:cover; margin-bottom:12px; background:#e4ddd0; }
+.sheet p { margin:0 0 8px; }
+.sheet a { display:block; color:inherit; text-decoration:none; padding:8px 0; border-top:1px dashed #d9d0c2; overflow-wrap:anywhere; }
+.actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
+.actions button { min-height:48px; border-radius:4px; background:#fff; font-weight:700; }
+footer p { margin:12px 0 0; text-align:center; color:var(--muted); font-size:.8rem; }
+.toast { position:fixed; left:50%; bottom:max(16px,env(safe-area-inset-bottom)); transform:translateX(-50%); padding:12px 16px; border-radius:999px; background:var(--ink); color:#fff; opacity:0; pointer-events:none; font-family:"Courier Prime",monospace; }
+.toast.show { opacity:1; }
+@media (max-width:380px) { .actions { grid-template-columns:1fr; } .sheet img { height:120px; } }
+@media (min-width:700px) { .page { width:min(680px,calc(100% - 48px)); } .sheet { padding:22px; } .sheet img { height:200px; } }
+@media (min-width:1100px) { .page { width:min(760px,calc(100% - 64px)); padding-top:36px; } body { background:#ddd6c8; } }

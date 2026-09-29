@@ -582,6 +582,17 @@ async function supabaseTemplates(query = "", { method = "GET", body, token } = {
   return text ? JSON.parse(text) : [];
 }
 
+async function loadCatalogSeed() {
+  try {
+    const response = await fetch("/catalog-seed.json", { cache: "no-store" });
+    if (!response.ok) return [];
+    const rows = await response.json();
+    return Array.isArray(rows) ? rows.filter(item => item && item.id) : [];
+  } catch {
+    return [];
+  }
+}
+
 async function hydrateTemplatesFromCloud() {
   const query = "?select=*&order=updated_at.desc";
   let rows = [];
@@ -592,28 +603,33 @@ async function hydrateTemplatesFromCloud() {
     try {
       rows = await supabaseTemplates(query, { token: SUPABASE_ANON_KEY });
     } catch {
-      return false;
+      rows = [];
     }
   }
 
   const cloud = Array.isArray(rows) ? rows.map(rowToTemplate).filter(item => item.id) : [];
-  if (!cloud.length) return false;
+  const seed = await loadCatalogSeed();
+  if (!cloud.length && !seed.length) return false;
 
   const map = new Map();
-  [...readStorage(TEMPLATE_KEY), ...cloud].forEach(item => {
+  const put = item => {
     const previous = map.get(item.id);
     if (!previous || String(item.updatedAt || "") >= String(previous.updatedAt || "")) {
       map.set(item.id, { ...previous, ...item });
     }
-  });
+  };
+
+  seed.forEach(put);
+  readStorage(TEMPLATE_KEY).forEach(put);
   cloud.forEach(item => {
-    if (!map.has(item.id)) map.set(item.id, item);
+    map.set(item.id, { ...(map.get(item.id) || {}), ...item });
   });
 
+  const merged = [...map.values()];
   try {
-    writeStorage(TEMPLATE_KEY, [...map.values()]);
+    writeStorage(TEMPLATE_KEY, merged);
   } catch {
-    writeStorage(TEMPLATE_KEY, cloud);
+    writeStorage(TEMPLATE_KEY, cloud.length ? cloud : seed);
   }
   return true;
 }
@@ -2314,16 +2330,24 @@ const SNIPPET_EMBED_CSS = `
 .fs-t4 .template-card{
   background:#fffdf8;border:1px solid var(--line);border-radius:var(--radius);
   overflow:hidden;display:flex;flex-direction:column;min-width:0;height:100%;
+  border-left:4px solid var(--blue);
 }
-.fs-t4 .template-preview{position:relative;height:118px;width:100%;display:block}
-.fs-t4 .template-card.is-website .template-preview{background:var(--blue)}
-.fs-t4 .template-card.is-sistema .template-preview{background:var(--teal)}
-.fs-t4 .template-card.is-catalogo .template-preview{background:var(--gold)}
-.fs-t4 .template-card.is-bio .template-preview{background:var(--rust)}
+.fs-t4 .template-card.is-sistema{border-left-color:var(--teal)}
+.fs-t4 .template-card.is-catalogo{border-left-color:var(--gold)}
+.fs-t4 .template-card.is-bio{border-left-color:var(--rust)}
+.fs-t4 .template-preview{position:relative;height:188px;width:100%;display:block;background:#e4dccf;overflow:hidden}
+.fs-t4 .template-preview img{width:100%;height:188px;object-fit:cover;background:#e4dccf;display:block}
+.fs-t4 .template-preview span{display:none}
+.fs-t4 .template-preview.is-fallback img{display:none}
+.fs-t4 .template-preview.is-fallback span{display:grid;place-items:center;height:188px;color:#6b7c96;font-size:13px;font-weight:700}
 .fs-t4 .card-type{
-  position:absolute;left:14px;right:14px;bottom:12px;margin:0;padding:0;background:transparent;
-  color:#fff;font-size:12px;font-weight:600;letter-spacing:.04em;
+  position:absolute;left:10px;bottom:10px;margin:0;padding:4px 8px;background:var(--blue);
+  color:#fff;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  font-family:"IBM Plex Mono","Segoe UI",monospace;
 }
+.fs-t4 .template-card.is-sistema .card-type{background:var(--teal)}
+.fs-t4 .template-card.is-catalogo .card-type{background:var(--gold)}
+.fs-t4 .template-card.is-bio .card-type{background:var(--rust)}
 .fs-t4 .template-body{padding:16px 16px 18px;flex:1;display:flex;flex-direction:column}
 .fs-t4 .card-cat{
   display:block;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.08em;
@@ -2369,16 +2393,19 @@ function snippetCardHtml(template = {}) {
   const tipo = template.serviceType || "template";
   const viewUrl = templatePublicUrl(template, false);
   const interestUrl = templatePublicUrl(template, true);
+  const cover = rewriteMediaUrl(template.image || "", template.id);
   return `
       <article class="template-card is-${kind}">
-        <div class="template-preview">
-          <b class="card-type">${escapeHtml(label)}</b>
-        </div>
+        <a class="template-preview" href="${escapeHtml(viewUrl)}" target="_blank" rel="noopener">
+          <img src="${escapeHtml(cover)}" alt="Preview do template ${escapeHtml(template.name || "")}" onerror="this.parentNode.classList.add('is-fallback')">
+          <span>Sem preview</span>
+          <b class="card-type">${escapeHtml(template.serviceType || "Template")}</b>
+        </a>
         <div class="template-body">
           <small class="card-cat">${escapeHtml(label)}</small>
           <h3>${escapeHtml(template.name || "Template")}</h3>
           <p class="fs-t4-meta">Tipo: ${escapeHtml(tipo)} · Prazo: ${escapeHtml(prazo)}</p>
-          <p>${escapeHtml(template.description || "Template profissional pronto para personalização.")}</p>
+          <p>${escapeHtml(collapseRepeatedCopy(template.description) || "Template profissional pronto para personalização.")}</p>
           <div class="template-actions">
             <a class="btn btn-primary" href="${escapeHtml(viewUrl)}" target="_blank" rel="noopener">Ver modelo</a>
             <a class="btn btn-outline" href="${escapeHtml(interestUrl)}" target="_blank" rel="noopener">Tenho interesse</a>

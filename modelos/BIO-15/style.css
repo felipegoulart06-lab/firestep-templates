@@ -1,0 +1,27 @@
+:root { --ink:#2a2416; --paper:#f4efe4; --mustard:#e2b15a; --muted:#6f6758; --open:#1f7a3a; }
+* { box-sizing:border-box; }
+body { margin:0; min-height:100dvh; background:var(--paper); color:var(--ink); font-family:Archivo,"Segoe UI",sans-serif; overflow-x:clip; }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+:focus-visible { outline:2px solid var(--ink); outline-offset:3px; }
+.page { width:min(560px,calc(100% - 28px)); margin:0 auto; padding:max(16px,env(safe-area-inset-top)) 0 max(24px,env(safe-area-inset-bottom)); }
+.place { position:relative; display:block; border-radius:24px; overflow:hidden; min-height:220px; color:#fff; text-decoration:none; background:#c4b49a; }
+.place img { width:100%; height:240px; object-fit:cover; display:block; }
+.place span { position:absolute; left:14px; bottom:14px; }
+.place small { display:block; letter-spacing:.08em; text-transform:uppercase; font-size:.72rem; }
+.place strong { font-family:"Archivo Narrow",sans-serif; font-size:1.8rem; }
+h1 { margin:14px 0 0; font-family:"Archivo Narrow",sans-serif; font-size:clamp(2rem,7vw,2.8rem); letter-spacing:-.03em; }
+.status { display:flex; align-items:center; gap:8px; margin:4px 0 0; font-weight:700; }
+.dot { width:8px; height:8px; border-radius:50%; background:#b3a78f; }
+.status.is-open { color:var(--open); } .status.is-open .dot { background:var(--open); }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
+.mini { display:block; background:#fff; border-radius:18px; overflow:hidden; color:inherit; text-decoration:none; }
+.mini img { width:100%; height:110px; object-fit:cover; display:block; background:#e6dcc8; }
+.mini strong, .mini small { display:block; padding:0 10px; }
+.mini strong { margin-top:8px; }
+.mini small { color:var(--muted); padding-bottom:10px; }
+.actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
+.actions button { min-height:46px; border-radius:14px; background:var(--ink); color:#fff; font-weight:700; }
+footer p { margin:12px 0 0; text-align:center; color:var(--muted); font-size:.8rem; }
+.toast { position:fixed; left:50%; bottom:max(16px,env(safe-area-inset-bottom)); transform:translateX(-50%); padding:12px 16px; border-radius:999px; background:var(--ink); color:#fff; opacity:0; pointer-events:none; }
+.toast.show { opacity:1; }
+@media (max-width:380px) { .actions { grid-template-columns:1fr; } .mini img { height:92px; } }

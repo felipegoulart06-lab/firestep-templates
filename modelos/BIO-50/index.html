@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8e8c8">
+  <title>Fio em Dia | Agende seu horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header class="marquee">
+      <p class="kicker">Bilheteria</p>
+      <h1>Corte e cor, com hora certa.</h1>
+      <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Todos os dias</span></p>
+    </header>
+    <section class="tickets" aria-label="Ingressos">
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=500&q=80" alt="">
+        <span><strong>Agendar</strong><small>ingresso do dia</small></span>
+        <b>WA</b>
+      </a>
+      <a href="https://wa.me/5547999999999?text=Ola%2C%20quero%20agendar" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=500&q=80" alt="">
+        <span><strong>Penteado</strong><small>45 min</small></span>
+        <b>R$ 130</b>
+      </a>
+      <a href="https://instagram.com/guiche.studio" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=500&q=80" alt="">
+        <span><strong>Instagram</strong><small>@guiche.studio</small></span>
+        <b>IG</b>
+      </a>
+      <a href="https://www.google.com/maps/search/?api=1&query=Rua%20do%20Guiche%2050" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=500&q=80" alt="">
+        <span><strong>Mapa</strong><small>Rua do Guichê, 50</small></span>
+        <b>IR</b>
+      </a>
+    </section>
+    <div class="actions">
+      <button type="button" id="copyAddress" data-copy="Rua do Guichê, 50">Copiar endereço</button>
+      <button type="button" id="share">Compartilhar</button>
+    </div>
+    <footer><p>© <span id="year">2026</span> Retoque</p></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f5f3ed" />
+  <title>Consultório Lume | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Consultório Lume - início">
+      <span class="brand-mark">l</span>
+      <span><strong>LUMI</strong><small>Escuta</small></span>
+    </a>
+    <nav class="desktop-nav" aria-label="Navegação principal">
+      <a href="#servicos">Serviços</a><a href="#agendamento">Agendamento</a><a href="#sobre">Avaliação</a>
+    </nav>
+    <a class="top-cta" href="#agendamento">Reservar horário <span>↗</span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+  </header>
+
+  <nav class="mobile-nav" id="mobileNav" aria-label="Navegação móvel">
+    <a href="#servicos">Serviços</a><a href="#agendamento">Agendamento</a><a href="#sobre">Avaliação</a>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> SEU TEMPO, SEU RITUAL</div>
+        <h1>Sua consulta cabe na agenda.<br>inteiro <em>para você.</em></h1>
+        <p>A primeira conversa serve para entender o que você busca neste momento.</p>
+        <a href="#agendamento" class="hero-link">Encontre seu horário <span>↓</span></a>
+        <div class="hero-proof"><div class="avatar-stack"><i>J</i><i>M</i><i>A</i></div><span><b>4,9/5</b><small>de carinho em cada visita</small></span></div>
+      </div>
+      <div class="hero-art" role="img" aria-label="Acolhimento, escuta e um combinado claro sobre a frequência.">
+        <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+        <div class="art-sun"></div>
+        <div class="art-plant plant-one">✳</div><div class="art-plant plant-two">✳</div>
+        <div class="art-vase"><span></span></div>
+        <div class="art-caption"><span>01 / 03</span><b>Rituais de autocuidado</b></div>
+      </div>
+    </section>
+
+    <section class="services-section" id="servicos">
+      <div class="section-heading">
+        <div><div class="eyebrow">ESCOLHA SEU RITUAL</div><h2>Antes da consulta<br><em>grandes sensações.</em></h2></div>
+        <p>Não é preciso trazer diagnóstico. Basta marcar e chegar no horário.</p>
+      </div>
+      <div class="service-grid" id="serviceGrid">
+        <button class="service-card selected" data-service="Orientação" data-price="45" data-duration="45 min">
+          <span class="service-icon">✳</span><span class="service-number">01</span>
+          <strong>Orientação</strong><small>Cuidado delicado para suas mãos.</small>
+          <span class="service-bottom"><b>R$ 45</b><span>45 min ↗</span></span>
+        </button>
+        <button class="service-card" data-service="Retorno" data-price="75" data-duration="50 min">
+          <span class="service-icon">〰</span><span class="service-number">02</span>
+          <strong>Consulta & movimento</strong><small>Leveza, brilho e acabamento.</small>
+          <span class="service-bottom"><b>R$ 75</b><span>50 min ↗</span></span>
+        </button>
+        <button class="service-card" data-service="Encontro" data-price="55" data-duration="30 min">
+          <span class="service-icon">⌁</span><span class="service-number">03</span>
+          <strong>Encontro</strong><small>Realce natural, do seu jeito.</small>
+          <span class="service-bottom"><b>R$ 55</b><span>30 min ↗</span></span>
+        </button>
+        <button class="service-card" data-service="Ritual completo" data-price="145" data-duration="1h 40 min">
+          <span class="service-icon">✧</span><span class="service-number">04</span>
+          <strong>Ritual completo</strong><small>Um cuidado especial da cabeça aos pés.</small>
+          <span class="service-bottom"><b>R$ 145</b><span>1h 40 min ↗</span></span>
+        </button>
+      </div>
+    </section>
+
+    <section class="booking-section" id="agendamento">
+      <div class="booking-intro">
+        <div class="eyebrow">RESERVE SEM COMPLICAÇÃO</div>
+        <h2>Depois que você agenda<br><em>momento Lumi.</em></h2>
+        <p>O sigilo da conversa fica entre você e o profissional que atender.</p>
+        <div class="booking-note"><span>✦</span><div><b>Um cuidado só seu</b><small>Atendimento com hora marcada, sem pressa.</small></div></div>
+      </div>
+      <div class="booking-panel">
+        <div class="stepper">
+          <div class="step active" data-step="1"><span>1</span><small>Data e hora</small></div><i></i>
+          <div class="step" data-step="2"><span>2</span><small>Seus dados</small></div><i></i>
+          <div class="step" data-step="3"><span>3</span><small>Confirmar</small></div>
+        </div>
+
+        <div class="booking-stage" id="stage1">
+          <div class="stage-title"><div><span class="mini-label">ETAPA 01</span><h3>Antes da consulta</h3></div><span class="selected-service-chip" id="serviceChip">Orientação</span></div>
+          <div class="date-time-layout">
+            <div class="calendar">
+              <div class="calendar-head"><button id="prevMonth" aria-label="Mês anterior">‹</button><strong id="monthLabel"></strong><button id="nextMonth" aria-label="Próximo mês">›</button></div>
+              <div class="weekdays"><span>SEG</span><span>TER</span><span>QUA</span><span>QUI</span><span>SEX</span><span>SÁB</span><span>DOM</span></div>
+              <div class="calendar-days" id="calendarDays"></div>
+              <div class="calendar-legend"><span></span> Disponível <span class="legend-muted"></span> Indisponível</div>
+            </div>
+            <div class="time-panel">
+              <div class="time-title"><strong id="chosenDateLabel">Escolha uma data</strong><small>Horários disponíveis</small></div>
+              <div class="time-slots" id="timeSlots"><div class="empty-state">Selecione uma data no calendário.</div></div>
+              <p class="timezone-note">Traga o que quiser contar. Não há roteiro obrigatório.</p>
+            </div>
+          </div>
+          <div class="stage-actions"><span class="quiet-note">Você poderá revisar antes de confirmar.</span><button class="primary-btn" id="toDetails" disabled>Continuar <span>→</span></button></div>
+        </div>
+
+        <div class="booking-stage hidden" id="stage2">
+          <div class="stage-title"><div><span class="mini-label">ETAPA 02</span><h3>Depois que você agenda</h3></div><span class="selected-service-chip" id="serviceChip2">Orientação</span></div>
+          <form id="clientForm" class="client-form">
+            <label>Nome completo<input id="clientName" name="name" placeholder="Como você se chama?" autocomplete="name" required minlength="2"></label>
+            <div class="form-row"><label>WhatsApp<input id="clientPhone" name="phone" placeholder="(00) 00000-0000" inputmode="tel" autocomplete="tel" required></label><label>E-mail <span>(opcional)</span><input id="clientEmail" name="email" type="email" placeholder="voce@email.com" autocomplete="email"></label></div>
+            <label>Alguma observação? <span>(opcional)</span><textarea id="clientNote" name="note" rows="3" placeholder="Conte se há algo que devemos saber..."></textarea></label>
+            <div class="stage-actions"><button type="button" class="back-btn" id="backToDate">← Voltar</button><button class="primary-btn" type="submit">Revisar agendamento <span>→</span></button></div>
+          </form>
+        </div>
+
+        <div class="booking-stage hidden" id="stage3">
+          <div class="stage-title"><div><span class="mini-label">ETAPA 03</span><h3>Três formas de começar</h3></div><span class="confirm-icon">✓</span></div>
+          <div class="confirmation-card" id="confirmationCard"></div>
+          <div class="stage-actions"><button class="back-btn" id="backToDetails">← Editar dados</button><button class="primary-btn" id="confirmBooking">Confirmar reserva <span>✓</span></button></div>
+          <p class="privacy-note">A primeira conversa serve para entender o que você busca neste momento.</p>
+        </div>
+        <div class="success-state hidden" id="successState"><div class="success-mark">✓</div><span class="mini-label">TUDO PRONTO</span><h3>A escuta, em ordem</h3><p id="successText"></p><button class="primary-btn" id="newBooking">Fazer novo agendamento <span>↗</span></button></div>
+      </div>
+    </section>
+
+    <section class="about-strip" id="sobre"><div class="about-symbol">l.</div><div><div class="eyebrow">Encontro</div><h2>Três formas de começar<br><em>o seu tempo.</em></h2></div><p>O pedido desta página não cobra agora. O consultório confirma a vaga.</p><a href="#agendamento">Venha viver essa experiência ↗</a></section>
+  </main>
+  <footer><a class="brand footer-brand" href="#"><span class="brand-mark">l</span><span><strong>LUMI</strong><small>Escuta</small></span></a><span>Feito com cuidado, para você.</span><span>© <span id="year"></span> Consultório Lume</span></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

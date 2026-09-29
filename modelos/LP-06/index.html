@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4b263d">
+  <meta name="description" content="Você pode remarcar pelo mesmo WhatsApp, com antecedência.">
+  <title>Hora de Escuta | Agende um horário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="announcement"><span class="announcement-dot"></span> Um tempo só seu, do jeito que você merece</div>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Hora de Escuta - início">
+      <span class="brand-mark">a.</span>
+      <span class="brand-name">Consulta <strong>amora</strong><small>Plantão & cuidado</small></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span></button>
+    <nav class="nav" id="mainNav">
+      <a href="#agendar">Agendar</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#sobre">Escuta</a>
+      <a href="#contato">Contato</a>
+      <a class="nav-cta" href="#agendar">Reservar horário <span>↗</span></a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="agendar">
+      <div class="hero-copy">
+        <div class="eyebrow"><span></span> Acolhida</div>
+        <h1>Marque a próxima sessão.<br>capítulo começa<br><em>por você.</em></h1>
+        <p class="hero-description">O pedido desta página não cobra agora. O consultório confirma a vaga.</p>
+        <div class="hero-proof">
+          <div class="avatar-stack" aria-hidden="true"><span>J</span><span>M</span><span>L</span><span>+</span></div>
+          <div><strong>Mais de 800 momentos especiais</strong><small>vividos por aqui</small></div>
+        </div>
+        <div class="hero-note"><span class="note-icon">✳</span><span>Atendimento com hora marcada<br><b>Sem pressa. Sem correria.</b></span></div>
+      </div>
+
+      <div class="booking-shell">
+        <div class="booking-top">
+          <div><span class="booking-kicker">AGENDE ONLINE</span><h2>Três formas de começar</h2></div>
+          <div class="step-count"><span id="stepNumber">01</span><small> / 03</small></div>
+        </div>
+        <div class="progress-track"><span id="progressBar"></span></div>
+        <form id="bookingForm" novalidate>
+          <section class="form-step active" data-step="1">
+            <p class="step-intro">Não prometemos resultado em uma sessão. O cuidado é contínuo.</p>
+            <label class="field-label" for="service">Qual serviço deseja?</label>
+            <div class="service-options">
+              <label class="service-option selected"><input type="radio" name="service" value="Retorno & Avaliação" checked><span class="service-symbol">✂</span><span><b>Retorno & Avaliação</b><small>A partir de R$ 95</small></span><i>✓</i></label>
+              <label class="service-option"><input type="radio" name="service" value="Cuidado"><span class="service-symbol">◒</span><span><b>Cuidado</b><small>A partir de R$ 180</small></span><i>✓</i></label>
+              <label class="service-option"><input type="radio" name="service" value="Tratamento capilar"><span class="service-symbol">✳</span><span><b>Tratamento capilar</b><small>A partir de R$ 120</small></span><i>✓</i></label>
+            </div>
+            <div class="field-grid">
+              <div class="field"><label for="date">Data desejada</label><input id="date" name="date" type="date" required></div>
+              <div class="field"><label for="time">Horário</label><select id="time" name="time" required><option value="">Escolher</option><option>09:00</option><option>10:30</option><option>12:00</option><option>13:30</option><option>15:00</option><option>16:30</option><option>18:00</option></select></div>
+            </div>
+            <button class="button button-primary next-step" type="button">Continuar <span>→</span></button>
+            <p class="form-footnote"><span>♧</span> Você escolhe o dia e a hora. A confirmação segue pelo WhatsApp.</p>
+          </section>
+
+          <section class="form-step" data-step="2">
+            <p class="step-intro">Como podemos chamar você?</p>
+            <div class="field"><label for="name">Nome completo</label><input id="name" name="name" type="text" placeholder="Seu nome" autocomplete="name" required></div>
+            <div class="field"><label for="phone">WhatsApp</label><input id="phone" name="phone" type="tel" placeholder="(00) 00000-0000" autocomplete="tel" required></div>
+            <div class="field"><label for="email">E-mail <span class="optional">(opcional)</span></label><input id="email" name="email" type="email" placeholder="voce@email.com" autocomplete="email"></div>
+            <div class="button-row"><button class="button button-quiet prev-step" type="button">← Voltar</button><button class="button button-primary next-step" type="button">Revisar <span>→</span></button></div>
+          </section>
+
+          <section class="form-step" data-step="3">
+            <p class="step-intro">Confira se está tudo certinho.</p>
+            <div class="review-card">
+              <div class="review-heading"><span class="review-icon">✦</span><div><b>Seu momento no Amora</b><small>Resumo do agendamento</small></div></div>
+              <div class="review-line"><span>Serviço</span><b id="reviewService">—</b></div>
+              <div class="review-line"><span>Data</span><b id="reviewDate">—</b></div>
+              <div class="review-line"><span>Horário</span><b id="reviewTime">—</b></div>
+              <div class="review-line"><span>Nome</span><b id="reviewName">—</b></div>
+            </div>
+            <label class="consent"><input type="checkbox" id="consent" required><span>Não prometemos resultado em uma sessão. O cuidado é contínuo.</span></label>
+            <div class="button-row"><button class="button button-quiet prev-step" type="button">← Voltar</button><button class="button button-primary" id="submitBooking" type="submit">Solicitar horário <span>↗</span></button></div>
+          </section>
+        </form>
+        <div class="success-panel" id="successPanel" role="status" aria-live="polite" hidden>
+          <div class="success-mark">✓</div><h3>Três formas de começar</h3><p>A primeira conversa serve para entender o que você busca neste momento.</p><button class="button button-primary" id="newBooking" type="button">Fazer outro agendamento</button>
+        </div>
+      </div>
+      <div class="hero-stamp" aria-hidden="true"><span>SEU TEMPO</span><b>✳</b><span>SEU RITUAL</span></div>
+    </section>
+
+    <section class="services-section section-pad" id="servicos">
+      <div class="section-heading"><div><span class="eyebrow"><span></span> UM CUIDADO PARA CADA FASE</span><h2>A escuta, em ordem<br><em>suas escolhas.</em></h2></div><p>O pedido desta página não cobra agora. O consultório confirma a vaga.</p></div>
+      <div class="service-cards">
+        <article class="service-card"><div class="service-image image-cut"><span>Sessão</span></div><div class="service-card-body"><h3>A escuta, em ordem & styling</h3><p>Você escolhe o dia e a hora. A confirmação segue pelo WhatsApp.</p><a href="#agendar">Escolher serviço <span>↗</span></a></div></article>
+        <article class="service-card"><div class="service-image image-color"><span>Orientação</span></div><div class="service-card-body"><h3>O que cabe numa sessão & Perguntas antes de marcar</h3><p>Você escolhe o dia e a hora. A confirmação segue pelo WhatsApp.</p><a href="#agendar">Escolher serviço <span>↗</span></a></div></article>
+        <article class="service-card"><div class="service-image image-care"><span>03 / CUIDADO</span></div><div class="service-card-body"><h3>Como a sessão acontece</h3><p>Você pode remarcar pelo mesmo WhatsApp, com antecedência.</p><a href="#agendar">Escolher serviço <span>↗</span></a></div></article>
+      </div>
+    </section>
+
+    <section class="about-section" id="sobre">
+      <div class="about-image"><img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1200&q=85" alt="Você pode remarcar pelo mesmo WhatsApp, com antecedência." loading="lazy"><div class="image-caption">Um espaço para respirar.<br><em>Um lugar para florescer.</em></div></div>
+      <div class="about-copy"><span class="eyebrow"><span></span> Retorno</span><h2>O que cabe numa sessão<br><em>se sentir em casa.</em></h2><p>O Hora de Escuta nasceu da vontade de transformar o cuidado pessoal em um momento leve, próximo e cheio de significado.</p><p>O pedido desta página não cobra agora. O consultório confirma a vaga.</p><a class="text-link" href="#agendar">Venha conhecer o Amora <span>↗</span></a><div class="signature">com carinho, equipe Amora <span>♡</span></div></div>
+    </section>
+
+    <section class="quote-section"><span class="quote-mark">“</span><blockquote>Não é preciso trazer diagnóstico. Basta marcar e chegar no horário.</blockquote><div class="quote-byline"><span class="quote-line"></span> MARINA R. · CLIENTE AMORA</div></section>
+  </main>
+
+  <footer class="site-footer" id="contato"><a class="brand brand-footer" href="#"><span class="brand-mark">a.</span><span class="brand-name">Consulta <strong>amora</strong><small>Plantão & cuidado</small></span></a><div class="footer-info"><span>Rua das Flores, 120 · Centro</span><span>Seg–Sáb, das 9h às 19h</span></div><a class="footer-contact" href="https://wa.me/5547999999999" target="_blank" rel="noopener">Fale com a gente <span>↗</span></a><small class="copyright">© 2026 Hora de Escuta. Feito com cuidado.</small></footer>
+  <script src="script.js"></script>
+</body>
+</html>
