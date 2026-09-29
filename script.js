@@ -595,7 +595,7 @@ async function loadCatalogSeed() {
 
 async function hydrateTemplatesFromCloud() {
   const query = "?select=*&order=updated_at.desc";
-  let rows = [];
+  let rows = null;
 
   try {
     rows = await supabaseTemplates(query);
@@ -603,34 +603,18 @@ async function hydrateTemplatesFromCloud() {
     try {
       rows = await supabaseTemplates(query, { token: SUPABASE_ANON_KEY });
     } catch {
-      rows = [];
+      rows = null;
     }
   }
 
-  const cloud = Array.isArray(rows) ? rows.map(rowToTemplate).filter(item => item.id) : [];
+  if (Array.isArray(rows)) {
+    writeStorage(TEMPLATE_KEY, rows.map(rowToTemplate).filter(item => item.id));
+    return true;
+  }
+
   const seed = await loadCatalogSeed();
-  if (!cloud.length && !seed.length) return false;
-
-  const map = new Map();
-  const put = item => {
-    const previous = map.get(item.id);
-    if (!previous || String(item.updatedAt || "") >= String(previous.updatedAt || "")) {
-      map.set(item.id, { ...previous, ...item });
-    }
-  };
-
-  seed.forEach(put);
-  readStorage(TEMPLATE_KEY).forEach(put);
-  cloud.forEach(item => {
-    map.set(item.id, { ...(map.get(item.id) || {}), ...item });
-  });
-
-  const merged = [...map.values()];
-  try {
-    writeStorage(TEMPLATE_KEY, merged);
-  } catch {
-    writeStorage(TEMPLATE_KEY, cloud.length ? cloud : seed);
-  }
+  if (!seed.length) return false;
+  writeStorage(TEMPLATE_KEY, seed);
   return true;
 }
 
@@ -2296,9 +2280,16 @@ function initTemplatesAdmin() {
       );
       if (!confirmed) return;
 
+      try {
+        await deleteTemplateRemote(template.id);
+      } catch (error) {
+        console.error(error);
+        alert("Não foi possível excluir no catálogo. O modelo continua visível.");
+        return;
+      }
+
       const remaining = readStorage(TEMPLATE_KEY).filter(item => item.id !== template.id);
       writeStorage(TEMPLATE_KEY, remaining);
-      await deleteTemplateRemote(template.id);
       publishAllTemplatePages(remaining).catch(() => false);
       if ($("#templateId")?.value === template.id) resetTemplateForm();
       renderTemplates();
