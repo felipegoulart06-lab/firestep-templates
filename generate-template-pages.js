@@ -442,7 +442,7 @@ function writeTemplatePage(template) {
 
 function removeStaleTemplatePages(keepTemplates) {
   const keep = new Set((keepTemplates || []).map(template => templateSeoDir(template).replace(/\\/g, "/")));
-  const protectedDirs = new Set([".git", ".vercel", "node_modules", "supabase", "data", "uploads"]);
+  const protectedDirs = new Set([".git", ".vercel", "node_modules", "supabase", "data", "uploads", "modelos", "api", "lib", "scripts"]);
 
   fs.readdirSync(ROOT, { withFileTypes: true }).forEach(entry => {
     if (!entry.isDirectory() || protectedDirs.has(entry.name)) return;
